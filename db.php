@@ -2,7 +2,7 @@
 
 const DB_SERVER = "localhost";
 const DB_USERNAME = "root";
-const DB_PASSWORD = "Pi@3.141";
+const DB_PASSWORD = "";
 const DB_NAME = "comart";
 
 function getConnection() {

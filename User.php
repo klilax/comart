@@ -32,12 +32,6 @@ class user {
         return $this->id;
     }
 
-    public function __toString()
-    {
-        // TODO: Implement __toString() method.
-    }
-
-
     public function setId($id) {
         $this->id = $id;
     }
