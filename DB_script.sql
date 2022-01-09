@@ -41,10 +41,18 @@ create table buyer
     lastname         varchar(30)                         null,
     tinNumber        mediumtext                          null,
     registrationDate timestamp default CURRENT_TIMESTAMP null,
-    location         varchar(30)                         null,
     constraint buyer_userId_uindex
         unique (userId),
     constraint buyer_user_id_fk
+        foreign key (userId) references user (id)
+);
+
+create table location
+(
+    userId    int   null,
+    longitude float not null,
+    latitude  int   null,
+    constraint location_user_id_fk
         foreign key (userId) references user (id)
 );
 
@@ -77,14 +85,21 @@ create table `order`
         foreign key (buyerId) references buyer (userId)
 );
 
+create table paymentdetail
+(
+    userId      int         not null,
+    bankName    varchar(30) not null,
+    bankAccount mediumtext  null,
+    constraint PaymentDetail_user_id_fk
+        foreign key (userId) references user (id)
+);
+
 create table vendor
 (
     userId           int                                 null,
     vendorName       varchar(30)                         not null,
     tinNumber        int                                 not null,
     registrationDate timestamp default CURRENT_TIMESTAMP null,
-    paymentInfo      mediumtext                          null,
-    location         varchar(30)                         null,
     constraint vendor_userId_uindex
         unique (userId),
     constraint vendor_user_id_fk
@@ -137,4 +152,5 @@ create table review
     constraint review_inventory_inventoryId_fk
         foreign key (inventoryId) references inventory (inventoryId)
 );
+
 

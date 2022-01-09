@@ -1,7 +1,7 @@
 <?php
 require_once('db.php');
 
-class user {
+class User {
     private $id;
     private $username;
     private $email;
@@ -10,22 +10,22 @@ class user {
     private $status;
     private static $conn;
 
-    function __construct($userInfo) {
+    function __construct() {
         self::$conn = getConnection();
-        if (array_key_exists('id', $userInfo))
-            $this->id = $userInfo['id'];
-        if (array_key_exists('username', $userInfo))
-            $this->username = $userInfo['username'];
-        if (array_key_exists('email', $userInfo))
-            $this->email = $userInfo['email'];
-        if (array_key_exists('password', $userInfo))
-            $this->password = password_hash($userInfo['password'], PASSWORD_DEFAULT);
-        if (array_key_exists('role', $userInfo))
-            $this->role = $userInfo['role'];
-        if ($this->role == 'vendor')
-            $this->status = 0;
-        else
-            $this->status = 1;
+//        if (array_key_exists('id', $userInfo))
+//            $this->id = $userInfo['id'];
+//        if (array_key_exists('username', $userInfo))
+//            $this->username = $userInfo['username'];
+//        if (array_key_exists('email', $userInfo))
+//            $this->email = $userInfo['email'];
+//        if (array_key_exists('password', $userInfo))
+//            $this->password = password_hash($userInfo['password'], PASSWORD_DEFAULT);
+//        if (array_key_exists('role', $userInfo))
+//            $this->role = $userInfo['role'];
+//        if ($this->role == 'vendor')
+//            $this->status = 0;
+//        else
+//            $this->status = 1;
     }
 
     public function getId() {
@@ -76,26 +76,95 @@ class user {
         $this->status = $status;
     }
 
-    public function isNewUser() {
-//        $sql = "SELECT * FROM user WHERE username = {$this->username} LIMIT 1";
+    public static function isNewUser($username) {
         $sql = "SELECT * FROM user WHERE username = :username LIMIT 1";
         $stmt = self::$conn ->prepare($sql);
-        $stmt->bindParam(':username', $this->username);
+        $stmt->bindParam(':username', $username);
         $stmt->execute();
-        return $stmt-> rowCount() == 0;
+        return $stmt->rowCount() == 0;
     }
 
-    public function save() {
-        if ($this->isNewUser()) {
-            $sql = "INSERT INTO user (username, email, password, role, status) VALUE
-                    (:username, :email, :password, :role, :status);";
+    public static function fetchId($username) {
+        $sql = "SELECT id FROM user WHERE username = :username LIMIT 1";
+        $stmt = self::$conn ->prepare($sql);
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+        if ($stmt->rowCount() != 0) {
+            $row = $stmt->fetch();
+            return  $row['id'];
+        } else {
+            return -1;
+        }
+    }
+
+    public static function saveUserInfo($userInfo) {
+        if (self::isNewUser($userInfo['username'])) {
+            $sql = "INSERT INTO user (username, email, password, role, status) VALUE 
+                (:username, :email, :password, :role, :status)";
             $stmt = self::$conn ->prepare($sql);
-            $stmt->bindParam(':username', $this->username);
-            $stmt->bindParam(':email', $this->email);
-            $stmt->bindParam(':password', $this->password);
-            $stmt->bindParam(':role', $this->role);
-            $stmt->bindParam(':status', $this->status);
+            $stmt->bindParam(':username', $userInfo['username']);
+            $stmt->bindParam(':email',  $userInfo['email']);
+            $userInfo['password'] = password_hash($userInfo['password'], PASSWORD_DEFAULT);
+            $stmt->bindParam(':password', $userInfo['password']);
+            $stmt->bindParam(':role', $userInfo['role']);
+            if ($userInfo['role'] == 'vendor') {
+                $userInfo['status'] = 0;
+            } else {
+                $userInfo['status'] = 1;
+            }
+            $stmt->bindParam(':status', $userInfo['status']);
             $stmt->execute();
+        }
+    }
+
+    public static function saveVendorInfo($userInfo) {
+        $userId = self::fetchId($userInfo['username']);
+        if ($userId != -1) {
+            $sql = "INSERT INTO vendor (userId, vendorName, tinNumber) VALUE 
+                (:id, :vendorName, :tinNumber)";
+            $stmt = self::$conn->prepare($sql);
+            $stmt->bindParam(':id',$userId);
+            $stmt->bindParam(':vendorName',$userInfo['vendorName']);
+            $stmt->bindParam(':tinNumber',$userInfo['tinNumber']);
+            $stmt->execute();
+        }
+    }
+
+    public static function saveBuyerInfo($userInfo) {
+        $userId = self::fetchId($userInfo['username']);
+        if ($userId != -1) {
+            $sql = "INSERT INTO buyer (userId, firstname, lastname, tinNumber) VALUE 
+                    (:id, :firstName, :lastName, :tinNumber)";
+            $stmt = self::$conn->prepare($sql);
+            $stmt->bindParam(':id',$userId);
+            $stmt->bindParam(':firstName',$userInfo['firstName']);
+            $stmt->bindParam(':lastName',$userInfo['lastName']);
+            $stmt->bindParam(':tinNumber',$userInfo['tinNumber']);
+            $stmt->execute();
+        }
+    }
+
+    public static function saveAdminInfo($userInfo) {
+        $userId = self::fetchId($userInfo['username']);
+        if ($userId != -1) {
+            $sql = "INSERT INTO admin (userId, firstname, lastname) VALUE 
+                    (:id, :firstName, :lastName)";
+            $stmt = self::$conn->prepare($sql);
+            $stmt->bindParam(':id',$userId);
+            $stmt->bindParam(':firstName',$userInfo['firstName']);
+            $stmt->bindParam(':lastName',$userInfo['lastName']);
+            $stmt->execute();
+        }
+    }
+
+    public static function save($userInfo) {
+        self::saveUserInfo($userInfo);
+        if ($userInfo['role'] == 'vendor') {
+            self::saveVendorInfo($userInfo);
+        } elseif ($userInfo['role'] == 'buyer') {
+            self::saveBuyerInfo($userInfo);
+        } elseif ($userInfo['role'] == 'admin') {
+            self::saveAdminInfo($userInfo);
         }
     }
 }
