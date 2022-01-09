@@ -5,27 +5,21 @@ class User {
     private $id;
     private $username;
     private $email;
-    private $password;
     private $role;
     private $status;
     private static $conn;
 
-    function __construct() {
-        self::$conn = getConnection();
+    function __construct($userInfo) {
 //        if (array_key_exists('id', $userInfo))
-//            $this->id = $userInfo['id'];
+            $this->id = $userInfo['id'];
 //        if (array_key_exists('username', $userInfo))
-//            $this->username = $userInfo['username'];
+            $this->username = $userInfo['username'];
 //        if (array_key_exists('email', $userInfo))
-//            $this->email = $userInfo['email'];
-//        if (array_key_exists('password', $userInfo))
-//            $this->password = password_hash($userInfo['password'], PASSWORD_DEFAULT);
+            $this->email = $userInfo['email'];
 //        if (array_key_exists('role', $userInfo))
-//            $this->role = $userInfo['role'];
-//        if ($this->role == 'vendor')
-//            $this->status = 0;
-//        else
-//            $this->status = 1;
+            $this->role = $userInfo['role'];
+//        if (array_key_exists('status', $userInfo))
+            $this->status = $userInfo['status'];
     }
 
     public function getId() {
@@ -52,14 +46,6 @@ class User {
         $this->email = $email;
     }
 
-    public function getPassword() {
-        return $this->password;
-    }
-
-    public function setPassword($password) {
-        $this->password = $password;
-    }
-
     public function getRole() {
         return $this->role;
     }
@@ -76,12 +62,39 @@ class User {
         $this->status = $status;
     }
 
+    public static function setConn($conn) {
+        self::$conn = $conn;
+    }
+
     public static function isNewUser($username) {
         $sql = "SELECT * FROM user WHERE username = :username LIMIT 1";
         $stmt = self::$conn ->prepare($sql);
         $stmt->bindParam(':username', $username);
         $stmt->execute();
         return $stmt->rowCount() == 0;
+    }
+
+    public static function auth($username, $password) {
+        $sql = "SELECT * FROM user WHERE username = :username LIMIT 1";
+        $stmt = self::$conn ->prepare($sql);
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+        $row = $stmt->fetch();
+        if (password_verify($password, $row['password'])) {
+            if ($row['status'] == 1) {
+                session_start();
+                $_SESSION['user'] = serialize(new User($row));
+                if ($row['role'] == 'vendor') {
+                    header('location: vendor/index.php');
+                } elseif ($row['role'] == 'buyer') {
+                    header('location: buyer/index.php');
+                }
+            } else {
+                echo 'Account not active';
+            }
+        } else {
+            echo 'error password or username';
+        }
     }
 
     public static function fetchId($username) {
@@ -169,4 +182,5 @@ class User {
     }
 }
 
+User::setConn(getConnection());
 ?>
