@@ -9,8 +9,6 @@ $buyer = ['username' => 'john','email'=>'john@gmail.com' ,'password' => '1234', 
 //echo $test_user->isNewUser();
 //$test_user->setEmail('admin@ad.com');
 
-//$test_user->save();
-//echo User::fetchId('klilx');
-//User::save($buyer);
-//User::saveBuyerInfo($buyer);
+
+User::register($buyer);
 User::auth('john', '1234');

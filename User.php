@@ -170,7 +170,7 @@ class User {
         }
     }
 
-    public static function save($userInfo) {
+    public static function register($userInfo) {
         self::saveUserInfo($userInfo);
         if ($userInfo['role'] == 'vendor') {
             self::saveVendorInfo($userInfo);
