@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.admin</OriginalElement>
+  <nodes>
+    <node x="-33.39189189189187" y="18.0">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.paymentdetail</node>
+    <node x="439.82608695652175" y="459.5">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.orderdetail</node>
+    <node x="228.89603518612955" y="-291.3584905660377">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.message</node>
+    <node x="719.0912162162161" y="454.4565217391306">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.inventory</node>
+    <node x="24.108108108108127" y="670.9782608695652">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.review</node>
+    <node x="219.30405405405406" y="244.5">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.vendor</node>
+    <node x="493.75" y="8.5">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.location</node>
+    <node x="134.95622796709756" y="459.5">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.order</node>
+    <node x="-33.39189189189187" y="244.5">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.buyer</node>
+    <node x="236.80405405405406" y="-15.5">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.user</node>
+    <node x="719.3412162162161" y="244.5">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.product</node>
+    <node x="472.0" y="244.5">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.admin</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.orderdetail" target="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.inventory" relationship="REFERENCES">
+      <point x="31.25" y="-71.5" />
+      <point x="533.5760869565217" y="478.28260869565236" />
+      <point x="776.5912162162161" y="478.28260869565236" />
+      <point x="0.0" y="71.5" />
+    </edge>
+    <edge source="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.inventory" target="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.vendor" relationship="REFERENCES">
+      <point x="-28.75" y="-71.5" />
+      <point x="747.8412162162161" y="406.0" />
+      <point x="311.80405405405406" y="406.0" />
+      <point x="0.0" y="60.0" />
+    </edge>
+    <edge source="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.review" target="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.inventory" relationship="REFERENCES">
+      <point x="35.0" y="-71.0" />
+      <point x="129.10810810810813" y="635.5652173913043" />
+      <point x="776.5912162162161" y="635.5652173913043" />
+      <point x="0.0" y="71.5" />
+    </edge>
+    <edge source="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.location" target="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.user" relationship="REFERENCES">
+      <point x="0.0" y="-49.0" />
+      <point x="550.25" y="61.0" />
+      <point x="361.80405405405406" y="61.0" />
+      <point x="50.0" y="82.5" />
+    </edge>
+    <edge source="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.review" target="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.buyer" relationship="REFERENCES">
+      <point x="-35.0" y="-71.0" />
+      <point x="59.10810810810813" y="382.69565217391266" />
+      <point x="-43.980943474526526" y="67.19565217391266" />
+    </edge>
+    <edge source="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.buyer" target="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.user" relationship="REFERENCES">
+      <point x="0.0" y="-71.0" />
+      <point x="59.10810810810813" y="206.0" />
+      <point x="311.80405405405406" y="206.0" />
+      <point x="311.80405405405406" y="149.5" />
+      <point x="50.0" y="82.5" />
+    </edge>
+    <edge source="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.inventory" target="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.product" relationship="REFERENCES">
+      <point x="28.75" y="-71.5" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.message" target="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.user" relationship="REFERENCES">
+      <point x="44.25" y="-82.5" />
+      <point x="361.64603518612955" y="-176.0" />
+      <point x="345.2167899031107" y="-176.0" />
+      <point x="345.2167899031107" y="61.25" />
+      <point x="311.80405405405406" y="61.25" />
+      <point x="0.0" y="82.5" />
+    </edge>
+    <edge source="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.order" target="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.buyer" relationship="REFERENCES">
+      <point x="0.0" y="-71.5" />
+      <point x="218.95622796709756" y="423.0" />
+      <point x="116.86629506836414" y="423.0" />
+      <point x="57.75818696025601" y="75.89130434782567" />
+    </edge>
+    <edge source="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.paymentdetail" target="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.user" relationship="REFERENCES">
+      <point x="0.0" y="-49.0" />
+      <point x="53.60810810810813" y="54.0" />
+      <point x="361.80405405405406" y="54.0" />
+      <point x="50.0" y="82.5" />
+    </edge>
+    <edge source="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.vendor" target="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.user" relationship="REFERENCES">
+      <point x="0.0" y="-60.0" />
+      <point x="311.80405405405406" y="149.5" />
+      <point x="50.0" y="82.5" />
+    </edge>
+    <edge source="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.admin" target="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.user" relationship="REFERENCES">
+      <point x="0.0" y="-60.0" />
+      <point x="564.5" y="206.0" />
+      <point x="311.80405405405406" y="206.0" />
+      <point x="311.80405405405406" y="108.0" />
+      <point x="361.80405405405406" y="108.0" />
+      <point x="50.0" y="82.5" />
+    </edge>
+    <edge source="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.orderdetail" target="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.order" relationship="REFERENCES">
+      <point x="-31.25" y="-71.5" />
+      <point x="471.07608695652175" y="478.608695652174" />
+      <point x="218.95622796709756" y="478.608695652174" />
+      <point x="0.0" y="71.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.1500000000000008" showDependencies="false" x="449.47499072053785" y="303.8695652173909" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Comments</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
