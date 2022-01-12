@@ -84,10 +84,11 @@ class User {
             if ($row['status'] == 1) {
                 session_start();
                 $_SESSION['user'] = serialize(new User($row));
+                $_SESSION['role'] = $row['role'];
                 if ($row['role'] == 'vendor') {
                     header('location: vendor/index.php');
                 } elseif ($row['role'] == 'buyer') {
-                    header('location: buyer/index.php');
+                    header('location: shop/index.php');
                 }
             } else {
                 echo 'Account not active';
@@ -174,7 +175,7 @@ class User {
         self::saveUserInfo($userInfo);
         if ($userInfo['role'] == 'vendor') {
             self::saveVendorInfo($userInfo);
-        } elseif ($userInfo['role'] == 'buyer') {
+        } elseif ($userInfo['role'] == 'shop') {
             self::saveBuyerInfo($userInfo);
         } elseif ($userInfo['role'] == 'admin') {
             self::saveAdminInfo($userInfo);

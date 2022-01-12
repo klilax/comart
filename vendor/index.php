@@ -4,6 +4,9 @@ session_start();
 if (!isset($_SESSION['vendor'])) {
     header('location: ../signin.php');
 }
+if ($_SESSION['role'] != 'vendor') {
+    header('location: ../signin.php');
+}
 ?>
 
 <!doctype html>
