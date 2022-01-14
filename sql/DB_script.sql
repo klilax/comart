@@ -109,12 +109,14 @@ create table vendor
 
 create table inventory
 (
-    inventoryId int           not null
+    inventoryId int auto_increment
         primary key,
     vendorId    int           not null,
     productId   int           not null,
     quantity    int default 0 null,
     price       float         not null,
+    constraint inventory_pk
+        unique (vendorId, productId),
     constraint inventory_product_productId_fk
         foreign key (productId) references product (productId),
     constraint inventory_vendor_userId_fk
