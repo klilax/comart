@@ -175,7 +175,7 @@ class User {
         self::saveUserInfo($userInfo);
         if ($userInfo['role'] == 'vendor') {
             self::saveVendorInfo($userInfo);
-        } elseif ($userInfo['role'] == 'shop') {
+        } elseif ($userInfo['role'] == 'buyer') {
             self::saveBuyerInfo($userInfo);
         } elseif ($userInfo['role'] == 'admin') {
             self::saveAdminInfo($userInfo);

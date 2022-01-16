@@ -1,7 +1,7 @@
 <?php
 require('../Inventory.php');
 session_start();
-if (!isset($_SESSION['vendor'])) {
+if (!isset($_SESSION['user'])) {
     header('location: ../signin.php');
 }
 if ($_SESSION['role'] != 'vendor') {
@@ -22,14 +22,20 @@ if ($_SESSION['role'] != 'vendor') {
     <h1>Vendor Page</h1>
     <?php
         $vendor = unserialize($_SESSION['user']);
-        echo $vendor->getUsername();
+//        echo $vendor->getUsername();
         $productInfo['productName'] = 'RHS 30X30X1';
         $productInfo['category'] = 'steel structure';
         $inventory['product'] = $productInfo;
         $inventory['quantity'] = 50;
         $inventory['price'] = 700.50;
 //        echo Product::addProduct($productInfo);
-        Inventory::newInventory($vendor, $inventory);
+//        Inventory::newInventory($vendor, $inventory);
+
+//        $item = Inventory::getItem($vendor, 'RHS 30X30X1');
+//        echo $item['quantity'];
+//        echo "<br>";
+//        echo $item['inventoryId'];
+        Inventory::updateInventory($vendor, 'RHS 30X30X3', 7);
     ?>
 </body>
 </html>

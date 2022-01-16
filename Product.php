@@ -13,7 +13,7 @@ class Product {
         $this->category = $productInfo['category'];
     }
 
-    public static function getProductInfo($productName) {
+    public static function getProductId($productName) {
         $sql = "SELECT productId FROM product WHERE productName = :productName LIMIT 1";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':productName', $productName);
@@ -27,7 +27,7 @@ class Product {
     }
 
     public static function addProduct($productInfo) {
-        $productId = self::getProductInfo($productInfo['productName']);
+        $productId = self::getProductId($productInfo['productName']);
         if ($productId != -1) {
             return $productId;
         } else {
@@ -38,7 +38,7 @@ class Product {
             $stmt->bindParam(':category', $productInfo['category']);
             $stmt->execute();
         }
-        return self::getProductInfo($productInfo['productName']);
+        return self::getProductId($productInfo['productName']);
     }
 
     public static function setConnection($conn) {
