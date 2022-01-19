@@ -37,8 +37,8 @@ class Inventory {
             if ($stmt->rowCount() != 0){
                 return $stmt->fetch();
             }
-            return null;
         }
+        return null;
     }
     public static function updateInventory($user, $productName, $quantity) {
         $stock = self::getCurrentStock($user, $productName);
@@ -53,6 +53,9 @@ class Inventory {
         } else {
             echo "Item is not in the Inventory";
         }
+    }
+    public function review($user, $rating, $review) {
+
     }
     public static function setConnection($conn) {
         self::$conn = $conn;

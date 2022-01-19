@@ -5,7 +5,7 @@
   <nodes>
     <node x="-33.39189189189187" y="18.0">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.paymentdetail</node>
     <node x="439.82608695652175" y="459.5">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.orderdetail</node>
-    <node x="228.89603518612955" y="-291.3584905660377">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.message</node>
+    <node x="223.30405405405406" y="-259.35849056603774">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.message</node>
     <node x="719.0912162162161" y="454.4565217391306">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.inventory</node>
     <node x="24.108108108108127" y="670.9782608695652">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.review</node>
     <node x="219.30405405405406" y="244.5">6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.vendor</node>
@@ -60,10 +60,8 @@
     </edge>
     <edge source="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.message" target="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.user" relationship="REFERENCES">
       <point x="44.25" y="-82.5" />
-      <point x="361.64603518612955" y="-176.0" />
-      <point x="345.2167899031107" y="-176.0" />
-      <point x="345.2167899031107" y="61.25" />
-      <point x="311.80405405405406" y="61.25" />
+      <point x="356.05405405405406" y="-176.0" />
+      <point x="311.80405405405406" y="-176.0" />
       <point x="0.0" y="82.5" />
     </edge>
     <edge source="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.order" target="6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.buyer" relationship="REFERENCES">
@@ -98,8 +96,10 @@
       <point x="0.0" y="71.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic" zoom="1.1500000000000008" showDependencies="false" x="449.47499072053785" y="303.8695652173909" />
-  <SelectedNodes />
+  <settings layout="Hierarchic" zoom="1.0000000000000009" showDependencies="false" x="469.0" y="278.0" />
+  <SelectedNodes>
+    <node>6a8db9a6-1bb5-452c-9843-b088677133ce.TABLE:comart.message</node>
+  </SelectedNodes>
   <Categories>
     <Category>Columns</Category>
     <Category>Comments</Category>

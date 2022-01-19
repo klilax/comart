@@ -98,7 +98,7 @@ create table vendor
 (
     userId           int                                 null,
     vendorName       varchar(30)                         not null,
-    tinNumber        int                                 not null,
+    tinNumber        mediumtext                          not null,
     registrationDate timestamp default CURRENT_TIMESTAMP null,
     constraint vendor_userId_uindex
         unique (userId),
