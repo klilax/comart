@@ -13,7 +13,7 @@ class Inventory {
 
 
     public static function newInventory($user, $inventory) {
-//        echo $inventory['price'].'<br>';
+        echo $inventory['price'].'<br>';
         $productId = Product::addProduct($inventory['product']);
         $sql = "INSERT INTO inventory (vendorId, productId, quantity ,price)
                 VALUES (:vendorId, :productId, :quantity, :price)";
@@ -23,7 +23,7 @@ class Inventory {
         $stmt->bindParam(':quantity', $inventory['quantity']);
         $stmt->bindParam(':price', $inventory['price']);
         $stmt->execute();
-//        echo $stmt->rowCount();
+        echo $stmt->rowCount();
     }
     public static function getCurrentStock($user, $productName) {
         $productId = Product::getProductId($productName);
@@ -54,7 +54,9 @@ class Inventory {
             echo "Item is not in the Inventory";
         }
     }
+    public function review($user, $rating, $review) {
 
+    }
     public static function setConnection($conn) {
         self::$conn = $conn;
     }
