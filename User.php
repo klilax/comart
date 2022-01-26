@@ -97,7 +97,7 @@ class User {
                     header('location: vendor/index.php');
                 } elseif ($row['role'] == 'buyer') {
                     header('location: shop/index.php');
-                }
+                }// admin
             } else {
                 echo 'Account not active';
             }

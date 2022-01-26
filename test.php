@@ -13,4 +13,4 @@ $buyer2 = ['username' => 'buyer','email'=>'buyer@gmail.com' ,'password' => '1234
 
 
 //User::register($buyer2);
-User::auth('abcplc', '1234');
+User::auth('john', '1234');

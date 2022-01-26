@@ -35,7 +35,8 @@ if ($_SESSION['role'] != 'vendor') {
 //        echo $item['quantity'];
 //        echo "<br>";
 //        echo $item['inventoryId'];
-        Inventory::updateInventory($vendor, 'RHS 30X30X3', 7);
+        Inventory::updateInventory($vendor, 'RHS 30X30X1', 7);
     ?>
+
 </body>
 </html>

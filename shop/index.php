@@ -18,8 +18,17 @@ if (!isset($_SESSION['user'])) {
 <body>
     <h1>Shopping</h1>
     <?php
-        $vendor = unserialize($_SESSION['user']);
-        echo $vendor->getUsername();
+        $buyer = unserialize($_SESSION['user']);
+        echo $buyer->getUsername()."<br>";
     ?>
+    <input type="text" onkeyup="searchItem()">
 </body>
+<script>
+    const ajax = new XMLHttpRequest();
+
+
+    function searchItem() {
+        console.log('hello');
+    }
+</script>
 </html>
