@@ -74,6 +74,14 @@ class User {
         return $stmt->rowCount() == 0;
     }
 
+    public static function isNewEmail($email) {
+        $sql = "SELECT * FROM user WHERE email = :email LIMIT 1";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        return $stmt->rowCount() == 0;
+    }
+
     public static function auth($username, $password) {
         $sql = "SELECT * FROM user WHERE username = :username LIMIT 1";
         $stmt = self::$conn ->prepare($sql);
@@ -184,4 +192,3 @@ class User {
 }
 
 User::setConn(getConnection());
-?>
