@@ -1,8 +1,8 @@
 <?php
-require('db.php');
+//require('db.php');
 require('User.php');
 require('Product.php');
-
+//require('Order.php');
 
 class Inventory {
     private $inventoryId;
@@ -13,12 +13,16 @@ class Inventory {
 
 
     public static function newInventory($user, $inventory) {
-        echo $inventory['price'].'<br>';
-        $productId = Product::addProduct($inventory['product']);
+        $vendorId = $user->getId();
+        $productId = Product::getProductId($inventory['product']['productName']);
+        if ($productId == -1) {
+            $productId = Product::addProduct($inventory['product']);
+        }
+
         $sql = "INSERT INTO inventory (vendorId, productId, quantity ,price)
                 VALUES (:vendorId, :productId, :quantity, :price)";
         $stmt = self::$conn->prepare($sql);
-        $stmt->bindParam(':vendorId', $user->getId());
+        $stmt->bindParam(':vendorId',$vendorId);
         $stmt->bindParam(':productId', $productId);
         $stmt->bindParam(':quantity', $inventory['quantity']);
         $stmt->bindParam(':price', $inventory['price']);
@@ -55,11 +59,23 @@ class Inventory {
         }
     }
     public function review($user, $rating, $review) {
+        $sql = "INSERT INTO review (inventoryId, buyerId, rating, review) VALUES (:inventoryId, :buyerId, :rating, :review)";
+        $buyerId = $user->getId();
+        if (Order::checkStatus($user, $this->inventoryId)) {
+            $stmt = self::$conn->prepare($sql);
+            $stmt->bindParam(':inventoryId', $this->inventoryId);
+            $stmt->bindParam(':buyerId', $buyerId);
+            $stmt->bindParam(':rating', $rating);
+            $stmt->bindParam(':review', $review);
+            $stmt->execute();
+        } else {
+            echo "You have not placed an order for this item";
+        }
 
     }
     public static function setConnection($conn) {
         self::$conn = $conn;
     }
 }
-$conn = getConnection();
+
 Inventory::setConnection($conn);

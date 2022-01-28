@@ -1,5 +1,5 @@
 <?php
-require('../User.php');
+require('../class/User.php');
 session_start();
 if (!isset($_SESSION['user'])) {
     header('location: ../signin.php');

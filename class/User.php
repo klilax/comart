@@ -1,5 +1,5 @@
 <?php
-require_once('db.php');
+require('db.php');
 
 class User {
     private $id;
@@ -94,9 +94,9 @@ class User {
                 $_SESSION['user'] = serialize(new User($row));
                 $_SESSION['role'] = $row['role'];
                 if ($row['role'] == 'vendor') {
-                    header('location: vendor/index.php');
+                    header('location: ../vendor/index.php');
                 } elseif ($row['role'] == 'buyer') {
-                    header('location: shop/index.php');
+                    header('location: ../shop/index.php');
                 }// admin
             } else {
                 echo 'Account not active';
@@ -191,4 +191,4 @@ class User {
     }
 }
 
-User::setConn(getConnection());
+User::setConn($conn);

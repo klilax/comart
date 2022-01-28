@@ -1,4 +1,5 @@
 <?php
+require_once('db.php');
 class Product {
     private $productId;
     private $productName;
@@ -46,5 +47,5 @@ class Product {
     }
 }
 
-Product::setConnection(getConnection());
+Product::setConnection($conn);
 ?>
