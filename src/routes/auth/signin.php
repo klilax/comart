@@ -1,9 +1,7 @@
 <?php
-require_once 'db.php';
-
-getConnection();
-
-require('User.php');
+// require '../../../class/db.php';
+// getConnection();
+require('../../../class/User.php');
 
 $username = $password = '';
 
@@ -54,20 +52,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
 	<!-- Bootstrap -->
-	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" href="../../../css/bootstrap.min.css" />
 
 	<!-- Slick -->
-	<link type="text/css" rel="stylesheet" href="css/slick.css" />
-	<link type="text/css" rel="stylesheet" href="css/slick-theme.css" />
+	<link type="text/css" rel="stylesheet" href="../../../css/slick.css" />
+	<link type="text/css" rel="stylesheet" href="../../../css/slick-theme.css" />
 
 	<!-- nouislider -->
-	<link type="text/css" rel="stylesheet" href="css/nouislider.min.css" />
+	<link type="text/css" rel="stylesheet" href="../../../css/nouislider.min.css" />
 
 	<!-- Font Awesome Icon -->
-	<link rel="stylesheet" href="css/font-awesome.min.css" />
+	<link rel="stylesheet" href="../../../css/font-awesome.min.css" />
 
 	<!-- Custom stlylesheet -->
-	<link type="text/css" rel="stylesheet" href="css/style.css" />
+	<link type="text/css" rel="stylesheet" href="../../../css/style.css" />
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -83,11 +81,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<header>
 		<?php
 		//<!-- TOP HEADER -->
-		include('src\components\topHeader.php');
+		include('../../components/topHeader.php');
 		//<!-- /TOP HEADER -->
 
 		//<!-- MAIN HEADER -->
-		include('src\components\mainHeader.php');
+		include('../../components/mainHeader.php');
 		//<!-- /MAIN HEADER -->
 		?>
 	</header>
@@ -122,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 						<div class="card-body p-0">
 							<div class="row no-gutters">
 								<div class="col-lg-6">
-									<div class="p-5">
+									<div class="p-5" style="width: 90%; margin: 0 auto;">
 
 										<h4 class="h4 mb-0">Welcome back!</h4>
 										<p class="text-muted mt-2 mb-5">Enter your email address and password to access
@@ -139,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 												<input type="password" class="form-control" id="password" name="password" placeholder="Password">
 												<span class="invalid-feedback" style="color: red;"><?php echo $password_error; ?></span>
 											</div>
-											<button type=" submit" class="btn primary-btn rounded">Sign In</button>
+											<button type=" submit" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px">Sign In</button>
 										</form>
 										<p class="text-muted text-center mt-3 mb-0">Don't have an account? <a href="" class="text-primary ml-1" data-toggle='modal' data-target='#exampleModalCenter'>Create Account</a></p>
 									</div>
@@ -188,8 +186,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					<h5 class="text-center">Do you want to create account as a customer or create your shop?</h5>
 				</div>
 				<div style="display: flex; justify-content: center; align-items: center; padding-bottom: 1.2rem;">
-					<a href="signupC.php"><button class="btn secondary-btn" id="customer">Create as a customer</button></a>
-					<a href="signupV.php"><button class ="btn secondary-btn" id="vendor" style="background-color: var(--primary-color); margin-left: 1rem;">Create my shop</button></a>
+					<a href="signupC.php"><button class="btn secondary-btn" id="customer" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px; color: white;">Create as a customer</button></a>
+					<a href="signupV.php"><button class ="btn secondary-btn" id="vendor" style="margin-left: 1rem; background-color: var(--secondary-color); border-radius: 5px; padding: 10px 20px; color: white;">Create a shop</button></a>
 				</div>
 			</div>
 		</div>
@@ -234,17 +232,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 	<!-- FOOTER -->
 
-	<?php include('src/components/footer.php'); ?>
+	<?php include('../../components/footer.php'); ?>
 
 	<!-- /FOOTER -->
 
 	<!-- jQuery Plugins -->
-	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/slick.min.js"></script>
-	<script src="js/nouislider.min.js"></script>
-	<script src="js/jquery.zoom.min.js"></script>
-	<script src="js/main.js"></script>
+	<script src="../../../js/jquery.min.js"></script>
+	<script src="../../../js/bootstrap.min.js"></script>
+	<script src="../../../js/slick.min.js"></script>
+	<script src="../../../js/nouislider.min.js"></script>
+	<script src="../../../js/jquery.zoom.min.js"></script>
+	<script src="../../../js/main.js"></script>
 </body>
 
 

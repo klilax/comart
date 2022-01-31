@@ -1,8 +1,7 @@
 <?php
-require_once 'db.php';
+// require_once '../../../class/db.php';
 
-getConnection();
-require('User.php');
+require('../../../class/User.php');
 
 $firstName = $lastName = $shopName = $username = $email = $tinNumber = $password = $confirm_password = '';
 
@@ -20,10 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = 'vendor';
     $confirm_password = trim($_POST['confirm_password']);
 
-    $user = array('firstName' => $firstName, 'lastName' => $lastName, 'vendorName' => $shopName, 'username' => $username, 'email' => $email, 'tinNumber' => $tinNumber, 'password' => $password, 'role' => $role);
-
-    $userObj = new User($user);
-
     if (empty($shopName)) {
         $shopName_error = 'Please enter your shop name.';
     }
@@ -31,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($username)) {
         $username_error = 'Please enter a username.';
     } else {
-        if (!$userObj->isNewUser($user)) {
+        if (!User::isNewUser($username)) {
             $username_error = 'Username is already taken.';
         }
     }
@@ -39,13 +34,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($email)) {
         $email_error = 'Please enter your email.';
     } else {
-        if (!$userObj->isNewEmail($user)) {
+        if (!User::isNewUser($email)) {
             $email_error = 'Email is already taken.';
         }
     }
 
     if (empty($tinNumber)) {
-        $tinNumber_error = 'Please enter your last name.';
+        $tinNumber_error = 'Please enter your tin number.';
     }
 
     if (empty($password)) {
@@ -90,20 +85,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
     <!-- Bootstrap -->
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="../../../css/bootstrap.min.css" />
 
     <!-- Slick -->
-    <link type="text/css" rel="stylesheet" href="css/slick.css" />
-    <link type="text/css" rel="stylesheet" href="css/slick-theme.css" />
+    <link type="text/css" rel="stylesheet" href="../../../css/slick.css" />
+    <link type="text/css" rel="stylesheet" href="../../../css/slick-theme.css" />
 
     <!-- nouislider -->
-    <link type="text/css" rel="stylesheet" href="css/nouislider.min.css" />
+    <link type="text/css" rel="stylesheet" href="../../../css/nouislider.min.css" />
 
     <!-- Font Awesome Icon -->
-    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../../../css/font-awesome.min.css" />
 
     <!-- Custom stlylesheet -->
-    <link type="text/css" rel="stylesheet" href="css/style.css" />
+    <link type="text/css" rel="stylesheet" href="../../../css/style.css" />
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -119,11 +114,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <header>
         <?php
         //<!-- TOP HEADER -->
-        include('src\components\topHeader.php');
+        include('../../components/topHeader.php');
         //<!-- /TOP HEADER -->
 
         //<!-- MAIN HEADER -->
-        include('src\components\mainHeader.php');
+        include('../../components/mainHeader.php');
         //<!-- /MAIN HEADER -->
         ?>
     </header>
@@ -161,55 +156,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="shopName" class="col-sm-3 control-label">Shop Name*</label>
                     <div class="col-sm-9">
-                        <input type="text" id="shopName" placeholder="Shop Name" class="form-control <?php echo (!empty($shopName_error)) ? 'is-invalid' : ''; ?>" name="shopName" autofocus>
+                        <input type="text" id="shopName" placeholder="Shop Name" class="form-control <?php echo (!empty($shopName_error)) ? 'is-invalid' : ''; ?>" name="shopName" value="<?php echo $shopName ?>" autofocus>
                         <span class="invalid-feedback" style="color: red;"><?php echo $shopName_error; ?></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="username" class="col-sm-3 control-label">Username*</label>
                     <div class="col-sm-9">
-                        <input type="text" id="username" placeholder="Username" class="form-control <?php echo (!empty($username_error)) ? 'is-invalid' : ''; ?>" name="username" autofocus>
+                        <input type="text" id="username" placeholder="Username" class="form-control <?php echo (!empty($username_error)) ? 'is-invalid' : ''; ?>" name="username" value="<?php echo $username ?>" autofocus>
                         <span class="invalid-feedback" style="color: red;"><?php echo $username_error; ?></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="email" class="col-sm-3 control-label">Email* </label>
                     <div class="col-sm-9">
-                        <input type="email" id="email" placeholder="Email" class="form-control <?php echo (!empty($email_error)) ? 'is-invalid' : ''; ?>" name="email">
+                        <input type="email" id="email" placeholder="Email" class="form-control <?php echo (!empty($email_error)) ? 'is-invalid' : ''; ?>" name="email" value="<?php echo $email ?>">
                         <span class="invalid-feedback" style="color: red;"><?php echo $email_error; ?></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="tinNumber" class="col-sm-3 control-label">Tin Number*</label>
                     <div class="col-sm-9">
-                        <input type="number" id="tinNumber" placeholder="Tin Number" class="form-control" name="tinNumber">
+                        <input type="number" id="tinNumber" placeholder="Tin Number" class="form-control" name="tinNumber" value="<?php echo $tinNumber ?>">
                         <span class="invalid-feedback" style="color: red;"><?php echo $tinNumber_error; ?></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="password" class="col-sm-3 control-label">Password*</label>
                     <div class="col-sm-9">
-                        <input type="password" id="password" placeholder="Password" class="form-control <?php echo (!empty($password_error)) ? 'is-invalid' : ''; ?>" name="password">
+                        <input type="password" id="password" placeholder="Password" class="form-control <?php echo (!empty($password_error)) ? 'is-invalid' : ''; ?>" name="password" value="<?php echo $password ?>">
                         <span class="invalid-feedback" style="color: red;"><?php echo $password_error; ?></span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="confirm_password" class="col-sm-3 control-label">Confirm Password*</label>
                     <div class="col-sm-9">
-                        <input type="password" id="confirm_password" placeholder="Confirm Password" class="form-control <?php echo (!empty($confirm_password_error)) ? 'is-invalid' : ''; ?>" name="confirm_password">
+                        <input type="password" id="confirm_password" placeholder="Confirm Password" class="form-control <?php echo (!empty($confirm_password_error)) ? 'is-invalid' : ''; ?>" name="confirm_password" value="<?php echo $confirm_password ?>">
                         <span class="invalid-feedback" style="color: red;"><?php echo $confirm_password_error; ?></span>
                     </div>
                 </div>
                 <div class="form-group ">
                     <div class="col-sm-9 col-sm-offset-3">
                         <input type="checkbox" class="form-check-input <?php echo (!empty($agreement_error)) ? 'is-invalid' : ''; ?>" id="exampleCheck1" name="agreement">
-                        <label class="form-check-label" for="exampleCheck1">Agree to Privacy terms and conditions</label>
+                        <label class="form-check-label" for="exampleCheck1">Agree to Privacy terms and conditions</label><br>
                         <span class="invalid-feedback" style="color: red;"><?php echo $agreement_error; ?></span>
                     </div>
                 </div>
                 <!-- /.form-group -->
                 <div class="col-sm-9 col-sm-offset-3">
-                    <button type="submit" class="btn primary-btn">Create Account</button>
+                    <button type="submit" class="btn primary-btn" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px">Create Account</button>
                 </div>
             </form> <!-- /form -->
         </div> <!-- ./container -->
@@ -255,17 +250,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- FOOTER -->
 
-    <?php include('src/components/footer.php'); ?>
+    <?php include('../../components/footer.php'); ?>
 
     <!-- /FOOTER -->
 
     <!-- jQuery Plugins -->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/slick.min.js"></script>
-    <script src="js/nouislider.min.js"></script>
-    <script src="js/jquery.zoom.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="../../../js/jquery.min.js"></script>
+    <script src="../../../js/bootstrap.min.js"></script>
+    <script src="../../../js/slick.min.js"></script>
+    <script src="../../../js/nouislider.min.js"></script>
+    <script src="../../../js/jquery.zoom.min.js"></script>
+    <script src="../../../js/main.js"></script>
 
 </body>
 

@@ -10,16 +10,16 @@ class User {
     private static $conn;
 
     function __construct($userInfo) {
-//        if (array_key_exists('id', $userInfo))
-            $this->id = $userInfo['id'];
-//        if (array_key_exists('username', $userInfo))
-            $this->username = $userInfo['username'];
-//        if (array_key_exists('email', $userInfo))
-            $this->email = $userInfo['email'];
-//        if (array_key_exists('role', $userInfo))
-            $this->role = $userInfo['role'];
-//        if (array_key_exists('status', $userInfo))
-            $this->status = $userInfo['status'];
+        //        if (array_key_exists('id', $userInfo))
+        $this->id = $userInfo['id'];
+        //        if (array_key_exists('username', $userInfo))
+        $this->username = $userInfo['username'];
+        //        if (array_key_exists('email', $userInfo))
+        $this->email = $userInfo['email'];
+        //        if (array_key_exists('role', $userInfo))
+        $this->role = $userInfo['role'];
+        //        if (array_key_exists('status', $userInfo))
+        $this->status = $userInfo['status'];
     }
 
     public function getId() {
@@ -68,7 +68,7 @@ class User {
 
     public static function isNewUser($username) {
         $sql = "SELECT * FROM user WHERE username = :username LIMIT 1";
-        $stmt = self::$conn ->prepare($sql);
+        $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':username', $username);
         $stmt->execute();
         return $stmt->rowCount() == 0;
@@ -84,7 +84,7 @@ class User {
 
     public static function auth($username, $password) {
         $sql = "SELECT * FROM user WHERE username = :username LIMIT 1";
-        $stmt = self::$conn ->prepare($sql);
+        $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':username', $username);
         $stmt->execute();
         $row = $stmt->fetch();
@@ -97,7 +97,7 @@ class User {
                     header('location: ../vendor/index.php');
                 } elseif ($row['role'] == 'buyer') {
                     header('location: ../shop/index.php');
-                }// admin
+                } // admin
             } else {
                 echo 'Account not active';
             }
@@ -108,7 +108,7 @@ class User {
 
     public static function fetchId($username) {
         $sql = "SELECT id FROM user WHERE username = :username LIMIT 1";
-        $stmt = self::$conn ->prepare($sql);
+        $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':username', $username);
         $stmt->execute();
         if ($stmt->rowCount() != 0) {
@@ -123,7 +123,7 @@ class User {
         if (self::isNewUser($userInfo['username'])) {
             $sql = "INSERT INTO user (username, email, password, role, status) VALUE 
                 (:username, :email, :password, :role, :status)";
-            $stmt = self::$conn ->prepare($sql);
+            $stmt = self::$conn->prepare($sql);
             $stmt->bindParam(':username', $userInfo['username']);
             $stmt->bindParam(':email',  $userInfo['email']);
             $userInfo['password'] = password_hash($userInfo['password'], PASSWORD_DEFAULT);
@@ -145,9 +145,9 @@ class User {
             $sql = "INSERT INTO vendor (userId, vendorName, tinNumber) VALUE 
                 (:id, :vendorName, :tinNumber)";
             $stmt = self::$conn->prepare($sql);
-            $stmt->bindParam(':id',$userId);
-            $stmt->bindParam(':vendorName',$userInfo['vendorName']);
-            $stmt->bindParam(':tinNumber',$userInfo['tinNumber']);
+            $stmt->bindParam(':id', $userId);
+            $stmt->bindParam(':vendorName', $userInfo['vendorName']);
+            $stmt->bindParam(':tinNumber', $userInfo['tinNumber']);
             $stmt->execute();
         }
     }
@@ -158,10 +158,10 @@ class User {
             $sql = "INSERT INTO buyer (userId, firstname, lastname, tinNumber) VALUE 
                     (:id, :firstName, :lastName, :tinNumber)";
             $stmt = self::$conn->prepare($sql);
-            $stmt->bindParam(':id',$userId);
-            $stmt->bindParam(':firstName',$userInfo['firstName']);
-            $stmt->bindParam(':lastName',$userInfo['lastName']);
-            $stmt->bindParam(':tinNumber',$userInfo['tinNumber']);
+            $stmt->bindParam(':id', $userId);
+            $stmt->bindParam(':firstName', $userInfo['firstName']);
+            $stmt->bindParam(':lastName', $userInfo['lastName']);
+            $stmt->bindParam(':tinNumber', $userInfo['tinNumber']);
             $stmt->execute();
         }
     }
@@ -172,9 +172,9 @@ class User {
             $sql = "INSERT INTO admin (userId, firstname, lastname) VALUE 
                     (:id, :firstName, :lastName)";
             $stmt = self::$conn->prepare($sql);
-            $stmt->bindParam(':id',$userId);
-            $stmt->bindParam(':firstName',$userInfo['firstName']);
-            $stmt->bindParam(':lastName',$userInfo['lastName']);
+            $stmt->bindParam(':id', $userId);
+            $stmt->bindParam(':firstName', $userInfo['firstName']);
+            $stmt->bindParam(':lastName', $userInfo['lastName']);
             $stmt->execute();
         }
     }

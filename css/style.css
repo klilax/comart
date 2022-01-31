@@ -110,10 +110,10 @@ ul, ol {
 
 .primary-btn {
   display: inline-block;
-  padding: 12px 30px;
-  background-color: var(--secondary-color);
+  padding: 10px 20px;
+  background-color: var(--primary-color);
   border: none;
-  border-radius: 40px;
+  border-radius: 5px;
   color: #FFF;
   text-transform: uppercase;
   font-weight: 700;
