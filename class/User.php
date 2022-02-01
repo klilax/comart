@@ -94,9 +94,9 @@ class User {
                 $_SESSION['user'] = serialize(new User($row));
                 $_SESSION['role'] = $row['role'];
                 if ($row['role'] == 'vendor') {
-                    header('location: ../vendor/index.php');
+                    header('location: ../../../vendor/index.php');
                 } elseif ($row['role'] == 'buyer') {
-                    header('location: ../shop/index.php');
+                    header('location: ../../../shop/index.php');
                 } // admin
             } else {
                 echo 'Account not active';
@@ -188,6 +188,55 @@ class User {
         } elseif ($userInfo['role'] == 'admin') {
             self::saveAdminInfo($userInfo);
         }
+    }
+
+    //Message methods
+    public static function sendMessage($sender, $receiverId) {
+        $sql = "INSERT INTO message (senderId, receiverId, messageBody, messageTitle) 
+                values (:senderId, :receiverId, :messageId, :messageTitle)";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':senderId', $sender['id']);
+        $stmt->bindParam(':receiverId', $receiverId);
+        $stmt->bindParam(':messageBody', $sender['messageBody']);
+        $stmt->bindParam(':messageTitle', $sender['messageTitle']);
+        $stmt->execute();
+    }
+
+    public static function viewReceivedMessage($receiverId) {
+        $sql = "SELECT messageId, senderId, receiverId, messageBody, messageTitle, timeSent 
+                FROM message where receiverId = :receiverId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':receiverId', $receiverId);
+        $stmt->execute();
+
+        if($stmt->rowCount() != 0) {
+            $row = $stmt->fetch();
+            return $row;
+        } else {
+            return -1;
+        }
+    }
+
+    public static function viewSentMessage($senderId) {
+        $sql = "SELECT messageId, senderId, receiverId, messageBody, messageTitle, timeSent 
+                FROM message where senderId = :senderId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':senderId', $senderId);
+        $stmt->execute();
+
+        if($stmt->rowCount() != 0) {
+            $row = $stmt->fetch();
+            return $row;
+        } else {
+            return -1;
+        }
+    }
+
+    public static function deleteMessage($messageId) {
+        $sql = "DELETE FROM message WHERE messageId = :messageId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':messageId', $messageId);
+        $stmt->execute();
     }
 }
 
