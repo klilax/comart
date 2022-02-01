@@ -64,7 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($shopName_error) && empty($username_error) && empty($email_error) && empty($tinNumber_error) && empty($password_error) && empty($confirm_password_error) && empty($agreement_error)) {
-        User::register($user);
+        $vendor = ['username' => $username,'email'=> $email ,'password' => $password, 'role' => $role, 'vendorName'=> $shopName, 'tinNumber'=> $tinNumber];
+        User::register($vendor);
     }
 }
 
