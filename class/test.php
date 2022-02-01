@@ -1,7 +1,9 @@
 <?php
 //require('db.php');
-require('User.php');
-require('Product.php');
+//require('User.php');
+//require('Product.php');
+require ('Category.php');
+
 $admin = ['username' => 'admin', 'password' => 'admin', 'role' => 'admin', 'firstName'=> 'admin', 'lastName'=> 'sudo'];
 $vendor = ['username' => 'abcplc','email'=>'abcplc@abc.com' ,'password' => '1234', 'role' => 'vendor', 'vendorName'=> 'ABC PLC', 'tinNumber'=>000031245];
 $buyer = ['username' => 'john','email'=>'john@gmail.com' ,'password' => '1234', 'role' => 'buyer', 'firstName'=> 'john', 'lastName'=> 'smith', 'tinNumber'=>000031245];
@@ -11,8 +13,8 @@ $buyer2 = ['username' => 'buyer','email'=>'buyer@gmail.com' ,'password' => '1234
 //echo $test_user->isNewUser();
 //$test_user->setEmail('admin@ad.com');
 
-$productInfo['productName'] = 'RHS 30X30X2';
-$productInfo['category'] = 'steel structure';
+//$productInfo['productName'] = 'RHS 30X30X2';
+//$productInfo['category'] = 'steel structure';
 //$inventory['product'] = $productInfo;
 //$inventory['quantity'] = 30;
 //$inventory['price'] = 1000;
@@ -21,4 +23,7 @@ $productInfo['category'] = 'steel structure';
 
 //User::register($buyer2);
 //User::auth('john', '1234');
-User::auth('abcplc', '1234');
+//User::auth('abcplc', '1234');
+//echo "test123";
+Category::addCategory('cement');
+
