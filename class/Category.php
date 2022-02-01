@@ -16,6 +16,19 @@ class Category {
         return false;
     }
 
+    static function getCategoryId($categoryName){
+        $sql = "SELECT categoryId from category where categoryName = :categoryName";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':categoryName', $categoryName);
+        $stmt->execute();
+        $categoryId = -1;
+        if ($stmt->rowCount() > 0) {
+            $row = $stmt->fetch();
+            $categoryId = $row['categoryId'];
+        }
+        return $categoryId;
+    }
+
     static function addCategory($categoryName) {
         if (self::isUnique($categoryName)) {
             $sql = "INSERT INTO category (categoryName)  VALUES (:categoryName)";

@@ -153,4 +153,12 @@ create table review
         foreign key (inventoryId) references inventory (inventoryId)
 );
 
+ALTER TABLE inventory ADD UNIQUE `unique_index`(inventoryName, vendorId);
 
+create table imgpath
+(
+    inventoryId int          null,
+    path        varchar(255) not null,
+    constraint imgpath_inventory_inventoryId_fk
+        foreign key (inventoryId) references inventory (inventoryId)
+);

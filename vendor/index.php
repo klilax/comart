@@ -23,7 +23,7 @@ if ($_SESSION['role'] != 'vendor') {
     <?php
         $vendor = unserialize($_SESSION['user']);
 //        echo $vendor->getUsername();
-        $productInfo['productName'] = 'RHS 30X30X2';
+        $productInfo['productName'] = 'RHS 40X40X2';
         $productInfo['category'] = 'steel structure';
         $inventory['product'] = $productInfo;
         $inventory['quantity'] = 12;

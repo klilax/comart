@@ -1,7 +1,7 @@
 <?php
 //require('db.php');
 require('User.php');
-require('Product.php');
+require('Category.php');
 //require('Order.php');
 
 class Inventory {
@@ -14,36 +14,41 @@ class Inventory {
 
     public static function newInventory($user, $inventory) {
         $vendorId = $user->getId();
-        $productId = Product::getProductId($inventory['product']['productName']);
-        if ($productId == -1) {
-            $productId = Product::addProduct($inventory['product']);
+//        $vendorId = $user;
+        $categoryId = Category::getCategoryId($inventory['product']['category']);
+//        $productId = Product::getProductId($inventory['product']['productName']);
+        if ($categoryId != -1) {
+            $sql = "INSERT INTO inventory (inventoryName, categoryId, vendorId, quantity ,price)
+                VALUES (:inventoryName, :categoryId, :vendorId, :quantity, :price)";
+            $stmt = self::$conn->prepare($sql);
+            $stmt->bindParam(':inventoryName', $inventory['product']['productName']);
+            $stmt->bindParam(':categoryId', $categoryId);
+            $stmt->bindParam(':vendorId',$vendorId);
+            $stmt->bindParam(':quantity', $inventory['quantity']);
+            $stmt->bindParam(':price', $inventory['price']);
+            $stmt->execute();
+        }
+    }
+
+    public static function getCurrentStock($user, $productName) {
+        $userId = $user->getId();
+//        $userId = $user;
+        $sql = "SELECT inventoryId, quantity FROM inventory WHERE vendorId = :userId AND inventoryName = :inventoryName";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':userId', $userId);
+        $stmt->bindParam(':inventoryName', $productName);
+        $stmt->execute();
+        if ($stmt->rowCount() != 0){
+            return $stmt->fetch();
         }
 
-        $sql = "INSERT INTO inventory (vendorId, productId, quantity ,price)
-                VALUES (:vendorId, :productId, :quantity, :price)";
-        $stmt = self::$conn->prepare($sql);
-        $stmt->bindParam(':vendorId',$vendorId);
-        $stmt->bindParam(':productId', $productId);
-        $stmt->bindParam(':quantity', $inventory['quantity']);
-        $stmt->bindParam(':price', $inventory['price']);
-        $stmt->execute();
-        echo $stmt->rowCount();
-    }
-    public static function getCurrentStock($user, $productName) {
-        $productId = Product::getProductId($productName);
-        $userId = $user->getId();
-        if ($productId != -1) {
-            $sql = "SELECT inventoryId, quantity FROM inventory WHERE vendorId = :userId AND productId = :productId";
-            $stmt = self::$conn->prepare($sql);
-            $stmt->bindParam(':userId', $userId);
-            $stmt->bindParam('productId', $productId);
-            $stmt->execute();
-            if ($stmt->rowCount() != 0){
-                return $stmt->fetch();
-            }
-        }
         return null;
     }
+
+    public function changeInventoryName() {
+
+    }
+
     public static function updateInventory($user, $productName, $quantity) {
         $stock = self::getCurrentStock($user, $productName);
         if (!is_null($stock)) {
@@ -71,8 +76,8 @@ class Inventory {
         } else {
             echo "You have not placed an order for this item";
         }
-
     }
+
     public static function setConnection($conn) {
         self::$conn = $conn;
     }
