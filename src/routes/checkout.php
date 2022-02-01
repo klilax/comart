@@ -13,20 +13,20 @@
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
 	<!-- Bootstrap -->
-	<link type="text/css" rel="stylesheet" href="../../../css/bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" href="../../css/bootstrap.min.css" />
 
 	<!-- Slick -->
-	<link type="text/css" rel="stylesheet" href="../../../css/slick.css" />
-	<link type="text/css" rel="stylesheet" href="../../../css/slick-theme.css" />
+	<link type="text/css" rel="stylesheet" href="../../css/slick.css" />
+	<link type="text/css" rel="stylesheet" href="../../css/slick-theme.css" />
 
 	<!-- nouislider -->
-	<link type="text/css" rel="stylesheet" href="../../../css/nouislider.min.css" />
+	<link type="text/css" rel="stylesheet" href="../../css/nouislider.min.css" />
 
 	<!-- Font Awesome Icon -->
-	<link rel="stylesheet" href="../../../css/font-awesome.min.css" />
+	<link rel="stylesheet" href="../../css/font-awesome.min.css" />
 
 	<!-- Custom stlylesheet -->
-	<link type="text/css" rel="stylesheet" href="../../../css/style.css" />
+	<link type="text/css" rel="stylesheet" href="../../css/style.css" />
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -42,18 +42,18 @@
 	<header>
 		<?php
 		//<!-- TOP HEADER -->
-		include('src/components/topHeader.php');
+		include('../components/topHeader.php');
 		//<!-- /TOP HEADER -->
 
 		//<!-- MAIN HEADER -->
-		include('src/components/mainHeader.php');
+		include('../components/mainHeader.php');
 		//<!-- /MAIN HEADER -->
 		?>
 	</header>
 	<!-- /HEADER -->
 
 	<!-- NAVIGATION -->
-	<?php include('src/components/navigation.php'); ?>
+	<?php include('../components/navigation.php'); ?>
 	<!-- /NAVIGATION -->
 
 	<!-- BREADCRUMB -->
@@ -297,17 +297,17 @@
 
 	<!-- FOOTER -->
 
-	<?php include('src/components/footer.php'); ?>
+	<?php include('../components/footer.php'); ?>
 
 	<!-- /FOOTER -->
 
 	<!-- jQuery Plugins -->
-	<script src="../../../js/jquery.min.js"></script>
-	<script src="../../../js/bootstrap.min.js"></script>
-	<script src="../../../js/slick.min.js"></script>
-	<script src="../../../js/nouislider.min.js"></script>
-	<script src="../../../js/jquery.zoom.min.js"></script>
-	<script src="../../../js/main.js"></script>
+	<script src="../../js/jquery.min.js"></script>
+	<script src="../../js/bootstrap.min.js"></script>
+	<script src="../../js/slick.min.js"></script>
+	<script src="../../js/nouislider.min.js"></script>
+	<script src="../../js/jquery.zoom.min.js"></script>
+	<script src="../../js/main.js"></script>
 
 </body>
 

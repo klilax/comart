@@ -13,20 +13,20 @@
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
 	<!-- Bootstrap -->
-	<link type="text/css" rel="stylesheet" href="../../../css/bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" href="../../css/bootstrap.min.css" />
 
 	<!-- Slick -->
-	<link type="text/css" rel="stylesheet" href="../../../css/slick.css" />
-	<link type="text/css" rel="stylesheet" href="../../../css/slick-theme.css" />
+	<link type="text/css" rel="stylesheet" href="../../css/slick.css" />
+	<link type="text/css" rel="stylesheet" href="../../css/slick-theme.css" />
 
 	<!-- nouislider -->
-	<link type="text/css" rel="stylesheet" href="../../../css/nouislider.min.css" />
+	<link type="text/css" rel="stylesheet" href="../../css/nouislider.min.css" />
 
 	<!-- Font Awesome Icon -->
-	<link rel="stylesheet" href="../../../css/font-awesome.min.css" />
+	<link rel="stylesheet" href="../../css/font-awesome.min.css" />
 
 	<!-- Custom stlylesheet -->
-	<link type="text/css" rel="stylesheet" href="../../../css/style.css" />
+	<link type="text/css" rel="stylesheet" href="../../css/style.css" />
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -42,18 +42,18 @@
 	<header>
 		<?php
 		//<!-- TOP HEADER -->
-		include('src/components/topHeader.php');
+		include('../components/topHeader.php');
 		//<!-- /TOP HEADER -->
 
 		//<!-- MAIN HEADER -->
-		include('src/components/mainHeader.php');
+		include('../components/mainHeader.php');
 		//<!-- /MAIN HEADER -->
 		?>
 	</header>
 	<!-- /HEADER -->
 
 	<!-- NAVIGATION -->
-	<?php include('src/components/navigation.php'); ?>
+	<?php include('../components/navigation.php'); ?>
 	<!-- /NAVIGATION -->
 
 	<!-- BREADCRUMB -->
@@ -88,19 +88,19 @@
 				<div class="col-md-5 col-md-push-2">
 					<div id="product-main-img">
 						<div class="product-preview">
-							<img src="./img/product01.png" alt="">
+							<img src="../../img/product01.png" alt="">
 						</div>
 
 						<div class="product-preview">
-							<img src="./img/product03.png" alt="">
+							<img src="../../img/product03.png" alt="">
 						</div>
 
 						<div class="product-preview">
-							<img src="./img/product06.png" alt="">
+							<img src="../../img/product06.png" alt="">
 						</div>
 
 						<div class="product-preview">
-							<img src="./img/product08.png" alt="">
+							<img src="../../img/product08.png" alt="">
 						</div>
 					</div>
 				</div>
@@ -110,19 +110,19 @@
 				<div class="col-md-2  col-md-pull-5">
 					<div id="product-imgs">
 						<div class="product-preview">
-							<img src="./img/product01.png" alt="">
+							<img src="../../img/product01.png" alt="">
 						</div>
 
 						<div class="product-preview">
-							<img src="./img/product03.png" alt="">
+							<img src="../../img/product03.png" alt="">
 						</div>
 
 						<div class="product-preview">
-							<img src="./img/product06.png" alt="">
+							<img src="../../img/product06.png" alt="">
 						</div>
 
 						<div class="product-preview">
-							<img src="./img/product08.png" alt="">
+							<img src="../../img/product08.png" alt="">
 						</div>
 					</div>
 				</div>
@@ -456,7 +456,7 @@
 				<div class="col-md-3 col-xs-6">
 					<div class="product">
 						<div class="product-img">
-							<img src="./img/product01.png" alt="">
+							<img src="../../img/product01.png" alt="">
 							<div class="product-label">
 								<span class="sale">-30%</span>
 							</div>
@@ -487,7 +487,7 @@
 				<div class="col-md-3 col-xs-6">
 					<div class="product">
 						<div class="product-img">
-							<img src="./img/product02.png" alt="">
+							<img src="../../img/product02.png" alt="">
 							<div class="product-label">
 								<span class="new">NEW</span>
 							</div>
@@ -525,7 +525,7 @@
 				<div class="col-md-3 col-xs-6">
 					<div class="product">
 						<div class="product-img">
-							<img src="./img/product03.png" alt="">
+							<img src="../../img/product03.png" alt="">
 						</div>
 						<div class="product-body">
 							<p class="product-category">Category</p>
@@ -558,7 +558,7 @@
 				<div class="col-md-3 col-xs-6">
 					<div class="product">
 						<div class="product-img">
-							<img src="./img/product04.png" alt="">
+							<img src="../../img/product04.png" alt="">
 						</div>
 						<div class="product-body">
 							<p class="product-category">Category</p>
@@ -578,7 +578,7 @@
 						<div class="add-to-cart">
 							<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
 						</div>
-					</div>
+					</div>./..
 				</div>
 				<!-- /product -->
 
@@ -627,17 +627,17 @@
 
 	<!-- FOOTER -->
 
-	<?php include('src/components/footer.php'); ?>
+	<?php include('../components/footer.php'); ?>
 
 	<!-- /FOOTER -->
 
 	<!-- jQuery Plugins -->
-	<script src="../../../js/jquery.min.js"></script>
-	<script src="../../../js/bootstrap.min.js"></script>
-	<script src="../../../js/slick.min.js"></script>
-	<script src="../../../js/nouislider.min.js"></script>
-	<script src="../../../js/jquery.zoom.min.js"></script>
-	<script src="../../../js/main.js"></script>
+	<script src="../../js/jquery.min.js"></script>
+	<script src="../../js/bootstrap.min.js"></script>
+	<script src="../../js/slick.min.js"></script>
+	<script src="../../js/nouislider.min.js"></script>
+	<script src="../../js/jquery.zoom.min.js"></script>
+	<script src="../../js/main.js"></script>
 
 </body>
 

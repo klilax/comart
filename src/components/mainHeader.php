@@ -8,7 +8,7 @@
             <div class="col-md-3">
                 <div class="header-logo">
                     <a href="#" class="logo">
-                        <img src="./img/logo.svg" alt="">
+                        <img src="../../img/logo.svg" alt="">
                     </a>
                 </div>
             </div>
@@ -33,15 +33,6 @@
             <!-- ACCOUNT -->
             <div class="col-md-3 clearfix">
                 <div class="header-ctn">
-                    <!-- Wishlist -->
-                    <div>
-                        <a href="#">
-                            <i class="fa fa-heart-o"></i>
-                            <span>Your Wishlist</span>
-                            <div class="qty">2</div>
-                        </a>
-                    </div>
-                    <!-- /Wishlist -->
 
                     <!-- Cart -->
                     <div class="dropdown">
@@ -54,7 +45,7 @@
                             <div class="cart-list">
                                 <div class="product-widget">
                                     <div class="product-img">
-                                        <img src="./img/product01.png" alt="">
+                                        <img src="../../img/product01.png" alt="">
                                     </div>
                                     <div class="product-body">
                                         <h3 class="product-name"><a href="#">product name goes here</a></h3>
@@ -65,7 +56,7 @@
 
                                 <div class="product-widget">
                                     <div class="product-img">
-                                        <img src="./img/product02.png" alt="">
+                                        <img src="../../img/product02.png" alt="">
                                     </div>
                                     <div class="product-body">
                                         <h3 class="product-name"><a href="#">product name goes here</a></h3>
