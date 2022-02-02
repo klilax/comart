@@ -71,6 +71,9 @@ Table OF Contents
   --info-color: #3D8499;
 }
 
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   font-family: 'Montserrat', sans-serif;
