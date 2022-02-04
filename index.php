@@ -1,3 +1,7 @@
+<?php
+session_start();
+require_once('class\User.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
