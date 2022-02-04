@@ -7,8 +7,8 @@
             <!-- LOGO -->
             <div class="col-md-3">
                 <div class="header-logo">
-                    <a href="#" class="logo">
-                        <img src="../../img/logo.svg" alt="">
+                    <a href="\comart\index.php" class="logo">
+                        <img src="\comart\img\logo.svg" alt="">
                     </a>
                 </div>
             </div>
