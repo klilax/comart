@@ -93,6 +93,7 @@ class User {
                 session_start();
                 $_SESSION['user'] = serialize(new User($row));
                 $_SESSION['role'] = $row['role'];
+                $_SESSION['id'] = $row['id'];
                 if ($row['role'] == 'vendor') {
                     header('location: ../../../vendor/index.php');
                 } elseif ($row['role'] == 'buyer') {
