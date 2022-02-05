@@ -78,6 +78,36 @@ class Inventory {
         }
     }
 
+    public static function getAllInventory($category): bool|array
+    {
+        if ($category == 'all') {
+            $sql = "SELECT * FROM inventory";
+        } else {
+            $categoryId = Category::getCategoryId($category);
+            $sql = "SELECT * FROM inventory WHERE categoryId = $categoryId";
+        }
+        $stmt = self::$conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public static function searchInventory($category, $query): bool|array
+    {
+        if ($category == 'all') {
+            $sql = "SELECT * FROM inventory WHERE inventoryName LIKE :query";
+        } else {
+            $categoryId = Category::getCategoryId($category);
+            $sql = "SELECT * FROM inventory WHERE categoryId = :categoryId AND inventoryName LIKE :query";
+        }
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':query', $query);
+        if ($category != 'all'){
+            $stmt->bindParam(':categoryId', $categoryId);
+        }
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
     public static function setConnection($conn) {
         self::$conn = $conn;
     }
