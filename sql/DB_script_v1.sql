@@ -162,3 +162,7 @@ create table imgpath
     constraint imgpath_inventory_inventoryId_fk
         foreign key (inventoryId) references inventory (inventoryId)
 );
+
+#update
+alter table inventory
+    add featured boolean default 0 not null;
