@@ -41,6 +41,7 @@
 	<!-- HEADER -->
 	<header>
 		<?php
+        session_start();
 		//<!-- TOP HEADER -->
 		include('../components/topHeader.php');
 		//<!-- /TOP HEADER -->
@@ -183,28 +184,57 @@
 					<div class="section-title text-center">
 						<h3 class="title">Your Order</h3>
 					</div>
-					<div class="order-summary">
-						<div class="order-col">
-							<div><strong>PRODUCT</strong></div>
-							<div><strong>TOTAL</strong></div>
-						</div>
-						<div class="order-products">
-							<div class="order-col">
-								<div>1x Product Name Goes Here</div>
-								<div>$980.00</div>
-							</div>
-							<div class="order-col">
-								<div>2x Product Name Goes Here</div>
-								<div>$980.00</div>
-							</div>
-						</div>
+<!--					<div class="order-summary">-->
+<!--						<div class="order-col">-->
+<!--							<div><strong>PRODUCT</strong></div>-->
+<!--							<div><strong>TOTAL</strong></div>-->
+<!--						</div>-->
+                        <?php
+                        $buyerId = $_SESSION['id'];
+                        $total = 0;
+                        if (isset($_SESSION['cart'][$buyerId])) {
+                            echo '<div class="order-summary">';
+                            echo '<div class="order-col">';
+                            echo '<div><strong>PRODUCT</strong></div>';
+                            echo '<div><strong>TOTAL</strong></div>';
+                            echo '</div>';
+
+                            foreach ($_SESSION['cart'][$buyerId] as $key => $value){
+                                $qty = $_SESSION['cart'][$buyerId][$key]['quantity'];
+                                $name = $_SESSION['cart'][$buyerId][$key]['name'];
+                                $price = $_SESSION['cart'][$buyerId][$key]['price'];
+                                $subtotal = $qty * $price;
+                                $total += $subtotal;
+                                echo '<div class="order-products">';
+                                echo '<div class="order-col">';
+                                echo '<div>'.$qty.'x '.$name.'</div>';
+                                echo '<div>'.number_format($subtotal, 2, '.', ',').'</div>';
+                                echo '</div>';
+                            }
+
+                        } else {
+                            echo '<div>You have no product in your cart</div>';
+                            echo '</div>';
+                        }
+                        ?>
+
+<!--						<div class="order-products">-->
+<!--							<div class="order-col">-->
+<!--								<div>1x Product Name Goes Here</div>-->
+<!--								<div>$980.00</div>-->
+<!--							</div>-->
+<!--							<div class="order-col">-->
+<!--								<div>2x Product Name Goes Here</div>-->
+<!--								<div>$980.00</div>-->
+<!--							</div>-->
+<!--						</div>-->
 						<div class="order-col">
 							<div>Shiping</div>
 							<div><strong>FREE</strong></div>
 						</div>
 						<div class="order-col">
 							<div><strong>TOTAL</strong></div>
-							<div><strong class="order-total">$2940.00</strong></div>
+							<div><strong class="order-total"><?php echo number_format($total, 2, '.', ',')  ?></strong></div>
 						</div>
 					</div>
 					<div class="payment-method">
