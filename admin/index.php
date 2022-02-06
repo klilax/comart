@@ -1,104 +1,130 @@
 <?php
-    require('../class/User.php');
-    session_start();
-    if (!isset($_SESSION['user'])) {
-        header('location: ../signin.php');
+require('../class/User.php');
+require('../class/Category.php');
+session_start();
+if (!isset($_SESSION['user'])) {
+    header('location: ../signin.php');
+}
+if ($_SESSION['role'] != 'admin') {
+    header('location: ../signin.php');
+}
+
+$categoryName = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $categoryName = $_POST['categoryName'];
+    if (!empty($_POST['categoryName'])) {
+        Category::addCategory($categoryName);
     }
-    if ($_SESSION['role'] != 'admin') {
-        header('location: ../signin.php');
-    }
+}
+
+
 ?>
+
 
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport"
-            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Comart | Admin Dashboard</title>
 
-        <!-- link for modal  -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Comart | Admin Dashboard</title>
+
+    <!-- link for modal  -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        
 
-        <!-- Google font -->
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <script src="../js/bootstrap.js"></script>
 
-        <!-- Bootstrap -->
-        <link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css" />
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
-        <!-- Slick -->
-        <link type="text/css" rel="stylesheet" href="../css/slick.css" />
-        <link type="text/css" rel="stylesheet" href="../css/slick-theme.css" />
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css" />
 
-        <!-- nouislider -->
-        <link type="text/css" rel="stylesheet" href="../css/nouislider.min.css" />
+    <!-- Slick -->
+    <link type="text/css" rel="stylesheet" href="../css/slick.css" />
+    <link type="text/css" rel="stylesheet" href="../css/slick-theme.css" />
 
-        <!-- Font Awesome Icon -->
-        <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <!-- nouislider -->
+    <link type="text/css" rel="stylesheet" href="../css/nouislider.min.css" />
 
-        <!-- Custom stlylesheet -->
-        <link type="text/css" rel="stylesheet" href="../css/style.css" />
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
 
-        <style>
-            th,
-            td {
-                text-align: center;
-            }
-            table button {
+    <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="../css/style.css" />
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+
+    <style>
+        th,
+        td {
+            text-align: center;
+        }
+
+        table button {
             margin: 0px 10px;
-            }
-            #titleh3 {
-                text-align: center;
-                margin-top: 30px;
-            }
-        
-        </style>
+        }
 
-        <script>
-            function searchVendors() {
-                let query = document.getElementById("queryV").value;
-                let xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById("vendorTable").innerHTML = this.responseText;
-                    }
-                };
-                xhttp.open("GET", "searchV.php?query=" + query, true);
-                xhttp.send();
-            }
+        #titleh3 {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
 
-            function searchBuyers() {
-                let query = document.getElementById("queryB").value;
-                let xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById("buyerTable").innerHTML = this.responseText;
-                    }
-                };
-                xhttp.open("GET", "searchB.php?query=" + query, true);
-                xhttp.send();
-            }
-        </script>
+    <script>
+        function searchVendors() {
+            let query = document.getElementById("queryV").value;
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("vendorTable").innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("GET", "searchV.php?query=" + query, true);
+            xhttp.send();
+        }
 
-    </head>
-    <body>
-        <header>
-            <?php
-            //<!-- TOP HEADER -->
-            include('../src/components/topHeader.php');
-            //<!-- /TOP HEADER -->
+        function searchBuyers() {
+            let query = document.getElementById("queryB").value;
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("buyerTable").innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("GET", "searchB.php?query=" + query, true);
+            xhttp.send();
+        }
+        const fun = function(event) {
+            event.preventDefault();
+        }
+        const form = document.getElementById('formId');
+        form.addEventListner("submit", fun);
+    </script>
 
-            //<!-- MAIN HEADER -->
-            include('../src/components/mainHeader.php');
-            //<!-- /MAIN HEADER -->
-            ?>
-        </header>
-        
+</head>
+
+<body>
+    <header>
         <?php
+        //<!-- TOP HEADER -->
+        include('../src/components/topHeader.php');
+        //<!-- /TOP HEADER -->
+
+        //<!-- MAIN HEADER -->
+        include('../src/components/mainHeader.php');
+        //<!-- /MAIN HEADER -->
+        ?>
+    </header>
+
+    <?php
     if (isset($_SESSION['message'])) {
         if ($_SESSION['opeStatus'] == 0) {
             echo "<div class='alert alert-success row w-75 mx-auto' role='alert'>";
@@ -113,8 +139,222 @@
         unset($_SESSION['opeStatus']);
     }
     ?>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">Info</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="false">View Vendors</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">View Buyers</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Product Category</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="feature-tab" data-bs-toggle="tab" data-bs-target="#feature" type="button" role="tab" aria-controls="feature" aria-selected="false">Feature</button>
+        </li>
 
-<h3 id="titleh3">Vendors</h3>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+            <section class=" bg" style="min-height: 70vh;">
+                <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
+                    <table id="info" class="table">
+                        <thead>
+                            <tr>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+        <div class="tab-pane fade show" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <section class=" bg" style="min-height: 70vh;">
+                <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
+                    <table id="vendor" class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Vendor Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Role</th>
+                                <th scope="col">Tin Number</th>
+                                <th scope="col">Reg. Date</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $adminId = $_SESSION['id'];
+                            $sql = 'SELECT id, vendorName, email, role, tinNumber, registrationDate, status FROM vendor INNER JOIN user u on vendor.userId = u.id WHERE 1 ORDER BY vendorName';
+                            $stmt = $conn->prepare($sql);
+                            $stmt->execute();
+                            $count = 1;
+                            if ($stmt->rowCount()) {
+                                while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+                                    $id = $row[0];
+                                    echo "<tr>";
+                                    echo "<th scope='row'>$count</th>";
+                                    echo "<td>$row[1]</td>";
+                                    echo "<td>$row[2]</td>";
+                                    echo "<td>$row[3]</td>";
+                                    echo "<td>$row[4]</td>";
+                                    echo "<td>$row[5]</td>";
+                                    if ($row[6] == 1) {
+                                        echo "<td><span class='badge bg-success'>Active</span></td>";
+                                        echo "<td>";
+                                        echo "<a href='suspendAcc.php?id=$id'><button type='button' class='btn btn-light'>Suspend</button></a>";
+                                    } else if ($row[6] == 0) {
+                                        echo "<td><span class='badge bg-warning'>Waiting for Approval</span></td>";
+                                        echo "<td>";
+                                        echo "<a href='acceptAcc.php?id=$id'><button type='button' class='btn btn-light'>Accept</button></a>";
+                                    } else if ($row[6] == 2) {
+                                        echo "<td><span class='badge bg-danger'>Suspended</span></td>";
+                                        echo "<td>";
+                                        echo "<a href='activateAcc.php?id=$id'><button type='button' class='btn btn-light'>Activate</button></a>";
+                                    }
+                                    echo "<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#deleteModal'>Delete</button></td>";
+
+                                    echo "</tr>";
+                                    $count++;
+                                }
+                            } else {
+                                // no data
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <section class=" bg" style="min-height: 70vh;">
+                <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
+                    <table id="buyer" class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Role</th>
+                                <th scope="col">Tin Number</th>
+                                <th scope="col">Reg. Date</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $adminId = $_SESSION['id'];
+                            $sql = 'SELECT id, firstName, lastName, email, role, tinNumber, registrationDate, status FROM buyer INNER JOIN user u on buyer.userId = u.id WHERE 1 ORDER BY firstName';
+                            $stmt = $conn->prepare($sql);
+                            $stmt->execute();
+                            $count = 1;
+                            if ($stmt->rowCount()) {
+                                while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+                                    $id = $row[0];
+                                    echo "<tr>";
+                                    echo "<th scope='row'>$count</th>";
+                                    echo "<td>$row[1] $row[2]</td>";
+                                    echo "<td>$row[3]</td>";
+                                    echo "<td>$row[4]</td>";
+                                    echo "<td>$row[5]</td>";
+                                    echo "<td>$row[6]</td>";
+                                    if ($row[7] == 1) {
+                                        echo "<td><span class='badge bg-success'>Active</span></td>";
+                                        echo "<td>";
+                                        echo "<a href='suspendAcc.php?id=$id'><button type='button' class='btn btn-light'>Suspend</button></a>";
+                                    } else if ($row[7] == 0) {
+                                        echo "<td><span class='badge bg-warning'>Waiting for Approval</span></td>";
+                                        echo "<td>";
+                                        echo "<a href='acceptAcc.php?id=$id'><button type='button' class='btn btn-light'>Accept</button></a>";
+                                    } else if ($row[7] == 2) {
+                                        echo "<td><span class='badge bg-danger'>Suspended</span></td>";
+                                        echo "<td>";
+                                        echo "<a href='activateAcc.php?id=$id'><button type='button' class='btn btn-light'>Activate</button></a>";
+                                    }
+                                    echo "<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#deleteModal'>Delete</button></td>";
+
+                                    echo "</tr>";
+                                    $count++;
+                                }
+                            } else {
+                                // no data
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <section class=" bg" style="min-height: 70vh;">
+                <div class="row w-50 mx-auto text-secondary d-flex icon-boxes">
+
+                    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST" id="formId">
+                        <input style="margin-left: 30%; margin: 20px 50px;   width: 180px; float:left;" class="form-control" type="text" placeholder="Category Name" name="categoryName" id="queryV">
+                        <input type='submit' class='btn btn-secondary' style="margin: 20px 5px; width: 180px; height: 35px;" value="Add New Category">
+                    </form>
+                    <table id="category" class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Category Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            // $adminId = $_SESSION['id'];
+                            // $sql = 'SELECT id, firstName, lastName, email, role, tinNumber, registrationDate, status FROM buyer INNER JOIN user u on buyer.userId = u.id WHERE 1 ORDER BY firstName';
+                            // $stmt = $conn->prepare($sql);
+                            // $stmt->execute();
+                            $count = 1;
+                            $rows = Category::getAllCategories();
+                            if ($rows) {
+                                foreach ($rows as $row) {
+                                    echo "<tr>";
+                                    echo "<th scope='row'>$count</th>";
+                                    echo "<td>" . $row['categoryName'] . "</td>";
+                                    echo "</tr>";
+                                    $count++;
+                                }
+                            } else {
+                                // no data
+                            }
+
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+        <div class="tab-pane fade" id="feature" role="tabpanel" aria-labelledby="feature-tab">
+            <section class=" bg" style="min-height: 70vh;">
+                <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
+                    <table id="feature" class="table">
+                        <thead>
+                            <tr>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- ajax table -->
+    <!-- <h3 id="titleh3">Vendors</h3>
 <input style="margin-left: 72.5%; margin-bottom: 20px; align-items: flex-end; width: 15%;" class="form-control" type="search" placeholder="Search for vendors"
  aria-label="Search" id='queryV' onkeyup="searchVendors()">
     <section class=" bg" style="min-height: 20vh;" id='vendorTable'>
@@ -153,11 +393,11 @@
                                 echo "<td><span class='badge bg-success'>Active</span></td>";
                                 echo "<td>";
                                 echo "<a href='suspendAcc.php?id=$id'><button type='button' class='btn btn-light'>Suspend</button></a>";
-                            } else if ($row[6] == 0){
+                            } else if ($row[6] == 0) {
                                 echo "<td><span class='badge bg-warning'>Waiting for Approval</span></td>";
                                 echo "<td>";
                                 echo "<a href='acceptAcc.php?id=$id'><button type='button' class='btn btn-light'>Accept</button></a>";
-                            }  else if ($row[6] == 2) {
+                            } else if ($row[6] == 2) {
                                 echo "<td><span class='badge bg-danger'>Suspended</span></td>";
                                 echo "<td>";
                                 echo "<a href='activateAcc.php?id=$id'><button type='button' class='btn btn-light'>Activate</button></a>";
@@ -166,7 +406,6 @@
 
                             echo "</tr>";
                             $count++;
-                            
                         }
                     } else {
                         // no data
@@ -218,11 +457,11 @@
                                 echo "<td><span class='badge bg-success'>Active</span></td>";
                                 echo "<td>";
                                 echo "<a href='suspendAcc.php?id=$id'><button type='button' class='btn btn-light'>Suspend</button></a>";
-                            } else if ($row[7] == 0){
+                            } else if ($row[7] == 0) {
                                 echo "<td><span class='badge bg-warning'>Waiting for Approval</span></td>";
                                 echo "<td>";
                                 echo "<a href='acceptAcc.php?id=$id'><button type='button' class='btn btn-light'>Accept</button></a>";
-                            }  else if ($row[7] == 2) {
+                            } else if ($row[7] == 2) {
                                 echo "<td><span class='badge bg-danger'>Suspended</span></td>";
                                 echo "<td>";
                                 echo "<a href='activateAcc.php?id=$id'><button type='button' class='btn btn-light'>Activate</button></a>";
@@ -231,7 +470,6 @@
 
                             echo "</tr>";
                             $count++;
-                            
                         }
                     } else {
                         // no data
@@ -240,13 +478,13 @@
                 </tbody>
             </table>
         </div>
-    </section>
+    </section> -->
 
-        <?php 
-            include('../src/components/footer.php');
+    <?php
+    include('../src/components/footer.php');
 
-            echo
-            '<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    echo
+    '<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -260,14 +498,19 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>';
-            echo "<a href='deleteAcc.php?id=$id'><button type='button' class='btn btn-danger'>Delete</button></a>";
-            echo '</div>
+    echo "<a href='deleteAcc.php?id=$id'><button type='button' class='btn btn-danger'>Delete</button></a>";
+    echo '</div>
                                 </div>
                             </div>
                         </div> ';
-        ?>
-                    
-        
-            
-    </body>
+    ?>
+
+    <script>
+        $(document).ready(function() {
+            $('#vendor, #buyer, #category').DataTable();
+        });
+    </script>
+
+</body>
+
 </html>
