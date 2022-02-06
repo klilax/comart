@@ -43,11 +43,11 @@
 		<?php
         session_start();
 		//<!-- TOP HEADER -->
-		include('../components/topHeader.php');
+//		include('../components/topHeader.php');
 		//<!-- /TOP HEADER -->
 
 		//<!-- MAIN HEADER -->
-		include('../components/mainHeader.php');
+//		include('../components/mainHeader.php');
 		//<!-- /MAIN HEADER -->
 		?>
 	</header>
@@ -192,17 +192,19 @@
                         <?php
                         $buyerId = $_SESSION['id'];
                         $total = 0;
-                        if (isset($_SESSION['cart'][$buyerId])) {
+//                        if (isset($_SESSION['cartId'], $_SESSION['cart'][$buyerId])) {
+                        if (isset($_SESSION['cartId'])) {
+                            $cartId = $_SESSION['cartId'];
                             echo '<div class="order-summary">';
                             echo '<div class="order-col">';
                             echo '<div><strong>PRODUCT</strong></div>';
                             echo '<div><strong>TOTAL</strong></div>';
                             echo '</div>';
 
-                            foreach ($_SESSION['cart'][$buyerId] as $key => $value){
-                                $qty = $_SESSION['cart'][$buyerId][$key]['quantity'];
-                                $name = $_SESSION['cart'][$buyerId][$key]['name'];
-                                $price = $_SESSION['cart'][$buyerId][$key]['price'];
+                            foreach ($_SESSION['cart'][$cartId] as $key => $value){
+                                $qty = $_SESSION['cart'][$cartId][$key]['quantity'];
+                                $name = $_SESSION['cart'][$cartId][$key]['name'];
+                                $price = $_SESSION['cart'][$cartId][$key]['price'];
                                 $subtotal = $qty * $price;
                                 $total += $subtotal;
                                 echo '<div class="order-products">';
@@ -279,7 +281,7 @@
 							I've read and accept the <a href="#">terms & conditions</a>
 						</label>
 					</div>
-					<a href="#" class="primary-btn order-submit">Place order</a>
+					<a href="../../class/Order.php" class="primary-btn order-submit">Place order</a>
 				</div>
 				<!-- /Order Details -->
 			</div>
