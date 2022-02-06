@@ -16,7 +16,7 @@ class Category {
         return false;
     }
 
-    static function getCategoryId($categoryName){
+    static function getCategoryId($categoryName) {
         $sql = "SELECT categoryId from category where categoryName = :categoryName";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':categoryName', $categoryName);
@@ -27,6 +27,25 @@ class Category {
             $categoryId = $row['categoryId'];
         }
         return $categoryId;
+    }
+
+    static function getCategoryName($categoryId) {
+        $sql = "SELECT categoryName from category where categoryId = :categoryId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':categoryId', $categoryId);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            $row = $stmt->fetch();
+            $categoryName = $row['categoryName'];
+        }
+        return $categoryName;
+    }
+
+    static function getAllCategories() {
+        $sql = "SELECT * from category";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 
     static function addCategory($categoryName) {
@@ -41,7 +60,6 @@ class Category {
     public static function setConnection($conn) {
         self::$conn = $conn;
     }
-
 }
 
 Category::setConnection($conn);
