@@ -1,5 +1,4 @@
 <?php
-require_once('../../class/User.php');
 if (isset($_SESSION['user'])) {
     $user = unserialize($_SESSION['user']);
 }
@@ -42,19 +41,16 @@ if (isset($_SESSION['user'])) {
                         margin-left: 15%;">
                         Admin Dashboard
                     </h1>';
+                } else if ($user->getRole() == 'vendor') {
+                    echo '<h1 style= "color: green;
+                        margin-top: 10px;
+                        margin-left: 15%;">
+                        Vendor Dashboard
+                    </h1>';
                 }
-                // else if ($user->getRole() == 'vendor') {
-                //     echo '<h1 style= "color: green;
-                //         margin-top: 10px;
-                //         margin-left: 15%;">
-                //         Vendor Dashboard
-                //     </h1>';
-                // }
             }
             ?>
             <!-- /SEARCH BAR -->
-
-
 
             <!-- ACCOUNT -->
             <div class="col-md-3 clearfix">

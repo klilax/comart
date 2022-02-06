@@ -1,5 +1,4 @@
 <?php
-require_once('../../class/User.php');
 if (isset($_SESSION['user'])) {
     $user = unserialize($_SESSION['user']);
 }
