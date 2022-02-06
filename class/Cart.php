@@ -3,43 +3,52 @@
 session_start();
 
 class Cart {
-    static function initCart($userId) {
-        $_SESSION['cart'][$userId] = array();
+    static function getCartId() {
+        $file_read = fopen("cartId.txt", "r") or die("unable to open file");
+        $id = fgets($file_read);
+        fclose($file_read);
+
+        $file_write = fopen("cartId.txt", "w") or die("unable to open file");
+        fwrite($file_write, $id + 1);
+        fclose($file_write);
+        return $id;
+    }
+    static function initCart() {
+        $cartId = self::getCartId();
+        $_SESSION['cartId'] = $cartId;
+        $_SESSION['cart'][$cartId] = array();
     }
 
 
-    static function addToCart($userId, $inventoryId, $productName, $price, $quantity = 1) {
-        if (!isset($_SESSION['cart'][$userId])) {
-            self::initCart($userId);
+    static function addToCart($inventoryId, $productName, $price, $quantity = 1) {
+        if (!isset($_SESSION['cartId'])) {
+            self::initCart();
         }
-        if (isset($_SESSION['cart'][$userId][$inventoryId])) {
-            $_SESSION['cart'][$userId][$inventoryId]['quantity'] += $quantity;
+        $cartId = $_SESSION['cartId'];
+        if (isset($_SESSION['cart'][$cartId][$inventoryId])) {
+            $_SESSION['cart'][$cartId][$inventoryId]['quantity'] += $quantity;
         } else {
-            $_SESSION['cart'][$userId][$inventoryId]['quantity'] = $quantity;
+            $_SESSION['cart'][$cartId][$inventoryId]['quantity'] = $quantity;
         }
-        $_SESSION['cart'][$userId][$inventoryId]['name'] = $productName;
-        $_SESSION['cart'][$userId][$inventoryId]['price'] = $price;
+        $_SESSION['cart'][$cartId][$inventoryId]['name'] = $productName;
+        $_SESSION['cart'][$cartId][$inventoryId]['price'] = $price;
+        $_SESSION['cart'][$cartId][$inventoryId]['inventoryId'] = $inventoryId;
     }
 
-    static function removeFromCart($userId, $inventoryId) {
-        unset($_SESSION['cart'][$userId][$inventoryId]);
-    }
-
-    static function removeAllFromCart($userId) {
-        unset($_SESSION['cart'][$userId]);
-    }
-
-    static function viewAllCart($userId) {
-        if (isset($_SESSION['cart'][$userId])) {
-            foreach ($_SESSION['cart'][$userId] as $inventoryId => $quantity) {
-                echo "<tr>";
-                echo "<td>" . $quantity['name'] . "</td>";
-                echo "<td>" . $quantity . "</td>";
-                echo "<td><a href='removeFromCart.php?userId=" . $userId . "&inventoryId=" . $inventoryId . "'>Remove</a></td>";
-                echo "</tr>";
-            }
+    static function removeFromCart($inventoryId) {
+        if (isset($_SESSION['cartId'])) {
+            $cartId = $_SESSION['cartId'];
+            unset($_SESSION['cart'][$cartId][$inventoryId]);
         }
     }
+
+    static function removeAllFromCart() {
+        if (isset($_SESSION['cartId'])) {
+            $cartId = $_SESSION['cartId'];
+            unset($_SESSION['cart'][$cartId]);
+        }
+    }
+
 }
 if (isset($_SESSION['id'])) {
     if (isset($_GET['inventoryId'], $_GET['productName'], $_GET['price'])) {
@@ -47,7 +56,9 @@ if (isset($_SESSION['id'])) {
         $inventoryId = $_GET['inventoryId'];
         $name = urldecode($_GET['productName']);
         $price = $_GET['price'];
-        Cart::addToCart($buyerId, $inventoryId, $name, $price);
+        Cart::addToCart($inventoryId, $name, $price);
         header("Location: ../shop/index.php");
     }
 }
+
+//echo Cart::getCartId();
