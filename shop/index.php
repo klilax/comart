@@ -41,6 +41,8 @@ if (!isset($_SESSION['user'])) {
 
     ?>
     <input type="text" id="searchItem" onkeyup="searchItem()">
+    <a href="../src/routes/checkout.php"><button>view cart</button></a>
+
     <table class="table table-dark table-striped" id="Tablecontent">
         <thead>
             <th>#</th>
