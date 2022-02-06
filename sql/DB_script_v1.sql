@@ -166,3 +166,17 @@ create table imgpath
 #update
 alter table inventory
     add featured boolean default 0 not null;
+
+
+#requires dropping orderDetail
+alter table `order`
+    modify orderId int auto_increment;
+
+
+#after running script
+alter table orderdetail
+    modify orderDetailId int auto_increment;
+
+# cart fix
+alter table `order`
+    add cartId int null;
