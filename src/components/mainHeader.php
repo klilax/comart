@@ -20,7 +20,7 @@
             <!-- /LOGO -->
         <!-- SEARCH BAR -->
         <?php
-            if (!isset($user)) {
+            if (!isset($user) || $user->getRole() == 'buyer') {
                     echo '<div class="col-md-6">
                         <div class="header-search">
                             <form>
