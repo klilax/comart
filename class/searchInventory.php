@@ -25,21 +25,8 @@ if (isset($_GET['query'], $_GET['category'])) {
             // echo '<td>' . $qty . '</td>';
             // echo '<td><a href="../class/Cart.php?inventoryId=' . $inventoryId . '&productName=' . $encoded_name . '&price=' . $price . '"><button type="button">Add to cart</button></a></td>';
 
-            echo '
-            <!-- SECTION -->
-	        <div class="section">
-		        <!-- container -->
-		        <div class="container">
-			        <!-- row -->
-			        <div class="row">
-				        <!-- STORE -->
-				        <div id="store" class="col-md-9" style="width: 100%; margin: 0 auto;">
-					        <!-- store products -->
-					        <div class="row" style="display: flex; flex-wrap: wrap; justify-content: center;">
-
-
-            <!-- link go to product page -->
-            <a href="#">
+            echo
+            '
                 <div class="col-md-3 col-xs-6" style="padding-bottom: 3.5rem;">
                     <div class="product">
                         <div class="product-img">
@@ -61,7 +48,7 @@ if (isset($_GET['query'], $_GET['category'])) {
                         <div class="product-body">
                             <p class="product-category">' . $category . '</p>
                             <h3 class="product-name"><a href="#">' . $name . '</a></h3>
-                            <h4 class="product-price">' . $price . '</h4>
+                            <h4 class="product-price">' . $price . ' Birr</h4>
 
                             <!-- review - rating -->
                             <div class="product-rating">
@@ -87,38 +74,11 @@ if (isset($_GET['query'], $_GET['category'])) {
                         </div>
                     </div>
                 </div>
-            </a>
             ';
         }
     } else {
-        echo "<hr>";
-        echo "<h2 colspan=5 style='color: var(--danger-color); text-align: center;'> The product your searched can not be found.</h2>";
-        echo "<hr>";
+        echo '<hr>';
+        echo '<h2 style="color: var(--danger-color); margin-top: 3rem; text-align: center;"> The product you searched can not be found.</h2>';
+        echo '<hr>';
     }
-
-    echo '
-                    </div>
-                    <!-- /store products -->
-
-                    <!-- store bottom filter -->
-                    <div class="store-filter clearfix">
-                        <span class="store-qty">Showing 20-100 products</span>
-                        <ul class="store-pagination">
-                            <li class="active">1</li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                        </ul>
-                    </div>
-					<!-- /store bottom filter -->
-				</div>
-				<!-- /STORE -->
-			</div>
-			<!-- /row -->
-		</div>
-		<!-- /container -->
-	</div>
-	<!-- /SECTION -->
-    ';
 }

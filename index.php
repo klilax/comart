@@ -135,252 +135,433 @@ require('class/Inventory.php');
 
 	<!-- Main -->
 
-	<main id="main">
-		<!-- NAVIGATION -->
-		<?php include('src/components/navigation.php'); ?>
-		<!-- /NAVIGATION -->
+	<!-- NAVIGATION -->
+	<?php include('src/components/navigation.php'); ?>
+	<!-- /NAVIGATION -->
 
+	<main>
 		<!-- SECTION -->
-		<div class="section section-1">
+		<div class="section">
 			<!-- container -->
 			<div class="container">
 				<!-- row -->
 				<div class="row">
-					<!-- shop -->
-					<div class="col-md-4 col-xs-6">
-						<div class="shop">
-							<div class="shop-img">
-								<img src="./img/shop01.png" alt="">
-							</div>
-							<div class="shop-body">
-								<h3>Concrete<br>Works</h3>
-								<a href="#" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
-							</div>
-						</div>
-					</div>
-					<!-- /shop -->
-
-					<!-- shop -->
-					<div class="col-md-4 col-xs-6">
-						<div class="shop">
-							<div class="shop-img">
-								<img src="./img/shop03.png" alt="">
-							</div>
-							<div class="shop-body">
-								<h3>Steel<br></h3>
-								<a href="#" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
-							</div>
-						</div>
-					</div>
-					<!-- /shop -->
-
-					<!-- shop -->
-					<div class="col-md-4 col-xs-6">
-						<div class="shop">
-							<div class="shop-img">
-								<img src="./img/shop02.png" alt="">
-							</div>
-							<div class="shop-body">
-								<h3>Finishing<br>Materials</h3>
-								<a href="#" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
-							</div>
-						</div>
-					</div>
-					<!-- /shop -->
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /SECTION -->
-
-		<!-- SECTION -->
-		<div class="section section-2">
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-
-					<!-- section title -->
-					<div class="col-md-12">
-						<div class="section-title">
-							<h3 class="title">New Products</h3>
-							<div class="section-nav">
-								<ul class="section-tab-nav tab-nav">
-									<li class="active"><a data-toggle="tab" href="#tab1">Laptops</a></li>
-									<li><a data-toggle="tab" href="#tab1">Smartphones</a></li>
-									<li><a data-toggle="tab" href="#tab1">Cameras</a></li>
-									<li><a data-toggle="tab" href="#tab1">Accessories</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<!-- /section title -->
-
-					<!-- Products tab & slick -->
-					<div class="col-md-12">
-						<div class="row">
-							<div class="products-tabs">
-								<!-- tab -->
-								<div id="tab1" class="tab-pane active">
-									<div class="products-slick" data-nav="#slick-nav-1">
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/product01.png" alt="">
-												<div class="product-label">
-													<span class="sale">-30%</span>
-													<span class="new">NEW</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
-													cart</button>
+					<!-- ASIDE -->
+					<div id="aside" class="col-md-3">
+						<!-- aside Widget -->
+						<div class="aside">
+							<h3 class="aside-title">Featured</h3>
+							<div class="checkbox-filter">
+								<!-- product -->
+								<div class="col-md-3 col-xs-6" style="width: 100%; display: flex; flex-direction: column;">
+									<div class="product" style="margin-bottom: 5.5rem;">
+										<div class="product-img" style="border: 1px solid var(--secondary-color);">
+											<img src="img/product01.png" alt="">
+											<div class="product-label">
+												<span class="new">FEATURED</span>
 											</div>
 										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/product02.png" alt="">
-												<div class="product-label">
-													<span class="new">NEW</span>
-												</div>
+										<div class="product-body" style="border: 1px solid var(--secondary-color);">
+											<p class="product-category">Category</p>
+											<h3 class="product-name"><a href="#">product name goes here</a></h3>
+											<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+											<div class="product-rating">
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
 											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
-													cart</button>
+											<div class="product-btns">
+												<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
+														view</span></button>
 											</div>
 										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/product03.png" alt="">
-												<div class="product-label">
-													<span class="sale">-30%</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
-													cart</button>
-											</div>
+										<div class="add-to-cart">
+											<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
+												cart</button>
 										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/product04.png" alt="">
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
-													cart</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/product05.png" alt="">
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
-													cart</button>
-											</div>
-										</div>
-										<!-- /product -->
 									</div>
-									<div id="slick-nav-1" class="products-slick-nav"></div>
+									<div class="product" style="margin-bottom: 5.5rem;">
+										<div class="product-img" style="border: 1px solid var(--secondary-color);">
+											<img src="img/product01.png" alt="">
+											<div class="product-label">
+												<span class="new">FEATURED</span>
+											</div>
+										</div>
+										<div class="product-body" style="border: 1px solid var(--secondary-color);">
+											<p class="product-category">Category</p>
+											<h3 class="product-name"><a href="#">product name goes here</a></h3>
+											<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+											<div class="product-rating">
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+											</div>
+											<div class="product-btns">
+												<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
+														view</span></button>
+											</div>
+										</div>
+										<div class="add-to-cart">
+											<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
+												cart</button>
+										</div>
+									</div>
+									<div class="product" style="margin-bottom: 5.5rem;">
+										<div class="product-img" style="border: 1px solid var(--secondary-color);">
+											<img src="img/product01.png" alt="">
+											<div class="product-label">
+												<span class="new">FEATURED</span>
+											</div>
+										</div>
+										<div class="product-body" style="border: 1px solid var(--secondary-color);">
+											<p class="product-category">Category</p>
+											<h3 class="product-name"><a href="#">product name goes here</a></h3>
+											<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+											<div class="product-rating">
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+											</div>
+											<div class="product-btns">
+												<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
+														view</span></button>
+											</div>
+										</div>
+										<div class="add-to-cart">
+											<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
+												cart</button>
+										</div>
+									</div>
+
 								</div>
-								<!-- /tab -->
+								<!-- /product -->
 							</div>
 						</div>
+						<!-- /aside Widget -->
 					</div>
-					<!-- Products tab & slick -->
+					<!-- /ASIDE -->
+
+					<!-- STORE -->
+					<div class="col-md-9">
+						<!-- store top filter -->
+						<div class="store-filter clearfix">
+							<div class="store-sort">
+								<label>
+									Sort By:
+									<select class="input-select">
+										<option value="0">Popular</option>
+										<option value="1">Position</option>
+									</select>
+								</label>
+
+								<label>
+									Show:
+									<select class="input-select">
+										<option value="0">20</option>
+										<option value="1">50</option>
+									</select>
+								</label>
+							</div>
+						</div>
+						<!-- /store top filter -->
+
+						<!-- store products -->
+						<div id="main" class="row" style="display: flex; flex-wrap: wrap;">
+							<!-- product -->
+							<div class="col-md-3 col-xs-6" style="padding-bottom: 3.5rem;">
+								<div class="product">
+									<div class="product-img">
+										<img src="img/product01.png" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Category</p>
+										<h3 class="product-name"><a href="#">product name goes here</a></h3>
+										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+										<div class="product-rating">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</div>
+										<div class="product-btns">
+											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
+													view</span></button>
+										</div>
+									</div>
+									<div class="add-to-cart">
+										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
+											cart</button>
+									</div>
+								</div>
+							</div>
+							<!-- /product -->
+
+							<!-- product -->
+							<div class="col-md-3 col-xs-6" style="padding-bottom: 3.5rem;">
+								<div class="product">
+									<div class="product-img">
+										<img src="img/product02.png" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Category</p>
+										<h3 class="product-name"><a href="#">product name goes here</a></h3>
+										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+										<div class="product-rating">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star-o"></i>
+										</div>
+										<div class="product-btns">
+											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
+													view</span></button>
+										</div>
+									</div>
+									<div class="add-to-cart">
+										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
+											cart</button>
+									</div>
+								</div>
+							</div>
+							<!-- /product -->
+
+							<div class="clearfix visible-sm visible-xs"></div>
+
+							<!-- product -->
+							<div class="col-md-3 col-xs-6" style="padding-bottom: 3.5rem;">
+								<div class="product">
+									<div class="product-img">
+										<img src="img/product03.png" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Category</p>
+										<h3 class="product-name"><a href="#">product name goes here</a></h3>
+										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+										<div class="product-rating">
+										</div>
+										<div class="product-btns">
+											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
+													view</span></button>
+										</div>
+									</div>
+									<div class="add-to-cart">
+										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
+											cart</button>
+									</div>
+								</div>
+							</div>
+							<!-- /product -->
+
+							<div class="clearfix visible-lg visible-md"></div>
+
+							<!-- product -->
+							<div class="col-md-3 col-xs-6" style="padding-bottom: 3.5rem;">
+								<div class="product">
+									<div class="product-img">
+										<img src="img/product04.png" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Category</p>
+										<h3 class="product-name"><a href="#">product name goes here</a></h3>
+										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+										<div class="product-rating">
+										</div>
+										<div class="product-btns">
+											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
+													view</span></button>
+										</div>
+									</div>
+									<div class="add-to-cart">
+										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
+											cart</button>
+									</div>
+								</div>
+							</div>
+							<!-- /product -->
+
+							<div class="clearfix visible-sm visible-xs"></div>
+
+							<!-- product -->
+							<div class="col-md-3 col-xs-6" style="padding-bottom: 3.5rem;">
+								<div class="product">
+									<div class="product-img">
+										<img src="img/product05.png" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Category</p>
+										<h3 class="product-name"><a href="#">product name goes here</a></h3>
+										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+										<div class="product-rating">
+										</div>
+										<div class="product-btns">
+											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
+													view</span></button>
+										</div>
+									</div>
+									<div class="add-to-cart">
+										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
+											cart</button>
+									</div>
+								</div>
+							</div>
+							<!-- /product -->
+
+							<!-- product -->
+							<div class="col-md-3 col-xs-6" style="padding-bottom: 3.5rem;">
+								<div class="product">
+									<div class="product-img">
+										<img src="img/product06.png" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Category</p>
+										<h3 class="product-name"><a href="#">product name goes here</a></h3>
+										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+										<div class="product-rating">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star-o"></i>
+										</div>
+										<div class="product-btns">
+											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
+													view</span></button>
+										</div>
+									</div>
+									<div class="add-to-cart">
+										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
+											cart</button>
+									</div>
+								</div>
+							</div>
+							<!-- /product -->
+
+							<div class="clearfix visible-lg visible-md visible-sm visible-xs"></div>
+
+							<!-- product -->
+							<div class="col-md-3 col-xs-6" style="padding-bottom: 3.5rem;">
+								<div class="product">
+									<div class="product-img">
+										<img src="img/product07.png" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Category</p>
+										<h3 class="product-name"><a href="#">product name goes here</a></h3>
+										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+										<div class="product-rating">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</div>
+										<div class="product-btns">
+											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
+													view</span></button>
+										</div>
+									</div>
+									<div class="add-to-cart">
+										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
+											cart</button>
+									</div>
+								</div>
+							</div>
+							<!-- /product -->
+
+							<!-- product -->
+							<div class="col-md-3 col-xs-6" style="padding-bottom: 3.5rem;">
+								<div class="product">
+									<div class="product-img">
+										<img src="img/product08.png" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Category</p>
+										<h3 class="product-name"><a href="#">product name goes here</a></h3>
+										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+										<div class="product-rating">
+										</div>
+										<div class="product-btns">
+											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
+													view</span></button>
+										</div>
+									</div>
+									<div class="add-to-cart">
+										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
+											cart</button>
+									</div>
+								</div>
+							</div>
+							<!-- /product -->
+
+							<div class="clearfix visible-sm visible-xs"></div>
+
+							<!-- product -->
+							<div class="col-md-3 col-xs-6" style="padding-bottom: 3.5rem;">
+								<div class="product">
+									<div class="product-img">
+										<img src="img/product09.png" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Category</p>
+										<h3 class="product-name"><a href="#">product name goes here</a></h3>
+										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+										<div class="product-rating">
+										</div>
+										<div class="product-btns">
+											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
+													view</span></button>
+										</div>
+									</div>
+									<div class="add-to-cart">
+										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
+											cart</button>
+									</div>
+								</div>
+							</div>
+							<!-- /product -->
+						</div>
+						<!-- /store products -->
+
+						<!-- store bottom filter -->
+						<div class="store-filter clearfix" style="margin: 5rem 0;">
+							<span class="store-qty">Showing 20-100 products</span>
+							<ul class="store-pagination">
+								<li class="active">1</li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+							</ul>
+						</div>
+						<!-- /store bottom filter -->
+					</div>
+					<!-- /STORE -->
 				</div>
 				<!-- /row -->
 			</div>
@@ -388,43 +569,33 @@ require('class/Inventory.php');
 		</div>
 		<!-- /SECTION -->
 
-		<!-- HOT DEAL SECTION -->
-		<div id="hot-deal" class="section section-3">
+		<!-- NEWSLETTER -->
+		<div id="newsletter" class="section">
 			<!-- container -->
 			<div class="container">
 				<!-- row -->
 				<div class="row">
 					<div class="col-md-12">
-						<div class="hot-deal">
-							<ul class="hot-deal-countdown">
+						<div class="newsletter">
+							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+							<form>
+								<input class="input" type="email" placeholder="Enter Your Email">
+								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+							</form>
+							<ul class="newsletter-follow">
 								<li>
-									<div>
-										<h3>02</h3>
-										<span>Days</span>
-									</div>
+									<a href="#"><i class="fa fa-facebook"></i></a>
 								</li>
 								<li>
-									<div>
-										<h3>10</h3>
-										<span>Hours</span>
-									</div>
+									<a href="#"><i class="fa fa-twitter"></i></a>
 								</li>
 								<li>
-									<div>
-										<h3>34</h3>
-										<span>Mins</span>
-									</div>
+									<a href="#"><i class="fa fa-instagram"></i></a>
 								</li>
 								<li>
-									<div>
-										<h3>60</h3>
-										<span>Secs</span>
-									</div>
+									<a href="#"><i class="fa fa-pinterest"></i></a>
 								</li>
 							</ul>
-							<h2 class="text-uppercase">hot deal this week</h2>
-							<p>New Collection Up to 50% OFF</p>
-							<a class="primary-btn cta-btn" href="#">Shop now</a>
 						</div>
 					</div>
 				</div>
@@ -432,555 +603,28 @@ require('class/Inventory.php');
 			</div>
 			<!-- /container -->
 		</div>
-		<!-- /HOT DEAL SECTION -->
+		<!-- /NEWSLETTER -->
 
-		<!-- SECTION -->
-		<div class="section section-4">
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-				<div class="row">
 
-					<!-- section title -->
-					<div class="col-md-12">
-						<div class="section-title">
-							<h3 class="title">Top selling</h3>
-							<div class="section-nav">
-								<ul class="section-tab-nav tab-nav">
-									<li class="active"><a data-toggle="tab" href="#tab2">Laptops</a></li>
-									<li><a data-toggle="tab" href="#tab2">Smartphones</a></li>
-									<li><a data-toggle="tab" href="#tab2">Cameras</a></li>
-									<li><a data-toggle="tab" href="#tab2">Accessories</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<!-- /section title -->
+		<!-- FOOTER -->
 
-					<!-- Products tab & slick -->
-					<div class="col-md-12">
-						<div class="row">
-							<div class="products-tabs">
-								<!-- tab -->
-								<div id="tab2" class="tab-pane fade in active">
-									<div class="products-slick" data-nav="#slick-nav-2">
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/product06.png" alt="">
-												<div class="product-label">
-													<span class="sale">-30%</span>
-													<span class="new">NEW</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
-													cart</button>
-											</div>
-										</div>
-										<!-- /product -->
+		<?php include('src/components/footer.php'); ?>
 
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/product07.png" alt="">
-												<div class="product-label">
-													<span class="new">NEW</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
-													cart</button>
-											</div>
-										</div>
-										<!-- /product -->
+		<!-- /FOOTER -->
 
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/product08.png" alt="">
-												<div class="product-label">
-													<span class="sale">-30%</span>
-												</div>
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
-													cart</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/product09.png" alt="">
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
-													cart</button>
-											</div>
-										</div>
-										<!-- /product -->
-
-										<!-- product -->
-										<div class="product">
-											<div class="product-img">
-												<img src="./img/product01.png" alt="">
-											</div>
-											<div class="product-body">
-												<p class="product-category">Category</p>
-												<h3 class="product-name"><a href="#">product name goes here</a></h3>
-												<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-												<div class="product-rating">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-												</div>
-											</div>
-											<div class="add-to-cart">
-												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
-													cart</button>
-											</div>
-										</div>
-										<!-- /product -->
-									</div>
-									<div id="slick-nav-2" class="products-slick-nav"></div>
-								</div>
-								<!-- /tab -->
-							</div>
-						</div>
-					</div>
-					<!-- /Products tab & slick -->
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /SECTION -->
-
-		<!-- SECTION -->
-		<div class="section section-5">
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-					<div class="col-md-4 col-xs-6">
-						<div class="section-title">
-							<h4 class="title">Top selling</h4>
-							<div class="section-nav">
-								<div id="slick-nav-3" class="products-slick-nav"></div>
-							</div>
-						</div>
-
-						<div class="products-widget-slick" data-nav="#slick-nav-3">
-							<div>
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product07.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product08.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product09.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
-							</div>
-
-							<div>
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product01.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product02.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product03.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
-							</div>
-						</div>
-					</div>
-
-					<div class="col-md-4 col-xs-6">
-						<div class="section-title">
-							<h4 class="title">Top selling</h4>
-							<div class="section-nav">
-								<div id="slick-nav-4" class="products-slick-nav"></div>
-							</div>
-						</div>
-
-						<div class="products-widget-slick" data-nav="#slick-nav-4">
-							<div>
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product04.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product05.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product06.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
-							</div>
-
-							<div>
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product07.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product08.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product09.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
-							</div>
-						</div>
-					</div>
-
-					<div class="clearfix visible-sm visible-xs"></div>
-
-					<div class="col-md-4 col-xs-6">
-						<div class="section-title">
-							<h4 class="title">Top selling</h4>
-							<div class="section-nav">
-								<div id="slick-nav-5" class="products-slick-nav"></div>
-							</div>
-						</div>
-
-						<div class="products-widget-slick" data-nav="#slick-nav-5">
-							<div>
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product01.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product02.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product03.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
-							</div>
-
-							<div>
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product04.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product05.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- /product widget -->
-
-								<!-- product widget -->
-								<div class="product-widget">
-									<div class="product-img">
-										<img src="./img/product06.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-									</div>
-								</div>
-								<!-- product widget -->
-							</div>
-						</div>
-					</div>
-
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /SECTION -->
-
-	</main>
-
-	<!-- Main -->
-
-	<!-- NEWSLETTER -->
-	<div id="newsletter" class="section section-6">
-		<!-- container -->
-		<div class="container">
-			<!-- row -->
-			<div class="row">
-				<div class="col-md-12">
-					<div class="newsletter">
-						<p>Sign Up for the <strong>NEWSLETTER</strong></p>
-						<form>
-							<input class="input" type="email" placeholder="Enter Your Email">
-							<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
-						</form>
-						<ul class="newsletter-follow">
-							<li>
-								<a href="#"><i class="fa fa-facebook"></i></a>
-							</li>
-							<li>
-								<a href="#"><i class="fa fa-twitter"></i></a>
-							</li>
-							<li>
-								<a href="#"><i class="fa fa-instagram"></i></a>
-							</li>
-							<li>
-								<a href="#"><i class="fa fa-pinterest"></i></a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<!-- /row -->
-		</div>
-		<!-- /container -->
-	</div>
-	<!-- /NEWSLETTER -->
-
-	<!-- FOOTER -->
-
-	<?php include('src/components/footer.php'); ?>
-
-	<!-- /FOOTER -->
-
-	<!-- AJAX -->
+		<!-- AJAX -->
 
 
 
-	<!-- /AJAX -->
+		<!-- /AJAX -->
 
-	<!-- jQuery Plugins -->
-	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/slick.min.js"></script>
-	<script src="js/nouislider.min.js"></script>
-	<script src="js/jquery.zoom.min.js"></script>
-	<script src="js/main.js"></script>
+		<!-- jQuery Plugins -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/slick.min.js"></script>
+		<script src="js/nouislider.min.js"></script>
+		<script src="js/jquery.zoom.min.js"></script>
+		<script src="js/main.js"></script>
 
 </body>
 
