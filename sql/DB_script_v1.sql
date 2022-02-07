@@ -180,3 +180,7 @@ alter table orderdetail
 # cart fix
 alter table `order`
     add cartId int null;
+
+#update
+alter table orderdetail
+    add selling_price float null;

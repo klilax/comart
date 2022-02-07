@@ -30,6 +30,15 @@ class Inventory {
         }
     }
 
+    public static function getStock($inventoryId) {
+        $sql = "SELECT quantity FROM inventory WHERE inventoryId = :inventoryId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':inventoryId', $inventoryId);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['quantity'];
+    }
+
     public static function getCurrentStock($user, $productName) {
         $userId = $user->getId();
 //        $userId = $user;
@@ -77,6 +86,16 @@ class Inventory {
             echo "You have not placed an order for this item";
         }
     }
+
+    public static function getPrice($inventoryId) {
+        $sql = "SELECT price FROM inventory WHERE inventoryId = :inventoryId";
+        $smtm = self::$conn->prepare($sql);
+        $smtm->bindParam(':inventoryId', $inventoryId);
+        $smtm->execute();
+        $row = $smtm->fetch();
+        return $row['price'];
+    }
+
 
     public static function getAllInventory($category): bool|array
     {

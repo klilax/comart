@@ -1,5 +1,6 @@
 <?php
-require_once ('db.php');
+//require_once ('db.php');
+require_once ('Inventory.php');
 session_start();
 class Order{
     private static PDO $conn;
@@ -57,11 +58,30 @@ class Order{
         return self::getOrderId($cartId);
     }
     static function setOrderDetail($orderId, $inventoryId, $quantity) {
-        $sql = "INSERT INTO orderdetail (orderId, inventoryId, quantity) VALUES (:orderId, :inventoryId, :quantity)";
+        $price = Inventory::getPrice($inventoryId);
+        $sql = "INSERT INTO orderdetail (orderId, inventoryId, quantity, selling_price) VALUES (:orderId, :inventoryId, :quantity, :price)";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':orderId', $orderId);
         $stmt->bindParam(':inventoryId', $inventoryId);
         $stmt->bindParam(':quantity', $quantity);
+        $stmt->bindParam(':price', $price);
+        $stmt->execute();
+    }
+    static function calculateTotal($orderId) {
+        $sql = "SELECT SUM(selling_price * quantity) AS total FROM orderdetail WHERE orderId = :orderId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':orderId', $orderId);
+        $stmt->execute();
+        $row = $stmt->fetch();
+        return $row['total'];
+    }
+
+    static function updateTotalPrice($orderId) {
+        $total = self::calculateTotal($orderId);
+        $sql = "UPDATE `order` SET totalPayment = :total WHERE orderId = :orderId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':orderId', $orderId);
+        $stmt->bindParam(':total', $total);
         $stmt->execute();
     }
 
@@ -71,11 +91,13 @@ class Order{
             foreach ($_SESSION['cart'][$cartId] as $key => $value) {
                 $qty = $_SESSION['cart'][$cartId][$key]['quantity'];
                 $inventoryId = $_SESSION['cart'][$cartId][$key]['inventoryId'];
-                self::setOrderDetail($orderId, $inventoryId, $qty);
+                if (Inventory::getStock($inventoryId) >= $qty) {
+                    self::setOrderDetail($orderId, $inventoryId, $qty);
+                }
             }
+            self::updateTotalPrice($orderId);
         }
     }
-
 
     public static function setConnection($conn) {
         self::$conn = $conn;
