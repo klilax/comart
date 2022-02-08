@@ -79,29 +79,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </style>
 
     <script>
-        function searchVendors() {
-            let query = document.getElementById("queryV").value;
-            let xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("vendorTable").innerHTML = this.responseText;
-                }
-            };
-            xhttp.open("GET", "searchV.php?query=" + query, true);
-            xhttp.send();
-        }
-
-        function searchBuyers() {
-            let query = document.getElementById("queryB").value;
-            let xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("buyerTable").innerHTML = this.responseText;
-                }
-            };
-            xhttp.open("GET", "searchB.php?query=" + query, true);
-            xhttp.send();
-        }
         const fun = function(event) {
             event.preventDefault();
         }
@@ -127,11 +104,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php
     if (isset($_SESSION['message'])) {
         if ($_SESSION['opeStatus'] == 0) {
-            echo "<div class='alert alert-success row w-75 mx-auto' role='alert'>";
+            echo "<div class='alert alert-success row w-25 mx-auto' role='alert'>";
             echo  $_SESSION['message'];
             echo "</div>";
         } else {
-            echo "<div class='alert alert-warning row w-75 mx-auto' role='alert'>";
+            echo "<div class='alert alert-warning row w-25 mx-auto' role='alert'>";
             echo  $_SESSION['message'];
             echo "</div>";
         }
@@ -141,40 +118,123 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ?>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">Info</button>
+            <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">
+                <b>Info</b>
+            </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="false">View Vendors</button>
+            <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="false">
+                <b>View Vendors</b>
+            </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">View Buyers</button>
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"><b>View Buyers</b></button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Product Category</button>
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false"><b>View Category</b></button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="feature-tab" data-bs-toggle="tab" data-bs-target="#feature" type="button" role="tab" aria-controls="feature" aria-selected="false">Feature</button>
+            <button class="nav-link" id="feature-tab" data-bs-toggle="tab" data-bs-target="#feature" type="button" role="tab" aria-controls="feature" aria-selected="false"><b>View Featured</b></button>
         </li>
-
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
             <section class=" bg" style="min-height: 70vh;">
+                <h2 style="text-align: center; margin: 20px;">Accounts Summary</h2>
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
                     <table id="info" class="table">
                         <thead>
                             <tr>
-
+                                <th scope="col">Type</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Quantity</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <?php
+                            $totalA = 0;
+                            $totalV = 0;
+                            $totalB = 0;
 
+                            $sql = 'SELECT * FROM user WHERE role = "admin"';
+                            $stmt = $conn->prepare($sql);
+                            $stmt->execute();
+                            $count = $stmt->rowCount();
+                            echo "<tr>";
+                            echo "<td>Administrator</td>";
+                            echo "<td>Active</td>";
+                            echo "<td>$count</td>";
+                            echo "</tr>";
+                            $totalA += $count;
+
+                            $sql = 'SELECT * FROM user WHERE role = "vendor" AND status = 1';
+                            $stmt = $conn->prepare($sql);
+                            $stmt->execute();
+                            $count = $stmt->rowCount();
+                            echo "<tr>";
+                            echo "<td>Vendor</td>";
+                            echo "<td>Active</td>";
+                            echo "<td>$count</td>";
+                            echo "</tr>";
+                            $totalV += $count;
+
+                            $sql = 'SELECT * FROM user WHERE role = "vendor" AND status = 2';
+                            $stmt = $conn->prepare($sql);
+                            $stmt->execute();
+                            $count = $stmt->rowCount();
+                            echo "<tr>";
+                            echo "<td>Vendor</td>";
+                            echo "<td>Suspended</td>";
+                            echo "<td>$count</td>";
+                            echo "</tr>";
+                            $totalV += $count;
+
+                            $sql = 'SELECT * FROM user WHERE role = "vendor" AND status = 0';
+                            $stmt = $conn->prepare($sql);
+                            $stmt->execute();
+                            $count = $stmt->rowCount();
+                            echo "<tr>";
+                            echo "<td>Vendor</td>";
+                            echo "<td>Waiting list</td>";
+                            echo "<td>$count</td>";
+                            echo "</tr>";
+                            $totalV += $count;
+
+                            $sql = 'SELECT * FROM user WHERE role = "buyer" AND status = 1';
+                            $stmt = $conn->prepare($sql);
+                            $stmt->execute();
+                            $count = $stmt->rowCount();
+                            echo "<tr>";
+                            echo "<td>Buyer</td>";
+                            echo "<td>Active</td>";
+                            echo "<td>$count</td>";
+                            echo "</tr>";
+                            $totalB += $count;
+
+                            $sql = 'SELECT * FROM user WHERE role = "buyer" AND status = 2';
+                            $stmt = $conn->prepare($sql);
+                            $stmt->execute();
+                            $count = $stmt->rowCount();
+                            echo "<tr>";
+                            echo "<td>Buyer</td>";
+                            echo "<td>Suspended</td>";
+                            echo "<td>$count</td>";
+                            echo "</tr>";
+                            $totalB += $count;
+                            ?>
                         </tbody>
                     </table>
+                    <?php
+                    echo '<div class="summary" style="margin-top: 20px; text-align: center;">';
+                    echo "<h4>Total Admins : $totalA</h4>";
+                    echo "<h4>Total Vendors : $totalV</h4>";
+                    echo "<h4>Total Buyers : $totalB</h4>";
+                    echo '</div>';
+                    ?>
                 </div>
             </section>
         </div>
-        <div class="tab-pane fade show" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
             <section class=" bg" style="min-height: 70vh;">
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
                     <table id="vendor" class="table">
@@ -311,10 +371,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </thead>
                         <tbody>
                             <?php
-                            // $adminId = $_SESSION['id'];
-                            // $sql = 'SELECT id, firstName, lastName, email, role, tinNumber, registrationDate, status FROM buyer INNER JOIN user u on buyer.userId = u.id WHERE 1 ORDER BY firstName';
-                            // $stmt = $conn->prepare($sql);
-                            // $stmt->execute();
                             $count = 1;
                             $rows = Category::getAllCategories();
                             if ($rows) {
@@ -341,7 +397,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <table id="feature" class="table">
                         <thead>
                             <tr>
-
+                                <h1>Heloo Feature</h1>
                             </tr>
                         </thead>
                         <tbody>
@@ -352,133 +408,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </section>
         </div>
     </div>
-
-    <!-- ajax table -->
-    <!-- <h3 id="titleh3">Vendors</h3>
-<input style="margin-left: 72.5%; margin-bottom: 20px; align-items: flex-end; width: 15%;" class="form-control" type="search" placeholder="Search for vendors"
- aria-label="Search" id='queryV' onkeyup="searchVendors()">
-    <section class=" bg" style="min-height: 20vh;" id='vendorTable'>
-        <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Vendor Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Tin Number</th>
-                        <th scope="col">Reg. Date</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $adminId = $_SESSION['id'];
-                    $sql = 'SELECT id, vendorName, email, role, tinNumber, registrationDate, status FROM vendor INNER JOIN user u on vendor.userId = u.id WHERE 1 ORDER BY vendorName';
-                    $stmt = $conn->prepare($sql);
-                    $stmt->execute();
-                    $count = 1;
-                    if ($stmt->rowCount()) {
-                        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-                            $id = $row[0];
-                            echo "<tr>";
-                            echo "<th scope='row'>$count</th>";
-                            echo "<td>$row[1]</td>";
-                            echo "<td>$row[2]</td>";
-                            echo "<td>$row[3]</td>";
-                            echo "<td>$row[4]</td>";
-                            echo "<td>$row[5]</td>";
-                            if ($row[6] == 1) {
-                                echo "<td><span class='badge bg-success'>Active</span></td>";
-                                echo "<td>";
-                                echo "<a href='suspendAcc.php?id=$id'><button type='button' class='btn btn-light'>Suspend</button></a>";
-                            } else if ($row[6] == 0) {
-                                echo "<td><span class='badge bg-warning'>Waiting for Approval</span></td>";
-                                echo "<td>";
-                                echo "<a href='acceptAcc.php?id=$id'><button type='button' class='btn btn-light'>Accept</button></a>";
-                            } else if ($row[6] == 2) {
-                                echo "<td><span class='badge bg-danger'>Suspended</span></td>";
-                                echo "<td>";
-                                echo "<a href='activateAcc.php?id=$id'><button type='button' class='btn btn-light'>Activate</button></a>";
-                            }
-                            echo "<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#deleteModal'>Delete</button></td>";
-
-                            echo "</tr>";
-                            $count++;
-                        }
-                    } else {
-                        // no data
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <h3 id="titleh3">Buyers</h3>
-    <input style="margin-left: 72.5%; margin-bottom: 20px; align-items: flex-end; width: 15%;" class="form-control" type="search" placeholder="Search for buyers"
-    aria-label="Search" id='queryB' onkeyup="searchBuyers()">
-    <section class=" bg" style="min-height: 20vh;" id='buyerTable'>
-        <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Tin Number</th>
-                        <th scope="col">Reg. Date</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $adminId = $_SESSION['id'];
-                    $sql = 'SELECT id, firstName, lastName, email, role, tinNumber, registrationDate, status FROM buyer INNER JOIN user u on buyer.userId = u.id WHERE 1 ORDER BY firstName';
-                    $stmt = $conn->prepare($sql);
-                    $stmt->execute();
-                    $count = 1;
-                    if ($stmt->rowCount()) {
-                        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-                            $id = $row[0];
-                            echo "<tr>";
-                            echo "<th scope='row'>$count</th>";
-                            echo "<td>$row[1]</td>";
-                            echo "<td>$row[2]</td>";
-                            echo "<td>$row[3]</td>";
-                            echo "<td>$row[4]</td>";
-                            echo "<td>$row[5]</td>";
-                            echo "<td>$row[6]</td>";
-                            if ($row[7] == 1) {
-                                echo "<td><span class='badge bg-success'>Active</span></td>";
-                                echo "<td>";
-                                echo "<a href='suspendAcc.php?id=$id'><button type='button' class='btn btn-light'>Suspend</button></a>";
-                            } else if ($row[7] == 0) {
-                                echo "<td><span class='badge bg-warning'>Waiting for Approval</span></td>";
-                                echo "<td>";
-                                echo "<a href='acceptAcc.php?id=$id'><button type='button' class='btn btn-light'>Accept</button></a>";
-                            } else if ($row[7] == 2) {
-                                echo "<td><span class='badge bg-danger'>Suspended</span></td>";
-                                echo "<td>";
-                                echo "<a href='activateAcc.php?id=$id'><button type='button' class='btn btn-light'>Activate</button></a>";
-                            }
-                            echo "<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#deleteModal'>Delete</button></td>";
-
-                            echo "</tr>";
-                            $count++;
-                        }
-                    } else {
-                        // no data
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
-    </section> -->
 
     <?php
     include('../src/components/footer.php');
