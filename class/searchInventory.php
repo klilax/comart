@@ -27,8 +27,13 @@ if (isset($_GET['query'], $_GET['category'])) {
 
             echo
             '
+            <a href="/comart/src/routes/product.php?inventoryId=' . $inventoryId . '&productName=' . $encoded_name . '&price=' . $price . '">
                 <div class="col-md-3 col-xs-6" style="padding-bottom: 3.5rem;">
-                    <div class="product">
+                    <div class="product" ';
+            if ($featured == 1) {
+                echo ' style="border: 2px solid var(--secondary-color);"';
+            }
+            echo '>
                         <div class="product-img">
 
                             <!-- image path -->
@@ -60,12 +65,14 @@ if (isset($_GET['query'], $_GET['category'])) {
                             </div>
 
                             <div class="product-btns">
-                                <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
-                                view</span></button>
+                                <a href="/comart/src/routes/product.php?inventoryId=' . $inventoryId . '&productName=' . $encoded_name . '&price=' . $price . '" class="quick-view">
+                                    <i class="fa fa-eye" title="Quick View"></i>
+                                    <span class="tooltipp"></span>
+                                </a>
                             </div>
                         </div>
                         <div class="add-to-cart">
-                            <a href="../class/Cart.php?inventoryId=' . $inventoryId . '&productName=' . $encoded_name . '&price=' . $price . '">
+                            <a href="/comart/class/Cart.php?inventoryId=' . $inventoryId . '&productName=' . $encoded_name . '&price=' . $price . '">
                                 <button class="add-to-cart-btn">
                                     <i class="fa fa-shopping-cart"></i>
                                     add to cart
@@ -74,6 +81,7 @@ if (isset($_GET['query'], $_GET['category'])) {
                         </div>
                     </div>
                 </div>
+            </a>
             ';
         }
     } else {
