@@ -281,7 +281,7 @@
 							I've read and accept the <a href="#">terms & conditions</a>
 						</label>
 					</div>
-					<a href="../../class/Order.php" class="primary-btn order-submit">Place order</a>
+					<a href="../../class/setOrder.php" class="primary-btn order-submit">Place order</a>
 				</div>
 				<!-- /Order Details -->
 			</div>

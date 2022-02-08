@@ -150,7 +150,7 @@ class Inventory {
 
     public static function getVendorInventory($vendorId): bool|array
     {
-        $sql = "SELECT * FROM inventory WHERE vendorId = :vendorId";
+        $sql = "SELECT * FROM inventory INNER JOIN category WHERE category.categoryId = inventory.categoryId AND vendorId = :vendorId";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':vendorId', $vendorId);
         $stmt->execute();

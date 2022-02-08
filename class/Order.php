@@ -1,7 +1,7 @@
 <?php
 //require_once ('db.php');
 require_once ('Inventory.php');
-session_start();
+
 class Order{
     private static PDO $conn;
 
@@ -17,13 +17,7 @@ class Order{
             return -1;
         }
     }
-//    static function setOrderDetail($buyerId, $orderId, $cartItem) {
-//        $sql =
-//    }
 
-//    static function getStatus(){
-//       $sql = "SELECT paymentStatus FROM `order` WHERE buyerId = :buyerId AND ";
-//    }
     static function checkStatus($buyerId, $inventoryId): bool
     {
         //inner join order and orderdetail to be edited later
@@ -99,6 +93,26 @@ class Order{
         }
     }
 
+    public static function getVendorOrders($vendorId, $isPayed): bool|array
+    {
+        $sql = "SELECT firstname, lastname, tinNumber, i.inventoryName, selling_price, od.quantity, o.requestDate
+                FROM `order` AS o
+                INNER JOIN orderdetail AS od ON o.orderId = od.orderId
+                INNER JOIN inventory AS i ON od.inventoryId = i.inventoryId
+                INNER JOIN buyer b on o.buyerId = b.userId
+                WHERE i.vendorId = :vendorId ";
+        if ($isPayed) {
+            $sql = $sql .'AND o.paymentStatus = 1';
+        } else {
+            $sql = $sql .'AND o.paymentStatus = 0';
+        }
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(":vendorId", $vendorId);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+
     public static function setConnection($conn) {
         self::$conn = $conn;
     }
@@ -106,17 +120,6 @@ class Order{
 
 Order::SetConnection(getConnection());
 
-
-if(isset($_SESSION['id'])) {
-    $buyerId = $_SESSION['id'];
-    if (isset($_SESSION['cartId'])){
-        $cartId = $_SESSION['cartId'];
-        Order::checkOut($buyerId, $cartId);
-        unset($_SESSION['cartId']);
-        unset($_SESSION['cart'][$cartId]);
-        header("Location: ../shop/index.php");
-    }
-}
 
 
 

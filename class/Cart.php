@@ -57,7 +57,7 @@ if (isset($_SESSION['id'])) {
         $name = urldecode($_GET['productName']);
         $price = $_GET['price'];
         Cart::addToCart($inventoryId, $name, $price);
-        header("Location: ../shop/index.php");
+        header("Location: ../index.php");
     }
 }
 

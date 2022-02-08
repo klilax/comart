@@ -1,12 +1,13 @@
 <?php
-require('../class/User.php');
+//require('../class/User.php');
 // require('../class/Inventory.php');
+ require_once ('../class/Order.php');
 session_start();
 if (!isset($_SESSION['user'])) {
-    header('location: ../signin.php');
+    header('location: ../src/routes/auth/signin.php');
 }
 if ($_SESSION['role'] != 'vendor') {
-    header('location: ../signin.php');
+    header('location: ../src/routes/auth/signin.php');
 }
 ?>
 
@@ -86,33 +87,51 @@ if ($_SESSION['role'] != 'vendor') {
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">GRN</button>
+            <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">Inventory</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="false">Inventory</button>
+            <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="false">GRN</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Some Tab</button>
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Issued</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Another Tab</button>
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Pending Order</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="feature-tab" data-bs-toggle="tab" data-bs-target="#feature" type="button" role="tab" aria-controls="feature" aria-selected="false">Message</button>
+            <button class="nav-link" id="feature-tab" data-bs-toggle="tab" data-bs-target="#feature" type="button" role="tab" aria-controls="feature" aria-selected="false">Sold Item</button>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
             <section class=" bg" style="min-height: 70vh;">
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
-                    <table id="info" class="table">
+                    <table id="inventory" class="table">
                         <thead>
                             <tr>
-                                <h1>Hello Tab1</h1>
+                                <th scope="col">#</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Unit Price</th>
+                                <th scope="col">Quantity</th>
                             </tr>
                         </thead>
                         <tbody>
-
+                            <?php
+                            $vendorId = $_SESSION['id'];
+                            $count = 1;
+                            foreach (Inventory::getVendorInventory($vendorId) as $row) {
+                                $inventoryId = $row['inventoryId'];
+                                echo "<tr>";
+                                echo "<th scope='row'>$count</th>";
+                                echo "<td>" .$row['inventoryName']. "</td>";
+                                echo "<td>" .$row['categoryName']. "</td>";
+                                echo "<td>" .number_format($row['price'], 2, '.', ','). "</td>";
+                                echo "<td>" .$row['quantity']. "</td>";
+                                echo "</tr>";
+                                $count++;
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>
@@ -121,10 +140,16 @@ if ($_SESSION['role'] != 'vendor') {
         <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
             <section class=" bg" style="min-height: 70vh;">
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
-                    <table id="vendor" class="table">
+                    <table id="GRN" class="table">
                         <thead>
                             <tr>
-                                <h1>Hello Tab2</h1>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Unit Price</th>
+                                <th scope="col">Quantity</th>
+                            </tr>
                             </tr>
                         </thead>
                         <tbody>
@@ -152,15 +177,37 @@ if ($_SESSION['role'] != 'vendor') {
         </div>
         <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
             <section class=" bg" style="min-height: 70vh;">
-                <div class="row w-50 mx-auto text-secondary d-flex icon-boxes">
-                    <table id="category" class="table">
+                <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
+                    <table id="order" class="table">
                         <thead>
-                            <tr>
-                                <h1>Hello Tab4</h1>
-                            </tr>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Customer name</th>
+                            <th scope="col">Tin No.</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Unit Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total Price</th>
+                            <th scope="col">date</th>
+                        </tr>
                         </thead>
                         <tbody>
-
+                            <?php
+                            $count = 1;
+                            foreach (Order::getVendorOrders($vendorId, false) as $row) {
+                                echo "<tr>";
+                                echo "<th scope='row'>$count</th>";
+                                echo "<td>" .$row['firstname']. ' ' .$row['lastname'] . "</td>";
+                                echo "<td>" .$row['tinNumber']. "</td>";
+                                echo "<td>" .$row['inventoryName']. "</td>";
+                                echo "<td>" .number_format($row['selling_price'], 2, '.', ','). "</td>";
+                                echo "<td>" .$row['quantity']. "</td>";
+                                echo "<td>" .number_format($row['selling_price'] * $row['quantity'], 2, '.', ','). "</td>";
+                                echo "<td>" .$row['requestDate']. "</td>";
+                                echo "</tr>";
+                                $count++;
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>
@@ -169,14 +216,36 @@ if ($_SESSION['role'] != 'vendor') {
         <div class="tab-pane fade" id="feature" role="tabpanel" aria-labelledby="feature-tab">
             <section class=" bg" style="min-height: 70vh;">
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
-                    <table id="feature" class="table">
+                    <table id="sold" class="table">
                         <thead>
-                            <tr>
-                                <h1>Hello Tab5</h1>
-                            </tr>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Customer name</th>
+                            <th scope="col">Tin No.</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Unit Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total Price</th>
+                            <th scope="col">date</th>
+                        </tr>
                         </thead>
                         <tbody>
-
+                        <?php
+                        $count = 1;
+                        foreach (Order::getVendorOrders($vendorId, true) as $row) {
+                            echo "<tr>";
+                            echo "<th scope='row'>$count</th>";
+                            echo "<td>" .$row['firstname']. ' ' .$row['lastname'] . "</td>";
+                            echo "<td>" .$row['tinNumber']. "</td>";
+                            echo "<td>" .$row['inventoryName']. "</td>";
+                            echo "<td>" .number_format($row['selling_price'], 2, '.', ','). "</td>";
+                            echo "<td>" .$row['quantity']. "</td>";
+                            echo "<td>" .number_format($row['selling_price'] * $row['quantity'], 2, '.', ','). "</td>";
+                            echo "<td>" .$row['requestDate']. "</td>";
+                            echo "</tr>";
+                            $count++;
+                        }
+                        ?>
                         </tbody>
                     </table>
                 </div>
@@ -187,7 +256,7 @@ if ($_SESSION['role'] != 'vendor') {
     <?php include('../src/components/footer.php'); ?>
     <script>
         $(document).ready(function() {
-            $('#vendor, #buyer, #category').DataTable();
+            $('#inventory, #GRN, #order, #sold').DataTable();
         });
     </script>
 </body>
