@@ -58,7 +58,7 @@ class Order{
         return self::getOrderId($cartId);
     }
     static function setOrderDetail($orderId, $inventoryId, $quantity) {
-        $price = Inventory::getPrice($inventoryId);
+        $price = Inventory::fetchPrice($inventoryId);
         $sql = "INSERT INTO orderdetail (orderId, inventoryId, quantity, selling_price) VALUES (:orderId, :inventoryId, :quantity, :price)";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':orderId', $orderId);

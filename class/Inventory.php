@@ -5,18 +5,86 @@ require('Category.php');
 //require('Order.php');
 
 class Inventory {
-    private $inventoryId;
-    private $vendorId;
-    private $productId;
+    private int $inventoryId;
+    private int $vendorId;
+    private int $categoryId;
+    private string $productName;
+    private int $quantity;
+    private float $price;
+
+
     private static PDO $conn;
 
+    public function __construct($inventoryId) {
+        $this->inventoryId = $inventoryId;
+        $this->fetchInventory($inventoryId);
+    }
 
+    public function getInventoryId(): int
+    {
+        return $this->inventoryId;
+    }
 
+    public function getVendorId(): int
+    {
+        return $this->vendorId;
+    }
+
+    public function getCategoryId(): int
+    {
+        return $this->categoryId;
+    }
+
+    public function getProductName(): string
+    {
+        return $this->productName;
+    }
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+
+    private function fetchInventory($inventoryId) {
+        $sql = "SELECT * FROM inventory WHERE inventoryId = :inventoryId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':inventoryId', $inventoryId);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->categoryId = $result['categoryId'];
+        $this->vendorId = $result['vendorId'];
+        $this->productName = $result['inventoryName'];
+        $this->quantity = $result['quantity'];
+        $this->price = $result['price'];
+
+    }
+    public function addReview($user, $rating, $review) {
+        $sql = "INSERT INTO review (inventoryId, buyerId, rating, review) VALUES (:inventoryId, :buyerId, :rating, :review)";
+        $buyerId = $user->getId();
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':inventoryId', $this->inventoryId);
+        $stmt->bindParam(':buyerId', $buyerId);
+        $stmt->bindParam(':rating', $rating);
+        $stmt->bindParam(':review', $review);
+        $stmt->execute();
+    }
+    public function getReviews(): bool|array
+    {
+        $sql = "SELECT * FROM review WHERE inventoryId = :inventoryId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':inventoryId', $this->inventoryId);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    /*----------------------------------- Static Methods -----------------------------------------------*/
     public static function newInventory($user, $inventory) {
         $vendorId = $user->getId();
-//        $vendorId = $user;
         $categoryId = Category::getCategoryId($inventory['product']['category']);
-//        $productId = Product::getProductId($inventory['product']['productName']);
         if ($categoryId != -1) {
             $sql = "INSERT INTO inventory (inventoryName, categoryId, vendorId, quantity ,price)
                 VALUES (:inventoryName, :categoryId, :vendorId, :quantity, :price)";
@@ -41,7 +109,6 @@ class Inventory {
 
     public static function getCurrentStock($user, $productName) {
         $userId = $user->getId();
-//        $userId = $user;
         $sql = "SELECT inventoryId, quantity FROM inventory WHERE vendorId = :userId AND inventoryName = :inventoryName";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':userId', $userId);
@@ -50,7 +117,6 @@ class Inventory {
         if ($stmt->rowCount() != 0){
             return $stmt->fetch();
         }
-
         return null;
     }
 
@@ -72,31 +138,24 @@ class Inventory {
             echo "Item is not in the Inventory";
         }
     }
-    public function review($user, $rating, $review) {
-        $sql = "INSERT INTO review (inventoryId, buyerId, rating, review) VALUES (:inventoryId, :buyerId, :rating, :review)";
-        $buyerId = $user->getId();
-        if (Order::checkStatus($user, $this->inventoryId)) {
-            $stmt = self::$conn->prepare($sql);
-            $stmt->bindParam(':inventoryId', $this->inventoryId);
-            $stmt->bindParam(':buyerId', $buyerId);
-            $stmt->bindParam(':rating', $rating);
-            $stmt->bindParam(':review', $review);
-            $stmt->execute();
-        } else {
-            echo "You have not placed an order for this item";
-        }
-    }
 
-    public static function getPrice($inventoryId) {
+    public static function fetchPrice($inventoryId) {
         $sql = "SELECT price FROM inventory WHERE inventoryId = :inventoryId";
-        $smtm = self::$conn->prepare($sql);
-        $smtm->bindParam(':inventoryId', $inventoryId);
-        $smtm->execute();
-        $row = $smtm->fetch();
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':inventoryId', $inventoryId);
+        $stmt->execute();
+        $row = $stmt->fetch();
         return $row['price'];
     }
 
-
+    public static function getVendorInventory($vendorId): bool|array
+    {
+        $sql = "SELECT * FROM inventory WHERE vendorId = :vendorId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':vendorId', $vendorId);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
     public static function getAllInventory($category): bool|array
     {
         if ($category == 'all') {
