@@ -184,3 +184,8 @@ alter table `order`
 #update
 alter table orderdetail
     add selling_price float null;
+
+alter table message
+    modify messageTitle varchar(50) null,
+    add readStatus boolean default 0 not null,
+    modify messageId int auto_increment;
