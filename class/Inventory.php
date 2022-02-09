@@ -20,33 +20,27 @@ class Inventory {
         $this->fetchInventory($inventoryId);
     }
 
-    public function getInventoryId(): int
-    {
+    public function getInventoryId(): int {
         return $this->inventoryId;
     }
 
-    public function getVendorId(): int
-    {
+    public function getVendorId(): int {
         return $this->vendorId;
     }
 
-    public function getCategoryId(): int
-    {
+    public function getCategoryId(): int {
         return $this->categoryId;
     }
 
-    public function getProductName(): string
-    {
+    public function getProductName(): string {
         return $this->productName;
     }
 
-    public function getQuantity(): int
-    {
+    public function getQuantity(): int {
         return $this->quantity;
     }
 
-    public function getPrice(): float
-    {
+    public function getPrice(): float {
         return $this->price;
     }
 
@@ -61,7 +55,6 @@ class Inventory {
         $this->productName = $result['inventoryName'];
         $this->quantity = $result['quantity'];
         $this->price = $result['price'];
-
     }
     public function addReview($user, $rating, $review) {
         $sql = "INSERT INTO review (inventoryId, buyerId, rating, review) VALUES (:inventoryId, :buyerId, :rating, :review)";
@@ -73,8 +66,7 @@ class Inventory {
         $stmt->bindParam(':review', $review);
         $stmt->execute();
     }
-    public function getReviews(): bool|array
-    {
+    public function getReviews(): bool|array {
         $sql = "SELECT * FROM review WHERE inventoryId = :inventoryId";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':inventoryId', $this->inventoryId);
@@ -91,7 +83,7 @@ class Inventory {
             $stmt = self::$conn->prepare($sql);
             $stmt->bindParam(':inventoryName', $inventory['product']['productName']);
             $stmt->bindParam(':categoryId', $categoryId);
-            $stmt->bindParam(':vendorId',$vendorId);
+            $stmt->bindParam(':vendorId', $vendorId);
             $stmt->bindParam(':quantity', $inventory['quantity']);
             $stmt->bindParam(':price', $inventory['price']);
             $stmt->execute();
@@ -107,6 +99,19 @@ class Inventory {
         return $row['quantity'];
     }
 
+    public static function getAllFeatured($category): bool|array {
+        if ($category == 'all') {
+            $sql = "SELECT * FROM inventory WHERE featured = 1";
+        } else {
+            $categoryId = Category::getCategoryId($category);
+            $sql = "SELECT * FROM inventory WHERE categoryId = $categoryId AND featured = 1";
+        }
+        $stmt = self::$conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+
     public static function getCurrentStock($user, $productName) {
         $userId = $user->getId();
         $sql = "SELECT inventoryId, quantity FROM inventory WHERE vendorId = :userId AND inventoryName = :inventoryName";
@@ -114,14 +119,13 @@ class Inventory {
         $stmt->bindParam(':userId', $userId);
         $stmt->bindParam(':inventoryName', $productName);
         $stmt->execute();
-        if ($stmt->rowCount() != 0){
+        if ($stmt->rowCount() != 0) {
             return $stmt->fetch();
         }
         return null;
     }
 
     public function changeInventoryName() {
-
     }
 
     public static function updateInventory($user, $productName, $quantity) {
@@ -148,16 +152,14 @@ class Inventory {
         return $row['price'];
     }
 
-    public static function getVendorInventory($vendorId): bool|array
-    {
-        $sql = "SELECT * FROM inventory INNER JOIN category WHERE category.categoryId = inventory.categoryId AND vendorId = :vendorId";
+    public static function getVendorInventory($vendorId): bool|array {
+        $sql = "SELECT * FROM inventory WHERE vendorId = :vendorId";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':vendorId', $vendorId);
         $stmt->execute();
         return $stmt->fetchAll();
     }
-    public static function getAllInventory($category): bool|array
-    {
+    public static function getAllInventory($category): bool|array {
         if ($category == 'all') {
             $sql = "SELECT * FROM inventory";
         } else {
@@ -169,8 +171,7 @@ class Inventory {
         return $stmt->fetchAll();
     }
 
-    public static function searchInventory($category, $query): bool|array
-    {
+    public static function searchInventory($category, $query): bool|array {
         if ($category == 'all') {
             $sql = "SELECT * FROM inventory WHERE inventoryName LIKE :query";
         } else {
@@ -179,7 +180,7 @@ class Inventory {
         }
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':query', $query);
-        if ($category != 'all'){
+        if ($category != 'all') {
             $stmt->bindParam(':categoryId', $categoryId);
         }
         $stmt->execute();
