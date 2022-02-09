@@ -42,24 +42,42 @@ require('class/Inventory.php');
 
 	<script>
 		window.onload = function() {
+			renderInvenotry();
+			renderFeaturedInventory();
+		};
+
+		function renderInvenotry() {
 			let query = '';
 			const ajax = new XMLHttpRequest();
 			ajax.onreadystatechange = function() {
 				if (this.readyState === 4 && this.status === 200) {
-					document.getElementById("main").innerHTML = this.responseText;
+					document.getElementById("products").innerHTML = this.responseText;
 				}
 			};
 			ajax.open("GET", "class/searchInventory.php?query=" + query + "&category=all", true);
 			ajax.send();
 			console.log(query);
-		};
+		}
+
+		function renderFeaturedInventory() {
+			let query = '';
+			const ajax = new XMLHttpRequest();
+			ajax.onreadystatechange = function() {
+				if (this.readyState === 4 && this.status === 200) {
+					document.getElementById("featuredProducts").innerHTML = this.responseText;
+				}
+			};
+			ajax.open("GET", "class/searchInventory.php?query=" + query + "&category=all&featuredOnly=yes", true);
+			ajax.send();
+			console.log(query);
+		}
 
 		function searchItem() {
 			let query = document.getElementById("search").value;
 			const ajax = new XMLHttpRequest();
 			ajax.onreadystatechange = function() {
 				if (this.readyState === 4 && this.status === 200) {
-					document.getElementById("main").innerHTML = this.responseText;
+					document.getElementById("products").innerHTML = this.responseText;
 				}
 			};
 			ajax.open("GET", "class/searchInventory.php?query=" + query + "&category=all", true);
@@ -166,91 +184,7 @@ require('class/Inventory.php');
 							<h3 class="aside-title">Featured</h3>
 							<div class="checkbox-filter">
 								<!-- product -->
-								<div class="col-md-3 col-xs-6" style="width: 100%; display: flex; flex-direction: column;">
-									<div class="product" style="margin-bottom: 5.5rem; border: 2px solid var(--secondary-color);">
-										<div class="product-img">
-											<img src="img/product01.png" alt="">
-											<div class="product-label">
-												<span class="new">FEATURED</span>
-											</div>
-										</div>
-										<div class="product-body">
-											<p class="product-category">Category</p>
-											<h3 class="product-name"><a href="#">product name goes here</a></h3>
-											<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-											<div class="product-rating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-											</div>
-											<div class="product-btns">
-												<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
-														view</span></button>
-											</div>
-										</div>
-										<div class="add-to-cart">
-											<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
-												cart</button>
-										</div>
-									</div>
-									<div class="product" style="margin-bottom: 5.5rem; border: 2px solid var(--secondary-color);">
-										<div class="product-img">
-											<img src="img/product01.png" alt="">
-											<div class="product-label">
-												<span class="new">FEATURED</span>
-											</div>
-										</div>
-										<div class="product-body">
-											<p class="product-category">Category</p>
-											<h3 class="product-name"><a href="#">product name goes here</a></h3>
-											<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-											<div class="product-rating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-											</div>
-											<div class="product-btns">
-												<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
-														view</span></button>
-											</div>
-										</div>
-										<div class="add-to-cart">
-											<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
-												cart</button>
-										</div>
-									</div>
-									<div class="product" style="margin-bottom: 5.5rem; border: 2px solid var(--secondary-color);">
-										<div class="product-img"">
-											<img src=" img/product01.png" alt="">
-											<div class="product-label">
-												<span class="new">FEATURED</span>
-											</div>
-										</div>
-										<div class="product-body"">
-											<p class=" product-category">Category</p>
-											<h3 class="product-name"><a href="#">product name goes here</a></h3>
-											<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-											<div class="product-rating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-											</div>
-											<div class="product-btns">
-												<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
-														view</span></button>
-											</div>
-										</div>
-										<div class="add-to-cart">
-											<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
-												cart</button>
-										</div>
-									</div>
+								<div id="featuredProducts" class="row" style="display: flex; width: 100%; flex-direction: column;">
 
 								</div>
 								<!-- /product -->
@@ -285,7 +219,7 @@ require('class/Inventory.php');
 						<!-- /store top filter -->
 
 						<!-- store products -->
-						<div id="main" class="row" style="display: flex; flex-wrap: wrap;">
+						<div id="products" class="row" style="display: flex; flex-wrap: wrap;">
 
 						</div>
 						<!-- /store products -->
