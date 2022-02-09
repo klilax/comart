@@ -74,20 +74,36 @@ class Inventory {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     /*----------------------------------- Static Methods -----------------------------------------------*/
-    public static function newInventory($user, $inventory) {
-        $vendorId = $user->getId();
-        $categoryId = Category::getCategoryId($inventory['product']['category']);
-        if ($categoryId != -1) {
+    public static function newInventory($productName, $categoryId, $price, $quantity) {
+        $vendorId = $_SESSION['id'];
+        if (self::isUnique($vendorId, $productName)) {
             $sql = "INSERT INTO inventory (inventoryName, categoryId, vendorId, quantity ,price)
-                VALUES (:inventoryName, :categoryId, :vendorId, :quantity, :price)";
+            VALUES (:inventoryName, :categoryId, :vendorId, :quantity, :price)";
+
             $stmt = self::$conn->prepare($sql);
-            $stmt->bindParam(':inventoryName', $inventory['product']['productName']);
+            $stmt->bindParam(':inventoryName', $productName);
             $stmt->bindParam(':categoryId', $categoryId);
             $stmt->bindParam(':vendorId', $vendorId);
-            $stmt->bindParam(':quantity', $inventory['quantity']);
-            $stmt->bindParam(':price', $inventory['price']);
+            $stmt->bindParam(':quantity', $quantity);
+            $stmt->bindParam(':price', $price);
             $stmt->execute();
+        } else {
+            return false;
         }
+    }
+
+    public static function isUnique($vendorId, $productName): bool
+    {
+        $sql = "SELECT * FROM inventory WHERE vendorId = :vendorId AND inventoryName = :productName";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':vendorId', $vendorId);
+        $stmt->bindParam(':productName', $productName);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($result) {
+            return false;
+        }
+        return true;
     }
 
     public static function getStock($inventoryId) {
@@ -153,7 +169,9 @@ class Inventory {
     }
 
     public static function getVendorInventory($vendorId): bool|array {
-        $sql = "SELECT * FROM inventory WHERE vendorId = :vendorId";
+        $sql = "SELECT * FROM inventory AS i
+                INNER JOIN category AS c WHERE i.categoryId = c.categoryId 
+                AND vendorId = :vendorId";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':vendorId', $vendorId);
         $stmt->execute();

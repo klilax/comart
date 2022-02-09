@@ -90,6 +90,9 @@ if ($_SESSION['role'] != 'vendor') {
             <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">Inventory</button>
         </li>
         <li class="nav-item" role="presentation">
+            <button class="nav-link" id="addProduct-tab" data-bs-toggle="tab" data-bs-target="#addProduct" type="button" role="tab" aria-controls="addProduct" aria-selected="false">Add Product</button>
+        </li>
+        <li class="nav-item" role="presentation">
             <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="false">GRN</button>
         </li>
         <li class="nav-item" role="presentation">
@@ -100,6 +103,9 @@ if ($_SESSION['role'] != 'vendor') {
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="feature-tab" data-bs-toggle="tab" data-bs-target="#feature" type="button" role="tab" aria-controls="feature" aria-selected="false">Sold Item</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="msg-tab" data-bs-toggle="tab" data-bs-target="#msg" type="button" role="tab" aria-controls="msg" aria-selected="false">Message</button>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -126,7 +132,7 @@ if ($_SESSION['role'] != 'vendor') {
                                 echo "<th scope='row'>$count</th>";
                                 echo "<td>" .$row['inventoryName']. "</td>";
                                 echo "<td>" .$row['categoryName']. "</td>";
-                                echo "<td>" .number_format($row['price'], 2, '.', ','). "</td>";
+                                echo "<td>" .number_format($row['price'], 2). "</td>";
                                 echo "<td>" .$row['quantity']. "</td>";
                                 echo "</tr>";
                                 $count++;
@@ -134,6 +140,42 @@ if ($_SESSION['role'] != 'vendor') {
                             ?>
                         </tbody>
                     </table>
+                </div>
+            </section>
+        </div>
+        <div class="tab-pane fade" id="addProduct" role="tabpanel" aria-labelledby="addProduct-tab">
+            <section class=" bg" style="min-height: 70vh;">
+                <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
+                    <h1>Add product</h1>
+                    <form action="../class/addInventory.php" method="POST">
+                        <div class="form-group">
+                            <label for="productName">Product Name</label>
+                            <input type="text" class="form-control" id="productName" name="productName" placeholder="Product Name">
+<!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $username_error; ?><!--</span>-->
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Category</label><br>
+                            <select class="form-select" id="category" name="category">
+                                <?php
+                                foreach (Category::getAllCategories() as $row) {
+                                    echo "<option value='" . $row['categoryId'] . "'>" . $row['categoryName'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $username_error; ?><!--</span>-->
+                        </div>
+                        <div class="form-group mb-5">
+                            <label for="price">Price</label>
+                            <input type="text" class="form-control" id="price" name="price" placeholder="price">
+<!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; ?><!--</span>-->
+                        </div>
+                        <div class="form-group mb-5">
+                            <label for="quantity">Quantity</label>
+                            <input type="text" class="form-control" id="qty" name="quantity" placeholder="quantity">
+                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; ?><!--</span>-->
+                        </div>
+                        <button type="submit" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px">Add Product</button>
+                    </form>
                 </div>
             </section>
         </div>
@@ -149,7 +191,6 @@ if ($_SESSION['role'] != 'vendor') {
                                 <th scope="col">Category</th>
                                 <th scope="col">Unit Price</th>
                                 <th scope="col">Quantity</th>
-                            </tr>
                             </tr>
                         </thead>
                         <tbody>
@@ -246,6 +287,22 @@ if ($_SESSION['role'] != 'vendor') {
                             $count++;
                         }
                         ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+        <div class="tab-pane fade" id="msg" role="tabpanel" aria-labelledby="msg-tab">
+            <section class=" bg" style="min-height: 70vh;">
+                <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
+                    <table id="msg" class="table">
+                        <thead>
+                        <tr>
+                            <h1>Message</h1>
+                        </tr>
+                        </thead>
+                        <tbody>
+
                         </tbody>
                     </table>
                 </div>
