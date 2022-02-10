@@ -49,7 +49,7 @@ if (isset($_GET['query'], $_GET['category'], $_GET['featuredOnly'])) {
 function displayProduct($inventoryId, $name, $encoded_name, $price, $category, $featured, $featuredOnly) {
     echo
     '
-        <a href="/comart/src/routes/product.php?inventoryId=' . $inventoryId . '&productName=' . $encoded_name . '&price=' . $price . '">
+        <a href="/comart/src/routes/product.php?inventoryId=' . $inventoryId . '">
             <div class="col-md-3 col-xs-6" ';
     if ($featuredOnly) {
         echo 'style = "display: flex; padding-bottom: 3.5rem; width: 100%;"';
@@ -97,7 +97,7 @@ function displayProduct($inventoryId, $name, $encoded_name, $price, $category, $
                         </div>
 
                         <div class="product-btns">
-                            <a href="/comart/src/routes/product.php?inventoryId=' . $inventoryId . '&productName=' . $encoded_name . '&price=' . $price . '" class="quick-view">
+                            <a href="/comart/src/routes/product.php?inventoryId=' . $inventoryId . '" class="quick-view">
                                 <i class="fa fa-eye" title="Quick View"></i>
                                 <span class="tooltipp"></span>
                             </a>
@@ -114,5 +114,5 @@ function displayProduct($inventoryId, $name, $encoded_name, $price, $category, $
                 </div>
             </div>
         </a>
-            ';
+    ';
 }

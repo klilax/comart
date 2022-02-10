@@ -172,7 +172,7 @@ if ($_SESSION['role'] != 'vendor') {
                     <h1>Update product</h1>
                     <form action="../class/addInventory.php" method="POST">
                         <div class="form-group">
-                            <select class="form-select" id="adjustStockInventory" name="inventoryId">
+                            <select class="form-select" id="updateInventory" name="updateInventory">
                                 <?php
                                 foreach (Inventory::getVendorInventory($vendorId) as $row) {
                                     echo "<option value='" . $row['inventoryId'] . "'>" . $row['inventoryName'] . "</option>";
@@ -203,8 +203,8 @@ if ($_SESSION['role'] != 'vendor') {
                     <h1>Adjust Stock</h1>
 <!--                    <form action="../class/addInventory.php" method="POST">-->
                         <div class="form-group">
-                            <label for="AdjustStock">Adjust Stock</label><br>
-                            <select class="form-select" id="adjustStockInventory" name="inventoryId">
+                            <label for="adjustStockInventory">Adjust Stock</label><br>
+                            <select class="form-select" id="adjustStockInventory" name="adjustStockInventory">
                                 <?php
                                 foreach (Inventory::getVendorInventory($vendorId) as $row) {
                                     echo "<option value='" . $row['inventoryId'] . "'>" . $row['inventoryName'] . "</option>";
