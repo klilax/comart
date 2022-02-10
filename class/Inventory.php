@@ -73,6 +73,15 @@ class Inventory {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getVendorName(): string {
+        $sql = "SELECT vendorName FROM vendor WHERE userId = :vendorId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':vendorId', $this->vendorId);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['vendorName'];
+    }
     /*----------------------------------- Static Methods -----------------------------------------------*/
     public static function newInventory($productName, $categoryId, $price, $quantity): bool
     {
