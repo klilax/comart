@@ -65,25 +65,6 @@ if ($_SESSION['role'] != 'vendor') {
         //<!-- /MAIN HEADER -->
         ?>
     </header>
-    <?php
-    // $vendor = unserialize($_SESSION['user']);
-    //        echo $vendor->getUsername();
-    // $productInfo['productName'] = 'RHS 30X30X2';
-    // $productInfo['category'] = 'steel structure';
-    // $inventory['product'] = $productInfo;
-    // $inventory['quantity'] = 12;
-    // $inventory['price'] = 1700;
-    // echo $inventory['product']['productName'];
-    //        echo Product::addProduct($productInfo);
-    // Inventory::newInventory($vendor, $inventory);
-
-    //        $item = Inventory::getItem($vendor, 'RHS 30X30X1');
-    //        echo $item['quantity'];
-    //        echo "<br>";
-    //        echo $item['inventoryId'];
-    //        Inventory::updateInventory($vendor, 'RHS 30X30X1', 7);
-    ?>
-
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -93,10 +74,16 @@ if ($_SESSION['role'] != 'vendor') {
             <button class="nav-link" id="addProduct-tab" data-bs-toggle="tab" data-bs-target="#addProduct" type="button" role="tab" aria-controls="addProduct" aria-selected="false">Add Product</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="false">GRN</button>
+            <button class="nav-link" id="updateProduct-tab" data-bs-toggle="tab" data-bs-target="#updateProduct" type="button" role="tab" aria-controls="updateProduct" aria-selected="false">Update Product</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Issued</button>
+            <button class="nav-link" id="adjustStock-tab" data-bs-toggle="tab" data-bs-target="#adjustStock" type="button" role="tab" aria-controls="adjustStock" aria-selected="false">Adjust Stock</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="grn-tab" data-bs-toggle="tab" data-bs-target="#grn" type="button" role="tab" aria-controls="grn" aria-selected="false">GRN</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="issued-tab" data-bs-toggle="tab" data-bs-target="#issued" type="button" role="tab" aria-controls="issued" aria-selected="false">Issued</button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Pending Order</button>
@@ -179,38 +166,138 @@ if ($_SESSION['role'] != 'vendor') {
                 </div>
             </section>
         </div>
-        <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-pane fade" id="updateProduct" role="tabpanel" aria-labelledby="updateProduct-tab">
+            <section class=" bg" style="min-height: 70vh;">
+                <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
+                    <h1>Update product</h1>
+                    <form action="../class/addInventory.php" method="POST">
+                        <div class="form-group">
+                            <select class="form-select" id="adjustStockInventory" name="inventoryId">
+                                <?php
+                                foreach (Inventory::getVendorInventory($vendorId) as $row) {
+                                    echo "<option value='" . $row['inventoryId'] . "'>" . $row['inventoryName'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $username_error; ?><!--</span>-->
+                        </div>
+                        <div class="form-group mb-5">
+                            <label for="quantity">Change Name</label>
+                            <input type="text" class="form-control" id="newName" name="newName" placeholder="Product Name">
+                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; ?><!--</span>-->
+                        </div>
+                        <div class="form-group mb-5">
+                            <label for="price">Change Price</label>
+                            <input type="text" class="form-control" id="newPrice" name="newPrice" placeholder="price">
+                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; ?><!--</span>-->
+                        </div>
+
+                        <button type="submit" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px">Update Product</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+        <div class="tab-pane fade" id="adjustStock" role="tabpanel" aria-labelledby="adjustStock-tab">
+            <section class=" bg" style="min-height: 70vh;">
+                <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
+                    <h1>Adjust Stock</h1>
+<!--                    <form action="../class/addInventory.php" method="POST">-->
+                        <div class="form-group">
+                            <label for="AdjustStock">Adjust Stock</label><br>
+                            <select class="form-select" id="adjustStockInventory" name="inventoryId">
+                                <?php
+                                foreach (Inventory::getVendorInventory($vendorId) as $row) {
+                                    echo "<option value='" . $row['inventoryId'] . "'>" . $row['inventoryName'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-5">
+                            <label for="quantity">Quantity</label>
+                            <input type="text" class="form-control" id="adjustQuantity" name="quantity" placeholder="quantity">
+                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; ?><!--</span>-->
+                        </div>
+                            <div>
+                            <button type="button" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px" onclick="addStock()">Add Stock</button>
+                            <button type="button" class="btn primary-btn rounded" style="background-color: darkred; border-radius: 5px; padding: 10px 20px" onclick="issueStock()">Issue Stock</button>
+                        </div>
+<!--                    </form>-->
+                    <script>
+                        function addStock() {
+                            let inventoryId = document.getElementById("adjustStockInventory").value;
+                            let quantity = document.getElementById("adjustQuantity").value;
+                            window.location.href = "../class/addStock.php?inventoryId=" + inventoryId + "&quantity=" + quantity;
+                        }
+                        function issueStock() {
+                            let inventoryId = document.getElementById("adjustStockInventory").value;
+                            let quantity = document.getElementById("adjustQuantity").value;
+                            window.location.href = "../class/issueStock.php?inventoryId=" + inventoryId + "&quantity=" + quantity;
+                        }
+
+                    </script>
+                </div>
+            </section>
+        </div>
+        <div class="tab-pane fade" id="grn" role="tabpanel" aria-labelledby="grn-tab">
             <section class=" bg" style="min-height: 70vh;">
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
                     <table id="GRN" class="table">
                         <thead>
                             <tr>
-                            <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Product Name</th>
                                 <th scope="col">Category</th>
-                                <th scope="col">Unit Price</th>
                                 <th scope="col">Quantity</th>
+                                <th scope="col">Date</th>
                             </tr>
                         </thead>
                         <tbody>
-
+                        <?php
+                        $count = 1;
+                        foreach (Inventory::fetchInventoryLog($vendorId, true) as $row) {
+                            echo "<tr>";
+                            echo "<th scope='row'>$count</th>";
+                            echo "<td>" . $row['inventoryName'] . "</td>";
+                            echo "<td>" . $row['categoryName'] . "</td>";
+                            echo "<td>" . $row['quantity'] . "</td>";
+                            echo "<td>" . $row['date'] . "</td>";
+                            echo "</tr>";
+                            $count++;
+                        }
+                        ?>
                         </tbody>
                     </table>
                 </div>
             </section>
         </div>
-        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="tab-pane fade" id="issued" role="tabpanel" aria-labelledby="issued-tab">
             <section class=" bg" style="min-height: 70vh;">
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
-                    <table id="buyer" class="table">
+                    <table id="ISSUED" class="table">
                         <thead>
-                            <tr>
-                                <h1>Hello Tab3</h1>
-                            </tr>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Date</th>
+                        </tr>
                         </thead>
                         <tbody>
-
+                        <?php
+                        $count = 1;
+                        foreach (Inventory::fetchInventoryLog($vendorId, false) as $row) {
+                            echo "<tr>";
+                            echo "<th scope='row'>$count</th>";
+                            echo "<td>" . $row['inventoryName'] . "</td>";
+                            echo "<td>" . $row['categoryName'] . "</td>";
+                            echo "<td>" . $row['quantity'] . "</td>";
+                            echo "<td>" . $row['date'] . "</td>";
+                            echo "</tr>";
+                            $count++;
+                        }
+                        ?>
                         </tbody>
                     </table>
                 </div>
@@ -313,7 +400,7 @@ if ($_SESSION['role'] != 'vendor') {
     <?php include('../src/components/footer.php'); ?>
     <script>
         $(document).ready(function() {
-            $('#inventory, #GRN, #order, #sold').DataTable();
+            $('#inventory, #GRN, #ISSUED ,#order, #sold').DataTable();
         });
     </script>
 </body>

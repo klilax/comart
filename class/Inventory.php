@@ -74,7 +74,8 @@ class Inventory {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     /*----------------------------------- Static Methods -----------------------------------------------*/
-    public static function newInventory($productName, $categoryId, $price, $quantity) {
+    public static function newInventory($productName, $categoryId, $price, $quantity): bool
+    {
         $vendorId = $_SESSION['id'];
         if (self::isUnique($vendorId, $productName)) {
             $sql = "INSERT INTO inventory (inventoryName, categoryId, vendorId, quantity ,price)
@@ -87,9 +88,9 @@ class Inventory {
             $stmt->bindParam(':quantity', $quantity);
             $stmt->bindParam(':price', $price);
             $stmt->execute();
-        } else {
-            return false;
+            return true;
         }
+        return false;
     }
 
     public static function isUnique($vendorId, $productName): bool
@@ -127,36 +128,110 @@ class Inventory {
         return $stmt->fetchAll();
     }
 
-
-    public static function getCurrentStock($user, $productName) {
-        $userId = $user->getId();
-        $sql = "SELECT inventoryId, quantity FROM inventory WHERE vendorId = :userId AND inventoryName = :inventoryName";
+    public static function fetchInventoryLog($vendorId, $isGRN): bool|array
+    {
+        $sql = "SELECT inventoryName, il.quantity, categoryName, date
+                FROM inventorylog AS il 
+                INNER JOIN inventory i on il.inventoryId = i.inventoryId
+                INNER JOIN category c on i.categoryId = c.categoryId
+                WHERE i.vendorId = :vendorId
+                AND  il.incoming = :grn ";
+//        if ($isGRN) {
+//            $sql = $sql . "AND il.incoming = 1";
+//        } else {
+//            $sql = $sql . "AND il.incoming = 0";
+//        }
         $stmt = self::$conn->prepare($sql);
-        $stmt->bindParam(':userId', $userId);
-        $stmt->bindParam(':inventoryName', $productName);
+        $stmt->bindParam(':vendorId', $vendorId);
+        $stmt->bindParam(':grn', $isGRN);
         $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public static function logTransaction($inventoryId, $quantity ,$isGRN) {
+        $sql = "INSERT INTO inventorylog (inventoryId, quantity ,incoming) VALUES (:inventoryId, :quantity ,:isGRN)";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':inventoryId', $inventoryId);
+        $stmt->bindParam(':quantity', $quantity);
+        $stmt->bindParam(':isGRN', $isGRN);
+        $stmt->execute();
+    }
+
+
+//    public static function getCurrentStock($user, $productName) {
+//        $userId = $user->getId();
+//        $sql = "SELECT inventoryId, quantity FROM inventory WHERE vendorId = :userId AND inventoryName = :inventoryName";
+//        $stmt = self::$conn->prepare($sql);
+//        $stmt->bindParam(':userId', $userId);
+//        $stmt->bindParam(':inventoryName', $productName);
+//        $stmt->execute();
+//        if ($stmt->rowCount() != 0) {
+//            return $stmt->fetch();
+//        }
+//        return null;
+//    }
+
+//    public static function updateInventory($user, $productName, $quantity) {
+//        $stock = self::getCurrentStock($user, $productName);
+//        if (!is_null($stock)) {
+//            $sql = "UPDATE inventory SET quantity = :quantity WHERE inventoryId = :inventoryId";
+//            $stmt = self::$conn->prepare($sql);
+//            $updatedQuantity = $stock['quantity'] + $quantity;
+//            $inventoryId = $stock['inventoryId'];
+//            $stmt->bindParam(':quantity', $updatedQuantity);
+//            $stmt->bindParam("inventoryId", $inventoryId);
+//            $stmt->execute();
+//        } else {
+//            echo "Item is not in the Inventory";
+//        }
+//    }
+
+    public static function getCurrentStock($inventoryId) {
+        $sql = "SELECT quantity FROM inventory WHERE  inventoryId = :inventoryId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':inventoryId', $inventoryId);
+        $stmt->execute();
+
         if ($stmt->rowCount() != 0) {
-            return $stmt->fetch();
+            $row = $stmt->fetch();
+            return $row['quantity'];
         }
-        return null;
+        return -1;
     }
 
     public function changeInventoryName() {
     }
 
-    public static function updateInventory($user, $productName, $quantity) {
-        $stock = self::getCurrentStock($user, $productName);
-        if (!is_null($stock)) {
+    public static function addStock($inventoryId, $quantity): bool
+    {
+        $stock = self::getCurrentStock($inventoryId);
+        if ($stock != -1) {
             $sql = "UPDATE inventory SET quantity = :quantity WHERE inventoryId = :inventoryId";
             $stmt = self::$conn->prepare($sql);
-            $updatedQuantity = $stock['quantity'] + $quantity;
-            $inventoryId = $stock['inventoryId'];
+            $updatedQuantity = $stock + $quantity;
             $stmt->bindParam(':quantity', $updatedQuantity);
             $stmt->bindParam("inventoryId", $inventoryId);
             $stmt->execute();
-        } else {
-            echo "Item is not in the Inventory";
+            self::logTransaction($inventoryId, $quantity, true);
+            return true;
         }
+        return false;
+    }
+
+    public static function issueStock($inventoryId, $quantity): bool
+    {
+        $stock = self::getCurrentStock($inventoryId);
+        if ($stock >= $quantity) {
+            $sql = "UPDATE inventory SET quantity = :quantity WHERE inventoryId = :inventoryId";
+            $stmt = self::$conn->prepare($sql);
+            $updatedQuantity = $stock - $quantity;
+            $stmt->bindParam(':quantity', $updatedQuantity);
+            $stmt->bindParam("inventoryId", $inventoryId);
+            $stmt->execute();
+            self::logTransaction($inventoryId, $quantity, 0);
+            return true;
+        }
+        return false;
     }
 
     public static function fetchPrice($inventoryId) {
