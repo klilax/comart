@@ -189,3 +189,16 @@ alter table message
     modify messageTitle varchar(50) null,
     add readStatus boolean default 0 not null,
     modify messageId int auto_increment;
+
+#added new table for grn and issued
+create table inventoryLog
+(
+    id        int auto_increment
+        primary key,
+    inventoryId int                                  not null,
+    quantity  int                                  not null,
+    incoming  tinyint(1) default 1                 null,
+    date      timestamp  default CURRENT_TIMESTAMP null,
+    constraint transaction_product_productId_fk
+        foreign key (inventoryId) references inventory (inventoryId)
+);
