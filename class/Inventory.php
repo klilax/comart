@@ -211,7 +211,20 @@ class Inventory {
         return -1;
     }
 
-    public function changeInventoryName() {
+    public static function changeInventoryName($newName, $inventoryId) {
+        $sql = "UPDATE inventory SET inventoryName = :newName WHERE inventoryId = :inventoryId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':newName', $newName);
+        $stmt->bindParam(':inventoryId', $inventoryId);
+        $stmt->execute();
+    }
+
+    public static function changeInventoryPrice($newPrice, $inventoryId) {
+        $sql = "UPDATE inventory SET price = :newPrice WHERE inventoryId = :inventoryId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':newPrice', $newPrice);
+        $stmt->bindParam(':inventoryId', $inventoryId);
+        $stmt->execute();
     }
 
     public static function addStock($inventoryId, $quantity): bool {
