@@ -1,6 +1,12 @@
 <?php
+require_once('../../class/Inventory.php');
+
 $vendorId = $_GET['vendorId'];
-echo $vendorId;
+
+$vendorProducts = Inventory::getVendorInventory($vendorId);
+
+// print_r($vendorProducts);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,20 +45,6 @@ echo $vendorId;
  		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
  		<![endif]-->
 
-	<script>
-		function searchItem() {
-			let query = document.getElementById("searchItem").value;
-			const ajax = new XMLHttpRequest();
-			ajax.onreadystatechange = function() {
-				if (this.readyState === 4 && this.status === 200) {
-					document.getElementById("main").innerHTML = this.responseText;
-				}
-			};
-			ajax.open("GET", "../class/searchInventory.php?query=" + query + "&category=all", true);
-			ajax.send();
-			console.log(query);
-		}
-	</script>
 </head>
 
 <body>
@@ -82,10 +74,8 @@ echo $vendorId;
 			<div class="row">
 				<div class="col-md-12">
 					<ul class="breadcrumb-tree">
-						<li><a href="#">Home</a></li>
-						<li><a href="#">All Categories</a></li>
-						<li><a href="#">Accessories</a></li>
-						<li class="active">Headphones (227,490 Results)</li>
+						<li><a href="/comart/index.php">Home</a></li>
+						<li class="active"><?php echo '' ?> (227,490 Results)</li>
 					</ul>
 				</div>
 			</div>
@@ -104,46 +94,60 @@ echo $vendorId;
 				<!-- STORE -->
 				<div id="store" class="col-md-9" style="width: 100%; margin: 0 auto;">
 					<!-- store products -->
-					<div class="row" style="display: flex; flex-wrap: wrap; justify-content: center;">
+					<div id="vendorProducts" class="row" style="display: flex; flex-wrap: wrap;">
 						<?php
 
-						for ($i = 0; $i < 9; $i++) {
+						foreach ($vendorProducts as $product) {
+							$encoded_name = urlencode($product['inventoryName']);
 							echo '
-							<!-- product -->
-							<div class="col-md-3 col-xs-6" style="padding-bottom: 3.5rem;">
-								<div class="product">
-									<div class="product-img">
-										<img src="../../img/product01.png" alt="">
-										<div class="product-label">
-											<span class="sale">-30%</span>
-											<span class="new">NEW</span>
+							<a href="/comart/src/routes/product.php?inventoryId=' . $product['inventoryId'] . '">
+								<div class="col-md-3 col-xs-6" style="padding-bottom: 3.5rem;">
+									<div class="product">
+										<div class="product-img">
+											<img src="../../img/product01.png" alt="">
+
+							';
+							if ($product['featured'] == 1) {
+								echo '
+											<div class="product-label">
+												<span class="new">FEATURED</span>
+											</div>
+								';
+							}
+							echo '
 										</div>
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-										<div class="product-rating">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
+										<div class="product-body">
+											<p class="product-category">' . $product['categoryName'] . '</p>
+											<h3 class="product-name"><a href="#">' . $product['inventoryName'] . '</a></h3>
+											<h4 class="product-price">' . $product['price'] . ' Birr</h4>
+
+							<!-- review - rating -->
+											<div class="product-rating">
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+											</div>
+
+											<div class="product-btns">
+                            						<a href="/comart/src/routes/product.php?inventoryId=' . $product['inventoryId'] . '" class="quick-view">
+														<i class="fa fa-eye" title="Quick View"></i>
+														<span class="tooltipp"></span>
+                            						</a>
+											</div>
 										</div>
-										<div class="product-btns">
-											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick
-							view</span></button>
+										<div class="add-to-cart">
+											<a href="/comart/class/Cart.php?inventoryId=' . $product['inventoryId'] . '&productName=' . $encoded_name . '&price=' . $product['price'] . '">
+                            					<button class="add-to-cart-btn">
+													<i class="fa fa-shopping-cart"></i>
+											 to cart
+                            					</button>
+											</a>
 										</div>
-									</div>
-									<div class="add-to-cart">
-										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
-							cart</button>
 									</div>
 								</div>
-							</div>
-							<!-- /product -->
+							</a>
 							';
 						}
 						?>

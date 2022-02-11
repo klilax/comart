@@ -10,6 +10,7 @@ class Inventory {
     private int $categoryId;
     private string $productName;
     private int $quantity;
+    private int $featured;
     private float $price;
 
 
@@ -40,6 +41,10 @@ class Inventory {
         return $this->quantity;
     }
 
+    public function getFeatured(): int {
+        return $this->featured;
+    }
+
     public function getPrice(): float {
         return $this->price;
     }
@@ -54,6 +59,7 @@ class Inventory {
         $this->vendorId = $result['vendorId'];
         $this->productName = $result['inventoryName'];
         $this->quantity = $result['quantity'];
+        $this->featured = $result['featured'];
         $this->price = $result['price'];
     }
     public function addReview($user, $rating, $review) {
@@ -83,8 +89,7 @@ class Inventory {
         return $result['vendorName'];
     }
     /*----------------------------------- Static Methods -----------------------------------------------*/
-    public static function newInventory($productName, $categoryId, $price, $quantity): bool
-    {
+    public static function newInventory($productName, $categoryId, $price, $quantity): bool {
         $vendorId = $_SESSION['id'];
         if (self::isUnique($vendorId, $productName)) {
             $sql = "INSERT INTO inventory (inventoryName, categoryId, vendorId, quantity ,price)
@@ -102,8 +107,7 @@ class Inventory {
         return false;
     }
 
-    public static function isUnique($vendorId, $productName): bool
-    {
+    public static function isUnique($vendorId, $productName): bool {
         $sql = "SELECT * FROM inventory WHERE vendorId = :vendorId AND inventoryName = :productName";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':vendorId', $vendorId);
@@ -137,19 +141,18 @@ class Inventory {
         return $stmt->fetchAll();
     }
 
-    public static function fetchInventoryLog($vendorId, $isGRN): bool|array
-    {
+    public static function fetchInventoryLog($vendorId, $isGRN): bool|array {
         $sql = "SELECT inventoryName, il.quantity, categoryName, date
                 FROM inventorylog AS il 
                 INNER JOIN inventory i on il.inventoryId = i.inventoryId
                 INNER JOIN category c on i.categoryId = c.categoryId
                 WHERE i.vendorId = :vendorId
                 AND  il.incoming = :grn ";
-//        if ($isGRN) {
-//            $sql = $sql . "AND il.incoming = 1";
-//        } else {
-//            $sql = $sql . "AND il.incoming = 0";
-//        }
+        //        if ($isGRN) {
+        //            $sql = $sql . "AND il.incoming = 1";
+        //        } else {
+        //            $sql = $sql . "AND il.incoming = 0";
+        //        }
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':vendorId', $vendorId);
         $stmt->bindParam(':grn', $isGRN);
@@ -157,7 +160,7 @@ class Inventory {
         return $stmt->fetchAll();
     }
 
-    public static function logTransaction($inventoryId, $quantity ,$isGRN) {
+    public static function logTransaction($inventoryId, $quantity, $isGRN) {
         $sql = "INSERT INTO inventorylog (inventoryId, quantity ,incoming) VALUES (:inventoryId, :quantity ,:isGRN)";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':inventoryId', $inventoryId);
@@ -167,33 +170,33 @@ class Inventory {
     }
 
 
-//    public static function getCurrentStock($user, $productName) {
-//        $userId = $user->getId();
-//        $sql = "SELECT inventoryId, quantity FROM inventory WHERE vendorId = :userId AND inventoryName = :inventoryName";
-//        $stmt = self::$conn->prepare($sql);
-//        $stmt->bindParam(':userId', $userId);
-//        $stmt->bindParam(':inventoryName', $productName);
-//        $stmt->execute();
-//        if ($stmt->rowCount() != 0) {
-//            return $stmt->fetch();
-//        }
-//        return null;
-//    }
+    //    public static function getCurrentStock($user, $productName) {
+    //        $userId = $user->getId();
+    //        $sql = "SELECT inventoryId, quantity FROM inventory WHERE vendorId = :userId AND inventoryName = :inventoryName";
+    //        $stmt = self::$conn->prepare($sql);
+    //        $stmt->bindParam(':userId', $userId);
+    //        $stmt->bindParam(':inventoryName', $productName);
+    //        $stmt->execute();
+    //        if ($stmt->rowCount() != 0) {
+    //            return $stmt->fetch();
+    //        }
+    //        return null;
+    //    }
 
-//    public static function updateInventory($user, $productName, $quantity) {
-//        $stock = self::getCurrentStock($user, $productName);
-//        if (!is_null($stock)) {
-//            $sql = "UPDATE inventory SET quantity = :quantity WHERE inventoryId = :inventoryId";
-//            $stmt = self::$conn->prepare($sql);
-//            $updatedQuantity = $stock['quantity'] + $quantity;
-//            $inventoryId = $stock['inventoryId'];
-//            $stmt->bindParam(':quantity', $updatedQuantity);
-//            $stmt->bindParam("inventoryId", $inventoryId);
-//            $stmt->execute();
-//        } else {
-//            echo "Item is not in the Inventory";
-//        }
-//    }
+    //    public static function updateInventory($user, $productName, $quantity) {
+    //        $stock = self::getCurrentStock($user, $productName);
+    //        if (!is_null($stock)) {
+    //            $sql = "UPDATE inventory SET quantity = :quantity WHERE inventoryId = :inventoryId";
+    //            $stmt = self::$conn->prepare($sql);
+    //            $updatedQuantity = $stock['quantity'] + $quantity;
+    //            $inventoryId = $stock['inventoryId'];
+    //            $stmt->bindParam(':quantity', $updatedQuantity);
+    //            $stmt->bindParam("inventoryId", $inventoryId);
+    //            $stmt->execute();
+    //        } else {
+    //            echo "Item is not in the Inventory";
+    //        }
+    //    }
 
     public static function getCurrentStock($inventoryId) {
         $sql = "SELECT quantity FROM inventory WHERE  inventoryId = :inventoryId";
@@ -208,11 +211,23 @@ class Inventory {
         return -1;
     }
 
-    public function changeInventoryName() {
+    public static function changeInventoryName($newName, $inventoryId) {
+        $sql = "UPDATE inventory SET inventoryName = :newName WHERE inventoryId = :inventoryId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':newName', $newName);
+        $stmt->bindParam(':inventoryId', $inventoryId);
+        $stmt->execute();
     }
 
-    public static function addStock($inventoryId, $quantity): bool
-    {
+    public static function changeInventoryPrice($newPrice, $inventoryId) {
+        $sql = "UPDATE inventory SET price = :newPrice WHERE inventoryId = :inventoryId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':newPrice', $newPrice);
+        $stmt->bindParam(':inventoryId', $inventoryId);
+        $stmt->execute();
+    }
+
+    public static function addStock($inventoryId, $quantity): bool {
         $stock = self::getCurrentStock($inventoryId);
         if ($stock != -1) {
             $sql = "UPDATE inventory SET quantity = :quantity WHERE inventoryId = :inventoryId";
@@ -227,8 +242,7 @@ class Inventory {
         return false;
     }
 
-    public static function issueStock($inventoryId, $quantity): bool
-    {
+    public static function issueStock($inventoryId, $quantity): bool {
         $stock = self::getCurrentStock($inventoryId);
         if ($stock >= $quantity) {
             $sql = "UPDATE inventory SET quantity = :quantity WHERE inventoryId = :inventoryId";

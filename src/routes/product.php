@@ -10,12 +10,13 @@ $productName = $product->getProductName();
 $encoded_name = urlencode($productName);
 $productPrice = $product->getPrice();
 $productQty = $product->getQuantity();
+$productFeatured = $product->getFeatured();
 $productCategory = Category::getCategoryName($product->getCategoryId());
+$productVendorId = $product->getVendorId();
+$productVendorName = $product->getVendorName();
 $productDesc = 'Product Description';
-$productVendor = $product->getVendorId();
 $productImg = '';
 $productReviews = '';
-
 
 ?>
 
@@ -109,8 +110,16 @@ $productReviews = '';
 				<div class="col-md-5" style="width: 50%; padding: 3rem 1rem;">
 					<div class="product-details">
 						<h5 class="h5 text-muted"><?php echo $productCategory; ?></h5>
-						<h2 class="product-name"><?php echo $productName; ?></h2>
-						<h5 class="h5 text-muted">View Seller - <a href="<?php echo '/comart/src/routes/vendorProducts.php?vendorId=' . $productVendor . ''; ?>" style=" text-decoration: underline; color: var(--secondary-color);"> <?php echo $productVendor; ?></a></h5>
+						<h2 class="product-name" style="display: inline;"><?php echo $productName; ?></h2>
+						<?php
+						if ($productFeatured) {
+							echo '
+								<div style="border: 1px solid var(--secondary-color); color: var(--secondary-color); padding: 0.3rem; display: inline; margin-left: 2rem;">
+									<span class="h6 new">FEATURED</span>
+								</div>';
+						}
+						?>
+						<h5 class="h5 text-muted p-3">View Seller - <a href="<?php echo '/comart/src/routes/vendorProducts.php?vendorId=' . $productVendorId . ''; ?>" style=" text-decoration: underline; color: var(--secondary-color);"> <?php echo $productVendorName; ?></a></h5>
 						<div style="padding: 2rem 0;">
 							<div class="product-rating">
 								<i class="fa fa-star"></i>
@@ -143,16 +152,16 @@ $productReviews = '';
 
 						<ul class="product-links">
 							<li>Category:</li>
-							<li><a href="#">Headphones</a></li>
+							<li><a href="#"><?php echo $productCategory ?></a></li>
 						</ul>
 
-						<ul class="product-links">
+						<!-- <ul class="product-links">
 							<li>Share:</li>
 							<li><a href="#"><i class="fa fa-facebook"></i></a></li>
 							<li><a href="#"><i class="fa fa-twitter"></i></a></li>
 							<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
 							<li><a href="#"><i class="fa fa-envelope"></i></a></li>
-						</ul>
+						</ul> -->
 
 					</div>
 				</div>
@@ -166,7 +175,6 @@ $productReviews = '';
 					<!-- product tab nav -->
 					<ul class="tab-nav">
 						<li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
-						<li><a data-toggle="tab" href="#tab2">Details</a></li>
 						<li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
 					</ul>
 					<!-- /product tab nav -->
@@ -177,33 +185,11 @@ $productReviews = '';
 						<div id="tab1" class="tab-pane fade in active">
 							<div class="row">
 								<div class="col-md-12">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-										tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-										quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-										consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-										cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-										non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-									</p>
+									<p><?php echo $productDesc; ?></p>
 								</div>
 							</div>
 						</div>
 						<!-- /tab1  -->
-
-						<!-- tab2  -->
-						<div id="tab2" class="tab-pane fade in">
-							<div class="row">
-								<div class="col-md-12">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-										tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-										quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-										consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-										cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-										non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-									</p>
-								</div>
-							</div>
-						</div>
-						<!-- /tab2  -->
 
 						<!-- tab3  -->
 						<div id="tab3" class="tab-pane fade in">
