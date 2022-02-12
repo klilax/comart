@@ -11,6 +11,7 @@ class Inventory {
     private string $productName;
     private int $quantity;
     private int $featured;
+    private string $imgName;
     private float $price;
 
 
@@ -45,6 +46,10 @@ class Inventory {
         return $this->featured;
     }
 
+    public function getImgName(): string {
+        return $this->imgName;
+    }
+
     public function getPrice(): float {
         return $this->price;
     }
@@ -60,6 +65,7 @@ class Inventory {
         $this->productName = $result['inventoryName'];
         $this->quantity = $result['quantity'];
         $this->featured = $result['featured'];
+        $this->imgName = $result['imgName'];
         $this->price = $result['price'];
     }
     public function addReview($user, $rating, $review) {
@@ -89,11 +95,11 @@ class Inventory {
         return $result['vendorName'];
     }
     /*----------------------------------- Static Methods -----------------------------------------------*/
-    public static function newInventory($productName, $categoryId, $price, $quantity): bool {
+    public static function newInventory($productName, $categoryId, $price, $quantity, $imgName): bool {
         $vendorId = $_SESSION['id'];
         if (self::isUnique($vendorId, $productName)) {
-            $sql = "INSERT INTO inventory (inventoryName, categoryId, vendorId, quantity ,price)
-            VALUES (:inventoryName, :categoryId, :vendorId, :quantity, :price)";
+            $sql = "INSERT INTO inventory (inventoryName, categoryId, vendorId, quantity ,price , imgName)
+            VALUES (:inventoryName, :categoryId, :vendorId, :quantity, :price, :imgName)";
 
             $stmt = self::$conn->prepare($sql);
             $stmt->bindParam(':inventoryName', $productName);
@@ -101,6 +107,7 @@ class Inventory {
             $stmt->bindParam(':vendorId', $vendorId);
             $stmt->bindParam(':quantity', $quantity);
             $stmt->bindParam(':price', $price);
+            $stmt->bindParam(':imgName', $imgName);
             $stmt->execute();
             return true;
         }
