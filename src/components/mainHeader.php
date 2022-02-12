@@ -8,7 +8,7 @@ if (isset($_SESSION['user'])) {
     <!-- container -->
     <div class="container">
         <!-- row -->
-        <div class="row">
+        <div class="row d-flex">
             <!-- LOGO -->
             <div class="col-md-3">
                 <div class="header-logo">
@@ -24,12 +24,7 @@ if (isset($_SESSION['user'])) {
                 echo '<div class="col-md-6">
                         <div class="header-search">
                             <form>
-                                <select class="input-select">
-                                    <option value="0">All Categories</option>
-                                    <option value="1">Category 01</option>
-                                    <option value="1">Category 02</option>
-                                </select>
-                                <input class="input" placeholder="Search here">
+                                <input class="input" placeholder="Search here" style="border-radius: 2rem 0 0 2rem;">
                                 <button class="search-btn">Search</button>
                             </form>
                         </div>
@@ -42,7 +37,7 @@ if (isset($_SESSION['user'])) {
                         Admin Dashboard
                     </h1>';
                 } else if ($user->getRole() == 'vendor') {
-                    echo '<h1 style= "color: green;
+                    echo '<h1 style= "color: var(--secondary-color);
                         margin-top: 10px;
                         margin-left: 15%;">
                         Vendor Dashboard

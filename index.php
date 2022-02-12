@@ -115,12 +115,7 @@ require('class/Inventory.php');
 						<div class="col-md-6">
 							<div class="header-search">
 								<form>
-									<select class="input-select">
-										<option value="0">All Categories</option>
-										<option value="1">Category 01</option>
-										<option value="1">Category 02</option>
-									</select>
-									<input class="input" placeholder="Search here" id="search" onkeyup="searchItem()">
+									<input class="input" placeholder="Search here" id="search" onkeyup="searchItem()" style="border-radius: 2rem 0 0 2rem;">
 									<button class="search-btn">Search</button>
 								</form>
 							</div>
@@ -135,7 +130,7 @@ require('class/Inventory.php');
 									<a href="/comart/src/routes/checkout.php">
 										<i class="fa fa-shopping-cart"></i>
 										<span>Your Cart</span>
-										<div class="qty">3</div>
+										<div class="qty">0</div>
 									</a>
 								</div>
 								<!-- /Cart -->

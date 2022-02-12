@@ -6,9 +6,7 @@
         <div id="responsive-nav">
             <!-- NAV -->
             <ul class="main-nav nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Hot Deals</a></li>
-                <li><a href="#">Categories</a></li>
+                <li class="active"><a href="/comart/index.php">Home</a></li>
                 <li><a href="#">Concrete Works</a></li>
                 <li><a href="#">Steel</a></li>
                 <li><a href="#">Block Works</a></li>

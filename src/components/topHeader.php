@@ -18,10 +18,10 @@ if (isset($_SESSION['user'])) {
                     if (isset($user)) {
                         switch ($user->getRole()) {
                             case 'admin':
-                                echo '/comart/src/routes/dashboard/admin.php';
+                                echo '/comart/admin/index.php';
                                 break;
                             case 'vendor':
-                                echo '/comart/src/routes/dashboard/vendor.php';
+                                echo '/comart/vendor/index.php';
                                 break;
                             case 'buyer':
                                 echo '/comart/index.php';
