@@ -11,11 +11,33 @@ if ($_SESSION['role'] != 'admin') {
 
 $categoryName = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST'  && isset($_POST['categoryName'])) {
     $categoryName = $_POST['categoryName'];
     if (!empty($_POST['categoryName'])) {
-        Category::addCategory($categoryName);
+        $add = Category::addCategory($categoryName);
+        if ($add == 1) {
+            $message = "Category Added Successfully";
+            $opeStatus = 0;
+            $_SESSION['message'] = $message;
+            $_SESSION['opeStatus'] = $opeStatus;
+        } else if ($add == 2) {
+            $message = "Error, try again later!";
+            $opeStatus = 1;
+            $_SESSION['message'] = $message;
+            $_SESSION['opeStatus'] = $opeStatus;
+        } else if ($add == 3) {
+            $message = "Category Already Exists!";
+            $opeStatus = 1;
+            $_SESSION['message'] = $message;
+            $_SESSION['opeStatus'] = $opeStatus;
+        }
+    } else {
+        $message = "Please Enter Category name first";
+        $opeStatus = 1;
+        $_SESSION['message'] = $message;
+        $_SESSION['opeStatus'] = $opeStatus;
     }
+    unset($_POST['categoryName']);
 }
 
 
@@ -378,6 +400,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Category Name</th>
+                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -386,9 +409,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $rows = Category::getAllCategories();
                             if ($rows) {
                                 foreach ($rows as $row) {
+                                    $categoryName = $row['categoryName'];
                                     echo "<tr>";
                                     echo "<th scope='row'>$count</th>";
-                                    echo "<td>" . $row['categoryName'] . "</td>";
+                                    echo "<td>" . $categoryName . "</td>";
+                                    echo "<td>";
+                                    echo "<button type='button' class='btn btn-warning updateCatButton' data-toggle='modal' data-target='#updateCategory' value='$categoryName'>Update</button></td>";
+                                    // echo "<button type='button' class='btn btn-danger deleteCat' data-toggle='modal' data-target='#deleteCategory' value='$categoryName'>Delete</button></td>";
                                     echo "</tr>";
                                     $count++;
                                 }
@@ -526,7 +553,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Delete Account</h5>
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Delete Message</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -541,6 +568,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </div>
                             </div>
                         </div> ';
+
+    echo '<div class="modal fade" id="updateCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"  style="margin-top: 100px;">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Category Name</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <form id="updateCategoryForm">
+          <div class="mb-3">
+              <label for="oldcategory-name" class="col-form-label">Old Category Name:</label>
+              <input type="text" class="form-control" id="oldcategory-name" name="oldcategory-name">
+            </div>
+            <div class="mb-3">
+              <label for="category-name" class="col-form-label">New Category Name:</label>
+              <input type="text" class="form-control" id="category-name" name="category-name">
+            </div>
+            <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <input type="submit" class="btn btn-success" id="updateC" value="Update Category">
+        </div>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>';
+
+    // echo
+    // '<div class="modal fade" id="deleteCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    //     <div class="modal-dialog modal-dialog-centered" role="document">
+    //         <div class="modal-content">
+    //             <div class="modal-header">
+    //             <h5 class="modal-title" id="exampleModalLongTitle">Delete Category</h5>
+    //             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    //             <span aria-hidden="true">&times;</span>
+    //             </button>
+    //             </div>
+    //             <div class="modal-body">
+    //                 Are you sure you want to permanently delete this Category?
+    //             </div>
+    //             <div class="modal-footer">
+    //                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>';
+    // echo "<a id='deleteC'><button type='button' class='btn btn-danger'>Delete</button></a>";
+    // echo '</div>
+    //                                                 </div>
+    //                                             </div>
+    //                                         </div> ';
 
     echo '<div class="modal fade" id="sendMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"  style="margin-top: 100px;">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -615,6 +692,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <script>
         $(document).ready(function() {
+
+            // View Messge
             $(document).on('click', '.view', function() {
                 var id = $(this).val();
                 var sender = $('#senderName' + id).text();
@@ -627,17 +706,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $('#message-body').val(message);
 
                 $messageId = $(this).val();
-                var strLink = 'view.php?id=' + $messageId;
-                document.getElementById("markRead").setAttribute("href", strLink);
+                var viewMsgLink = 'view.php?id=' + $messageId;
+                document.getElementById("markRead").setAttribute("href", viewMsgLink);
             });
 
+            // Delete Message
             $(document).on('click', '.deleteMsg', function() {
                 $msgId = $(this).val();
 
-                var deleteLink = 'deleteMsg.php?id=' + $msgId;
-                document.getElementById("deleteM").setAttribute("href", deleteLink);
+                var deleteMsgLink = 'deleteMsg.php?id=' + $msgId;
+                document.getElementById("deleteM").setAttribute("href", deleteMsgLink);
             });
 
+            // Send Message
             $(document).on('click', '.sendButton', function() {
                 var $receiverId = $(this).val();
                 var receiver = $('#receiverName' + $receiverId).text();
@@ -650,12 +731,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $(document).ready(function() {
                 $("#sendMessageForm").submit(function(event) {
-                    submitForm();
+                    submitMessageForm();
                     return false;
                 });
             });
 
-            function submitForm() {
+            function submitMessageForm() {
                 $.ajax({
                     type: "POST",
                     url: "sendMessage.php",
@@ -670,6 +751,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 });
             }
+
+            // Update Category
+            $(document).on('click', '.updateCatButton', function() {
+                var categoryName = $(this).val();
+                $('#oldcategory-name').val(categoryName);
+            });
+
+            $(document).ready(function() {
+                $("#updateCategoryForm").submit(function(event) {
+                    submitUpdateCatForm();
+                    return false;
+                });
+            });
+
+            function submitUpdateCatForm() {
+                $.ajax({
+                    type: "POST",
+                    url: "updateCategory.php",
+                    cache: false,
+                    data: $('form#updateCategoryForm').serialize(),
+                    success: function(response) {
+                        $("body").html(response)
+                        $("#updateCategory").modal('hide');
+                    },
+                    error: function() {
+                        alert("Error");
+                    }
+                });
+            }
+
+            // Delete Category
+            // $(document).on('click', '.deleteCat', function() {
+            //     $categoryName = $(this).val();
+
+            //     var deleteCatLink = 'deleteCategory.php?id=' + $categoryName;
+            //     document.getElementById("deleteC").setAttribute("href", deleteCatLink);
+            // });
 
         });
     </script>
