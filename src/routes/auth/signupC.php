@@ -65,8 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     if (empty($firstName_error) && (empty($lastName_error)) && empty($username_error) && empty($email_error) && empty($password_error) && empty($confirm_password_error) && empty($agreement_error)) {
-        $user = ['username' => $username,'email'=>$email ,'password' => $password, 'role' => 'buyer', 'firstName'=> $firstName, 'lastName'=> $lastName, 'tinNumber'=>$tinNumber];
-        User::register($user);
+        $buyer = ['username' => $username, 'email' => $email, 'password' => $password, 'role' => 'buyer', 'firstName' => $firstName, 'lastName' => $lastName, 'tinNumber' => $tinNumber];
+        User::register($buyer);
     }
 }
 
