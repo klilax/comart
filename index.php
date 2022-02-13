@@ -124,7 +124,9 @@ require('class/Inventory.php');
 
 						<!-- ACCOUNT -->
 						<div class="col-md-3 clearfix">
-							<div class="header-ctn">
+							<div class="header-ctn">';
+			if (isset($_SESSION['id'])) {
+				echo '
 								<!-- Cart -->
 								<div class="dropdown">
 									<a href="/comart/src/routes/checkout.php">
@@ -132,9 +134,11 @@ require('class/Inventory.php');
 										<span>Your Cart</span>
 										<div class="qty">0</div>
 									</a>
-								</div>
-								<!-- /Cart -->
+								</div> 
+								<!-- /Cart -->';
+			}
 
+			echo '
 								<!-- Menu Toogle -->
 								<div class="menu-toggle">
 									<a href="#">
