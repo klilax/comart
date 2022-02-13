@@ -1,7 +1,10 @@
 <?php
 // require '../../../class/db.php';
 // getConnection();
+
+
 require('../../../class/User.php');
+session_start();
 
 $username = $password = '';
 
@@ -91,7 +94,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	</header>
 	<!-- /HEADER -->
 
-	<!-- BREADCRUMB -->
+	<?php
+	if (isset($_SESSION['message'])) {
+		if ($_SESSION['opeStatus'] == 0) {
+			echo "<div class='alert alert-success row w-50 mx-auto' role='alert'>";
+			echo  $_SESSION['message'];
+			echo "</div>";
+		} else {
+			echo "<div class='alert alert-warning row w-50 mx-auto' role='alert'>";
+			echo  $_SESSION['message'];
+			echo "</div>";
+		}
+		unset($_SESSION['message']);
+		unset($_SESSION['opeStatus']);
+	} else {
+		echo '<!-- BREADCRUMB -->
 	<div id="breadcrumb" class="section">
 		<!-- container -->
 		<div class="container">
@@ -100,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				<div class="col-md-12">
 					<h3 class="breadcrumb-header">Sign In</h3>
 					<ul class="breadcrumb-tree">
-						<li><a href="" data-toggle='modal' data-target='#exampleModalCenter'>Dont't have account? Create Now</a></li>
+						<li><a href="" data-toggle="modal" data-target="#exampleModalCenter">Dont\'t have account? Create Now</a></li>
 					</ul>
 				</div>
 			</div>
@@ -108,7 +125,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		</div>
 		<!-- /container -->
 	</div>
-	<!-- /BREADCRUMB -->
+	<!-- /BREADCRUMB -->';
+	}
+
+	?>
+
+
 
 	<!-- SECTION -->
 	<div class="section">

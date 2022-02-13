@@ -2,6 +2,7 @@
 // require_once '../../../class/db.php';
 
 require('../../../class/User.php');
+session_start();
 
 $firstName = $lastName = $shopName = $username = $email = $tinNumber = $password = $confirm_password = '';
 
@@ -64,8 +65,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($shopName_error) && empty($username_error) && empty($email_error) && empty($tinNumber_error) && empty($password_error) && empty($confirm_password_error) && empty($agreement_error)) {
-        $vendor = ['username' => $username,'email'=> $email ,'password' => $password, 'role' => $role, 'vendorName'=> $shopName, 'tinNumber'=> $tinNumber];
+        $vendor = ['username' => $username, 'email' => $email, 'password' => $password, 'role' => $role, 'vendorName' => $shopName, 'tinNumber' => $tinNumber];
         User::register($vendor);
+
+        $message = "Account Created Successfully";
+        $opeStatus = 0;
+        $_SESSION['message'] = $message;
+        $_SESSION['opeStatus'] = $opeStatus;
+
+        header("Location: signin.php");
     }
 }
 
@@ -124,7 +132,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ?>
     </header>
     <!-- /HEADER -->
-
     <!-- BREADCRUMB -->
     <div id="breadcrumb" class="section">
         <!-- container -->
