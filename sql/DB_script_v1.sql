@@ -153,12 +153,8 @@ modify
 ALTER TABLE
   inventory
 ADD
-  imgName VARCHAR(255) UNIQUE NULL;
+  imgName VARCHAR(255) NULL;
 ALTER TABLE
   category
 ADD
-  defaultImgName VARCHAR(255) NULL;
-ALTER TABLE
-  category
-MODIFY
   defaultImgName VARCHAR(255) NULL;
