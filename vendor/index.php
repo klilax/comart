@@ -1,7 +1,7 @@
 <?php
 //require('../class/User.php');
 // require('../class/Inventory.php');
-require_once('../class/Order.php');
+ require_once ('../class/Order.php');
 session_start();
 if (!isset($_SESSION['user'])) {
     header('location: ../src/routes/auth/signin.php');
@@ -50,6 +50,12 @@ if ($_SESSION['role'] != 'vendor') {
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+
+    <style>
+        .form-select {
+            font-size: 16px;
+        }
+    </style>
 
     <style>
         table button {
@@ -139,10 +145,10 @@ if ($_SESSION['role'] != 'vendor') {
                                 $inventoryId = $row['inventoryId'];
                                 echo "<tr>";
                                 echo "<th scope='row'>$count</th>";
-                                echo "<td>" . $row['inventoryName'] . "</td>";
-                                echo "<td>" . $row['categoryName'] . "</td>";
-                                echo "<td>" . number_format($row['price'], 2) . "</td>";
-                                echo "<td>" . $row['quantity'] . "</td>";
+                                echo "<td>" .$row['inventoryName']. "</td>";
+                                echo "<td>" .$row['categoryName']. "</td>";
+                                echo "<td>" .number_format($row['price'], 2). "</td>";
+                                echo "<td>" .$row['quantity']. "</td>";
                                 echo "</tr>";
                                 $count++;
                             }
@@ -160,9 +166,7 @@ if ($_SESSION['role'] != 'vendor') {
                         <div class="form-group">
                             <label for="productName">Product Name</label>
                             <input type="text" class="form-control" id="productName" name="productName" placeholder="Product Name">
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $username_error; 
-                                                                                                                    ?>
-                            <!--</span>-->
+<!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $username_error; ?><!--</span>-->
                         </div>
                         <div class="form-group">
                             <label for="category">Category</label><br>
@@ -173,34 +177,48 @@ if ($_SESSION['role'] != 'vendor') {
                                 }
                                 ?>
                             </select>
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $username_error; 
-                                                                                                                    ?>
-                            <!--</span>-->
+                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $username_error; ?><!--</span>-->
                         </div>
                         <div class="form-group mb-5">
                             <label for="price">Price</label>
                             <input type="text" class="form-control" id="price" name="price" placeholder="price">
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; 
-                                                                                                                    ?>
-                            <!--</span>-->
+<!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; ?><!--</span>-->
                         </div>
                         <div class="form-group mb-5">
                             <label for="quantity">Quantity</label>
                             <input type="text" class="form-control" id="qty" name="quantity" placeholder="quantity">
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; 
-                                                                                                                    ?>
-                            <!--</span>-->
+                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; ?><!--</span>-->
                         </div>
                         <button type="submit" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px">Add Product</button>
                     </form>
                 </div>
             </section>
         </div>
+        <?php
+        if (isset($_POST['updateInventory'],$_POST['newName'])) {
+            $inventoryId = $_POST['updateInventory'];
+            $name = $_POST['newName'];
+            if (!empty($name)) {
+                Inventory::changeInventoryName($name, $inventoryId);
+            }
+        }
+        if (isset($_POST['updateInventory'],$_POST['newPrice'])) {
+            $inventoryId = $_POST['updateInventory'];
+            $price = $_POST['newPrice'];
+            if (!empty($price) && is_numeric($price)) {
+                Inventory::changeInventoryPrice($price, $inventoryId);
+            } else {
+                unset($_POST['updateInventory']);
+                unset($_POST['newPrice']);
+            }
+
+        }
+        ?>
         <div class="tab-pane fade" id="updateProduct" role="tabpanel" aria-labelledby="updateProduct-tab">
             <section class=" bg" style="min-height: 70vh;">
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
                     <h1>Update product</h1>
-                    <form action="../class/addInventory.php" method="POST">
+                    <form action="" method="POST">
                         <div class="form-group">
                             <select class="form-select" id="updateInventory" name="updateInventory">
                                 <?php
@@ -209,23 +227,18 @@ if ($_SESSION['role'] != 'vendor') {
                                 }
                                 ?>
                             </select>
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $username_error; 
-                                                                                                                    ?>
-                            <!--</span>-->
+
                         </div>
                         <div class="form-group mb-5">
                             <label for="quantity">Change Name</label>
-                            <input type="text" class="form-control" id="newName" name="newName" placeholder="Product Name">
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; 
-                                                                                                                    ?>
-                            <!--</span>-->
+                            <input type="text" class="form-control" id="newName" style="width: 500px " name="newName" placeholder="Product Name">
+                            <p id="updateError1" style="color: darkred">error 1</p>
                         </div>
                         <div class="form-group mb-5">
                             <label for="price">Change Price</label>
                             <input type="text" class="form-control" id="newPrice" name="newPrice" placeholder="price">
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; 
-                                                                                                                    ?>
-                            <!--</span>-->
+                            <p id="updateError2" style="color: darkred">error 2</p>
+
                         </div>
 
                         <button type="submit" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px">Update Product</button>
@@ -237,30 +250,28 @@ if ($_SESSION['role'] != 'vendor') {
             <section class=" bg" style="min-height: 70vh;">
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
                     <h1>Adjust Stock</h1>
-                    <!--                    <form action="../class/addInventory.php" method="POST">-->
-                    <div class="form-group">
-                        <label for="adjustStockInventory">Adjust Stock</label><br>
-                        <select class="form-select" id="adjustStockInventory" name="adjustStockInventory">
-                            <?php
-                            foreach (Inventory::getVendorInventory($vendorId) as $row) {
-                                echo "<option value='" . $row['inventoryId'] . "'>" . $row['inventoryName'] . "</option>";
-                            }
-                            ?>
-                        </select>
-                    </div>
+<!--                    <form action="../class/addInventory.php" method="POST">-->
+                        <div class="form-group">
+                            <label for="adjustStockInventory">Adjust Stock</label><br>
+                            <select class="form-select" id="adjustStockInventory" name="adjustStockInventory">
+                                <?php
+                                foreach (Inventory::getVendorInventory($vendorId) as $row) {
+                                    echo "<option value='" . $row['inventoryId'] . "'>" . $row['inventoryName'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
 
-                    <div class="form-group mb-5">
-                        <label for="quantity">Quantity</label>
-                        <input type="text" class="form-control" id="adjustQuantity" name="quantity" placeholder="quantity">
-                        <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; 
-                                                                                                                ?>
-                        <!--</span>-->
-                    </div>
-                    <div>
-                        <button type="button" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px" onclick="addStock()">Add Stock</button>
-                        <button type="button" class="btn primary-btn rounded" style="background-color: darkred; border-radius: 5px; padding: 10px 20px" onclick="issueStock()">Issue Stock</button>
-                    </div>
-                    <!--                    </form>-->
+                        <div class="form-group mb-5">
+                            <label for="quantity">Quantity</label>
+                            <input type="text" class="form-control" id="adjustQuantity" name="quantity" placeholder="quantity">
+                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; ?><!--</span>-->
+                        </div>
+                            <div>
+                            <button type="button" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px" onclick="addStock()">Add Stock</button>
+                            <button type="button" class="btn primary-btn rounded" style="background-color: darkred; border-radius: 5px; padding: 10px 20px" onclick="issueStock()">Issue Stock</button>
+                        </div>
+<!--                    </form>-->
                     <script>
                         function addStock() {
                             let inventoryId = document.getElementById("adjustStockInventory").value;
@@ -273,6 +284,7 @@ if ($_SESSION['role'] != 'vendor') {
                             let quantity = document.getElementById("adjustQuantity").value;
                             window.location.href = "../class/issueStock.php?inventoryId=" + inventoryId + "&quantity=" + quantity;
                         }
+
                     </script>
                 </div>
             </section>
@@ -291,19 +303,19 @@ if ($_SESSION['role'] != 'vendor') {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            $count = 1;
-                            foreach (Inventory::fetchInventoryLog($vendorId, true) as $row) {
-                                echo "<tr>";
-                                echo "<th scope='row'>$count</th>";
-                                echo "<td>" . $row['inventoryName'] . "</td>";
-                                echo "<td>" . $row['categoryName'] . "</td>";
-                                echo "<td>" . $row['quantity'] . "</td>";
-                                echo "<td>" . $row['date'] . "</td>";
-                                echo "</tr>";
-                                $count++;
-                            }
-                            ?>
+                        <?php
+                        $count = 1;
+                        foreach (Inventory::fetchInventoryLog($vendorId, true) as $row) {
+                            echo "<tr>";
+                            echo "<th scope='row'>$count</th>";
+                            echo "<td>" . $row['inventoryName'] . "</td>";
+                            echo "<td>" . $row['categoryName'] . "</td>";
+                            echo "<td>" . $row['quantity'] . "</td>";
+                            echo "<td>" . $row['date'] . "</td>";
+                            echo "</tr>";
+                            $count++;
+                        }
+                        ?>
                         </tbody>
                     </table>
                 </div>
@@ -314,28 +326,28 @@ if ($_SESSION['role'] != 'vendor') {
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
                     <table id="ISSUED" class="table">
                         <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Date</th>
-                            </tr>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Date</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            $count = 1;
-                            foreach (Inventory::fetchInventoryLog($vendorId, false) as $row) {
-                                echo "<tr>";
-                                echo "<th scope='row'>$count</th>";
-                                echo "<td>" . $row['inventoryName'] . "</td>";
-                                echo "<td>" . $row['categoryName'] . "</td>";
-                                echo "<td>" . $row['quantity'] . "</td>";
-                                echo "<td>" . $row['date'] . "</td>";
-                                echo "</tr>";
-                                $count++;
-                            }
-                            ?>
+                        <?php
+                        $count = 1;
+                        foreach (Inventory::fetchInventoryLog($vendorId, false) as $row) {
+                            echo "<tr>";
+                            echo "<th scope='row'>$count</th>";
+                            echo "<td>" . $row['inventoryName'] . "</td>";
+                            echo "<td>" . $row['categoryName'] . "</td>";
+                            echo "<td>" . $row['quantity'] . "</td>";
+                            echo "<td>" . $row['date'] . "</td>";
+                            echo "</tr>";
+                            $count++;
+                        }
+                        ?>
                         </tbody>
                     </table>
                 </div>
@@ -346,16 +358,16 @@ if ($_SESSION['role'] != 'vendor') {
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
                     <table id="order" class="table">
                         <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Customer name</th>
-                                <th scope="col">Tin No.</th>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Unit Price</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Total Price</th>
-                                <th scope="col">date</th>
-                            </tr>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Customer name</th>
+                            <th scope="col">Tin No.</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Unit Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total Price</th>
+                            <th scope="col">date</th>
+                        </tr>
                         </thead>
                         <tbody>
                             <?php
@@ -363,13 +375,13 @@ if ($_SESSION['role'] != 'vendor') {
                             foreach (Order::getVendorOrders($vendorId, false) as $row) {
                                 echo "<tr>";
                                 echo "<th scope='row'>$count</th>";
-                                echo "<td>" . $row['firstname'] . ' ' . $row['lastname'] . "</td>";
-                                echo "<td>" . $row['tinNumber'] . "</td>";
-                                echo "<td>" . $row['inventoryName'] . "</td>";
-                                echo "<td>" . number_format($row['selling_price'], 2, '.', ',') . "</td>";
-                                echo "<td>" . $row['quantity'] . "</td>";
-                                echo "<td>" . number_format($row['selling_price'] * $row['quantity'], 2, '.', ',') . "</td>";
-                                echo "<td>" . $row['requestDate'] . "</td>";
+                                echo "<td>" .$row['firstname']. ' ' .$row['lastname'] . "</td>";
+                                echo "<td>" .$row['tinNumber']. "</td>";
+                                echo "<td>" .$row['inventoryName']. "</td>";
+                                echo "<td>" .number_format($row['selling_price'], 2, '.', ','). "</td>";
+                                echo "<td>" .$row['quantity']. "</td>";
+                                echo "<td>" .number_format($row['selling_price'] * $row['quantity'], 2, '.', ','). "</td>";
+                                echo "<td>" .$row['requestDate']. "</td>";
                                 echo "</tr>";
                                 $count++;
                             }
@@ -384,34 +396,34 @@ if ($_SESSION['role'] != 'vendor') {
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
                     <table id="sold" class="table">
                         <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Customer name</th>
-                                <th scope="col">Tin No.</th>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Unit Price</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Total Price</th>
-                                <th scope="col">date</th>
-                            </tr>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Customer name</th>
+                            <th scope="col">Tin No.</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Unit Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total Price</th>
+                            <th scope="col">date</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            $count = 1;
-                            foreach (Order::getVendorOrders($vendorId, true) as $row) {
-                                echo "<tr>";
-                                echo "<th scope='row'>$count</th>";
-                                echo "<td>" . $row['firstname'] . ' ' . $row['lastname'] . "</td>";
-                                echo "<td>" . $row['tinNumber'] . "</td>";
-                                echo "<td>" . $row['inventoryName'] . "</td>";
-                                echo "<td>" . number_format($row['selling_price'], 2, '.', ',') . "</td>";
-                                echo "<td>" . $row['quantity'] . "</td>";
-                                echo "<td>" . number_format($row['selling_price'] * $row['quantity'], 2, '.', ',') . "</td>";
-                                echo "<td>" . $row['requestDate'] . "</td>";
-                                echo "</tr>";
-                                $count++;
-                            }
-                            ?>
+                        <?php
+                        $count = 1;
+                        foreach (Order::getVendorOrders($vendorId, true) as $row) {
+                            echo "<tr>";
+                            echo "<th scope='row'>$count</th>";
+                            echo "<td>" .$row['firstname']. ' ' .$row['lastname'] . "</td>";
+                            echo "<td>" .$row['tinNumber']. "</td>";
+                            echo "<td>" .$row['inventoryName']. "</td>";
+                            echo "<td>" .number_format($row['selling_price'], 2, '.', ','). "</td>";
+                            echo "<td>" .$row['quantity']. "</td>";
+                            echo "<td>" .number_format($row['selling_price'] * $row['quantity'], 2, '.', ','). "</td>";
+                            echo "<td>" .$row['requestDate']. "</td>";
+                            echo "</tr>";
+                            $count++;
+                        }
+                        ?>
                         </tbody>
                     </table>
                 </div>
