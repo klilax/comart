@@ -157,4 +157,8 @@ ADD
 ALTER TABLE
   category
 ADD
-  defaultImgName VARCHAR(255) UNIQUE NULL;
+  defaultImgName VARCHAR(255) NULL;
+ALTER TABLE
+  category
+MODIFY
+  defaultImgName VARCHAR(255) NULL;

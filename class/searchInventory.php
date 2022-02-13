@@ -14,10 +14,11 @@ if (isset($_GET['query'], $_GET['category'], $_GET['featuredOnly'])) {
             //$qty = $row['quantity'];
             $featured = $row['featured'];
             $featuredOnly = true;
+            $imgName = $row['imgName'];
 
             $encoded_name = urlencode($name);
 
-            displayProduct($inventoryId, $name, $encoded_name, $price, $category, $featured, $featuredOnly);
+            displayProduct($inventoryId, $name, $encoded_name, $price, $imgName, $category, $featured, $featuredOnly);
         }
     }
 } else if (isset($_GET['query'], $_GET['category'])) {
@@ -34,10 +35,10 @@ if (isset($_GET['query'], $_GET['category'], $_GET['featuredOnly'])) {
             //$qty = $row['quantity'];
             $featured = $row['featured'];
             $featuredOnly = false;
-
+            $imgName = $row['imgName'];
             $encoded_name = urlencode($name);
 
-            displayProduct($inventoryId, $name, $encoded_name, $price, $category, $featured, $featuredOnly);
+            displayProduct($inventoryId, $name, $encoded_name, $price, $imgName, $category, $featured, $featuredOnly);
         }
     } else {
         echo '<hr>';
@@ -46,7 +47,7 @@ if (isset($_GET['query'], $_GET['category'], $_GET['featuredOnly'])) {
     }
 }
 
-function displayProduct($inventoryId, $name, $encoded_name, $price, $category, $featured, $featuredOnly) {
+function displayProduct($inventoryId, $name, $encoded_name, $price, $imgName, $category, $featured, $featuredOnly) {
     echo
     '
         <a href="/comart/src/routes/product.php?inventoryId=' . $inventoryId . '">
@@ -69,7 +70,17 @@ function displayProduct($inventoryId, $name, $encoded_name, $price, $category, $
                     <div class="product-img">
 
                         <!-- image path -->
-                        <img src="img/product01.png" alt="">
+                        <img src="img/';
+    if ($imgName == '' || is_null($imgName)) {
+        if (Category::getCategoryDefaultImg($category) == '') {
+            echo 'imgError.jpg';
+        } else {
+            echo Category::getCategoryDefaultImg($category);
+        }
+    } else {
+        echo $imgName;
+    }
+    echo '" alt="">
 
                         <!-- featured or not -->
                         ';

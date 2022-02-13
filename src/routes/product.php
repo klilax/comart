@@ -15,7 +15,8 @@ $productCategory = Category::getCategoryName($product->getCategoryId());
 $productVendorId = $product->getVendorId();
 $productVendorName = $product->getVendorName();
 $productDesc = 'Product Description';
-$productImg = '';
+$productImg = $product->getImgName();
+$categoryImg = Category::getCategoryDefaultImg($productCategory);
 $productReviews = '';
 
 ?>
@@ -88,26 +89,26 @@ $productReviews = '';
 				<div class="col-md-5 col-md-2" style="width: 50%">
 					<div id="product-main-img">
 						<div class="product-preview">
-							<img src="../../img/product01.png" alt="">
-						</div>
-
-						<div class="product-preview">
-							<img src="../../img/product03.png" alt="">
-						</div>
-
-						<div class="product-preview">
-							<img src="../../img/product06.png" alt="">
-						</div>
-
-						<div class="product-preview">
-							<img src="../../img/product08.png" alt="">
+							<img src="../../img/
+							<?php
+							if ($productImg == '' || is_null($productImg)) {
+								if (Category::getCategoryDefaultImg($productCategory) == '' || is_null(Category::getCategoryDefaultImg($productCategory))) {
+									echo 'imgError.jpg';
+								} else {
+									echo Category::getCategoryDefaultImg($productCategory);
+								}
+							} else {
+								echo $productImg;
+							}
+							?>
+							">
 						</div>
 					</div>
 				</div>
 				<!-- /Product main img -->
 
 				<!-- Product details -->
-				<div class="col-md-5" style="width: 50%; padding: 3rem 1rem;">
+				<div class="col-md-5" style="width: 50%; padding: 3rem;">
 					<div class="product-details">
 						<h5 class="h5 text-muted"><?php echo $productCategory; ?></h5>
 						<h2 class="product-name" style="display: inline;"><?php echo $productName; ?></h2>

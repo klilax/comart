@@ -104,7 +104,17 @@ $vendorProducts = Inventory::getVendorInventory($vendorId);
 								<div class="col-md-3 col-xs-6" style="padding-bottom: 3.5rem;">
 									<div class="product">
 										<div class="product-img">
-											<img src="../../img/product01.png" alt="">
+											<img src="../../img/';
+							if ($product['imgName'] == '') {
+								if (Category::getCategoryDefaultImg($product['categoryName']) == '') {
+									echo 'imgError.jpg';
+								} else {
+									echo Category::getCategoryDefaultImg($product['categoryName']);
+								}
+							} else {
+								echo $product['imgName'];
+							}
+							echo '" alt="">
 
 							';
 							if ($product['featured'] == 1) {
@@ -141,7 +151,7 @@ $vendorProducts = Inventory::getVendorInventory($vendorId);
 											<a href="/comart/class/Cart.php?inventoryId=' . $product['inventoryId'] . '&productName=' . $encoded_name . '&price=' . $product['price'] . '">
                             					<button class="add-to-cart-btn">
 													<i class="fa fa-shopping-cart"></i>
-											 to cart
+											 add to cart
                             					</button>
 											</a>
 										</div>
