@@ -1,7 +1,7 @@
 <?php
 //require('../class/User.php');
 // require('../class/Inventory.php');
- require_once ('../class/Order.php');
+require_once('../class/Order.php');
 session_start();
 if (!isset($_SESSION['user'])) {
     header('location: ../src/routes/auth/signin.php');
@@ -51,6 +51,12 @@ if ($_SESSION['role'] != 'vendor') {
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
 
+    <style>
+        table button {
+            margin: 5px 10px;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -65,6 +71,22 @@ if ($_SESSION['role'] != 'vendor') {
         //<!-- /MAIN HEADER -->
         ?>
     </header>
+
+    <?php
+    if (isset($_SESSION['message'])) {
+        if ($_SESSION['opeStatus'] == 0) {
+            echo "<div class='alert alert-success row w-25 mx-auto' role='alert'>";
+            echo  $_SESSION['message'];
+            echo "</div>";
+        } else {
+            echo "<div class='alert alert-warning row w-25 mx-auto' role='alert'>";
+            echo  $_SESSION['message'];
+            echo "</div>";
+        }
+        unset($_SESSION['message']);
+        unset($_SESSION['opeStatus']);
+    }
+    ?>
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -117,10 +139,10 @@ if ($_SESSION['role'] != 'vendor') {
                                 $inventoryId = $row['inventoryId'];
                                 echo "<tr>";
                                 echo "<th scope='row'>$count</th>";
-                                echo "<td>" .$row['inventoryName']. "</td>";
-                                echo "<td>" .$row['categoryName']. "</td>";
-                                echo "<td>" .number_format($row['price'], 2). "</td>";
-                                echo "<td>" .$row['quantity']. "</td>";
+                                echo "<td>" . $row['inventoryName'] . "</td>";
+                                echo "<td>" . $row['categoryName'] . "</td>";
+                                echo "<td>" . number_format($row['price'], 2) . "</td>";
+                                echo "<td>" . $row['quantity'] . "</td>";
                                 echo "</tr>";
                                 $count++;
                             }
@@ -138,7 +160,9 @@ if ($_SESSION['role'] != 'vendor') {
                         <div class="form-group">
                             <label for="productName">Product Name</label>
                             <input type="text" class="form-control" id="productName" name="productName" placeholder="Product Name">
-<!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $username_error; ?><!--</span>-->
+                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $username_error; 
+                                                                                                                    ?>
+                            <!--</span>-->
                         </div>
                         <div class="form-group">
                             <label for="category">Category</label><br>
@@ -149,17 +173,23 @@ if ($_SESSION['role'] != 'vendor') {
                                 }
                                 ?>
                             </select>
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $username_error; ?><!--</span>-->
+                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $username_error; 
+                                                                                                                    ?>
+                            <!--</span>-->
                         </div>
                         <div class="form-group mb-5">
                             <label for="price">Price</label>
                             <input type="text" class="form-control" id="price" name="price" placeholder="price">
-<!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; ?><!--</span>-->
+                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; 
+                                                                                                                    ?>
+                            <!--</span>-->
                         </div>
                         <div class="form-group mb-5">
                             <label for="quantity">Quantity</label>
                             <input type="text" class="form-control" id="qty" name="quantity" placeholder="quantity">
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; ?><!--</span>-->
+                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; 
+                                                                                                                    ?>
+                            <!--</span>-->
                         </div>
                         <button type="submit" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px">Add Product</button>
                     </form>
@@ -179,17 +209,23 @@ if ($_SESSION['role'] != 'vendor') {
                                 }
                                 ?>
                             </select>
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $username_error; ?><!--</span>-->
+                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $username_error; 
+                                                                                                                    ?>
+                            <!--</span>-->
                         </div>
                         <div class="form-group mb-5">
                             <label for="quantity">Change Name</label>
                             <input type="text" class="form-control" id="newName" name="newName" placeholder="Product Name">
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; ?><!--</span>-->
+                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; 
+                                                                                                                    ?>
+                            <!--</span>-->
                         </div>
                         <div class="form-group mb-5">
                             <label for="price">Change Price</label>
                             <input type="text" class="form-control" id="newPrice" name="newPrice" placeholder="price">
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; ?><!--</span>-->
+                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; 
+                                                                                                                    ?>
+                            <!--</span>-->
                         </div>
 
                         <button type="submit" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px">Update Product</button>
@@ -201,40 +237,42 @@ if ($_SESSION['role'] != 'vendor') {
             <section class=" bg" style="min-height: 70vh;">
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
                     <h1>Adjust Stock</h1>
-<!--                    <form action="../class/addInventory.php" method="POST">-->
-                        <div class="form-group">
-                            <label for="adjustStockInventory">Adjust Stock</label><br>
-                            <select class="form-select" id="adjustStockInventory" name="adjustStockInventory">
-                                <?php
-                                foreach (Inventory::getVendorInventory($vendorId) as $row) {
-                                    echo "<option value='" . $row['inventoryId'] . "'>" . $row['inventoryName'] . "</option>";
-                                }
-                                ?>
-                            </select>
-                        </div>
+                    <!--                    <form action="../class/addInventory.php" method="POST">-->
+                    <div class="form-group">
+                        <label for="adjustStockInventory">Adjust Stock</label><br>
+                        <select class="form-select" id="adjustStockInventory" name="adjustStockInventory">
+                            <?php
+                            foreach (Inventory::getVendorInventory($vendorId) as $row) {
+                                echo "<option value='" . $row['inventoryId'] . "'>" . $row['inventoryName'] . "</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
 
-                        <div class="form-group mb-5">
-                            <label for="quantity">Quantity</label>
-                            <input type="text" class="form-control" id="adjustQuantity" name="quantity" placeholder="quantity">
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; ?><!--</span>-->
-                        </div>
-                            <div>
-                            <button type="button" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px" onclick="addStock()">Add Stock</button>
-                            <button type="button" class="btn primary-btn rounded" style="background-color: darkred; border-radius: 5px; padding: 10px 20px" onclick="issueStock()">Issue Stock</button>
-                        </div>
-<!--                    </form>-->
+                    <div class="form-group mb-5">
+                        <label for="quantity">Quantity</label>
+                        <input type="text" class="form-control" id="adjustQuantity" name="quantity" placeholder="quantity">
+                        <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; 
+                                                                                                                ?>
+                        <!--</span>-->
+                    </div>
+                    <div>
+                        <button type="button" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px" onclick="addStock()">Add Stock</button>
+                        <button type="button" class="btn primary-btn rounded" style="background-color: darkred; border-radius: 5px; padding: 10px 20px" onclick="issueStock()">Issue Stock</button>
+                    </div>
+                    <!--                    </form>-->
                     <script>
                         function addStock() {
                             let inventoryId = document.getElementById("adjustStockInventory").value;
                             let quantity = document.getElementById("adjustQuantity").value;
                             window.location.href = "../class/addStock.php?inventoryId=" + inventoryId + "&quantity=" + quantity;
                         }
+
                         function issueStock() {
                             let inventoryId = document.getElementById("adjustStockInventory").value;
                             let quantity = document.getElementById("adjustQuantity").value;
                             window.location.href = "../class/issueStock.php?inventoryId=" + inventoryId + "&quantity=" + quantity;
                         }
-
                     </script>
                 </div>
             </section>
@@ -253,19 +291,19 @@ if ($_SESSION['role'] != 'vendor') {
                             </tr>
                         </thead>
                         <tbody>
-                        <?php
-                        $count = 1;
-                        foreach (Inventory::fetchInventoryLog($vendorId, true) as $row) {
-                            echo "<tr>";
-                            echo "<th scope='row'>$count</th>";
-                            echo "<td>" . $row['inventoryName'] . "</td>";
-                            echo "<td>" . $row['categoryName'] . "</td>";
-                            echo "<td>" . $row['quantity'] . "</td>";
-                            echo "<td>" . $row['date'] . "</td>";
-                            echo "</tr>";
-                            $count++;
-                        }
-                        ?>
+                            <?php
+                            $count = 1;
+                            foreach (Inventory::fetchInventoryLog($vendorId, true) as $row) {
+                                echo "<tr>";
+                                echo "<th scope='row'>$count</th>";
+                                echo "<td>" . $row['inventoryName'] . "</td>";
+                                echo "<td>" . $row['categoryName'] . "</td>";
+                                echo "<td>" . $row['quantity'] . "</td>";
+                                echo "<td>" . $row['date'] . "</td>";
+                                echo "</tr>";
+                                $count++;
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>
@@ -276,28 +314,28 @@ if ($_SESSION['role'] != 'vendor') {
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
                     <table id="ISSUED" class="table">
                         <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Date</th>
-                        </tr>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Date</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <?php
-                        $count = 1;
-                        foreach (Inventory::fetchInventoryLog($vendorId, false) as $row) {
-                            echo "<tr>";
-                            echo "<th scope='row'>$count</th>";
-                            echo "<td>" . $row['inventoryName'] . "</td>";
-                            echo "<td>" . $row['categoryName'] . "</td>";
-                            echo "<td>" . $row['quantity'] . "</td>";
-                            echo "<td>" . $row['date'] . "</td>";
-                            echo "</tr>";
-                            $count++;
-                        }
-                        ?>
+                            <?php
+                            $count = 1;
+                            foreach (Inventory::fetchInventoryLog($vendorId, false) as $row) {
+                                echo "<tr>";
+                                echo "<th scope='row'>$count</th>";
+                                echo "<td>" . $row['inventoryName'] . "</td>";
+                                echo "<td>" . $row['categoryName'] . "</td>";
+                                echo "<td>" . $row['quantity'] . "</td>";
+                                echo "<td>" . $row['date'] . "</td>";
+                                echo "</tr>";
+                                $count++;
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>
@@ -308,16 +346,16 @@ if ($_SESSION['role'] != 'vendor') {
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
                     <table id="order" class="table">
                         <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Customer name</th>
-                            <th scope="col">Tin No.</th>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Unit Price</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Total Price</th>
-                            <th scope="col">date</th>
-                        </tr>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Customer name</th>
+                                <th scope="col">Tin No.</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Unit Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total Price</th>
+                                <th scope="col">date</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <?php
@@ -325,13 +363,13 @@ if ($_SESSION['role'] != 'vendor') {
                             foreach (Order::getVendorOrders($vendorId, false) as $row) {
                                 echo "<tr>";
                                 echo "<th scope='row'>$count</th>";
-                                echo "<td>" .$row['firstname']. ' ' .$row['lastname'] . "</td>";
-                                echo "<td>" .$row['tinNumber']. "</td>";
-                                echo "<td>" .$row['inventoryName']. "</td>";
-                                echo "<td>" .number_format($row['selling_price'], 2, '.', ','). "</td>";
-                                echo "<td>" .$row['quantity']. "</td>";
-                                echo "<td>" .number_format($row['selling_price'] * $row['quantity'], 2, '.', ','). "</td>";
-                                echo "<td>" .$row['requestDate']. "</td>";
+                                echo "<td>" . $row['firstname'] . ' ' . $row['lastname'] . "</td>";
+                                echo "<td>" . $row['tinNumber'] . "</td>";
+                                echo "<td>" . $row['inventoryName'] . "</td>";
+                                echo "<td>" . number_format($row['selling_price'], 2, '.', ',') . "</td>";
+                                echo "<td>" . $row['quantity'] . "</td>";
+                                echo "<td>" . number_format($row['selling_price'] * $row['quantity'], 2, '.', ',') . "</td>";
+                                echo "<td>" . $row['requestDate'] . "</td>";
                                 echo "</tr>";
                                 $count++;
                             }
@@ -346,34 +384,34 @@ if ($_SESSION['role'] != 'vendor') {
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
                     <table id="sold" class="table">
                         <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Customer name</th>
-                            <th scope="col">Tin No.</th>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Unit Price</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Total Price</th>
-                            <th scope="col">date</th>
-                        </tr>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Customer name</th>
+                                <th scope="col">Tin No.</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Unit Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total Price</th>
+                                <th scope="col">date</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <?php
-                        $count = 1;
-                        foreach (Order::getVendorOrders($vendorId, true) as $row) {
-                            echo "<tr>";
-                            echo "<th scope='row'>$count</th>";
-                            echo "<td>" .$row['firstname']. ' ' .$row['lastname'] . "</td>";
-                            echo "<td>" .$row['tinNumber']. "</td>";
-                            echo "<td>" .$row['inventoryName']. "</td>";
-                            echo "<td>" .number_format($row['selling_price'], 2, '.', ','). "</td>";
-                            echo "<td>" .$row['quantity']. "</td>";
-                            echo "<td>" .number_format($row['selling_price'] * $row['quantity'], 2, '.', ','). "</td>";
-                            echo "<td>" .$row['requestDate']. "</td>";
-                            echo "</tr>";
-                            $count++;
-                        }
-                        ?>
+                            <?php
+                            $count = 1;
+                            foreach (Order::getVendorOrders($vendorId, true) as $row) {
+                                echo "<tr>";
+                                echo "<th scope='row'>$count</th>";
+                                echo "<td>" . $row['firstname'] . ' ' . $row['lastname'] . "</td>";
+                                echo "<td>" . $row['tinNumber'] . "</td>";
+                                echo "<td>" . $row['inventoryName'] . "</td>";
+                                echo "<td>" . number_format($row['selling_price'], 2, '.', ',') . "</td>";
+                                echo "<td>" . $row['quantity'] . "</td>";
+                                echo "<td>" . number_format($row['selling_price'] * $row['quantity'], 2, '.', ',') . "</td>";
+                                echo "<td>" . $row['requestDate'] . "</td>";
+                                echo "</tr>";
+                                $count++;
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>
@@ -382,14 +420,57 @@ if ($_SESSION['role'] != 'vendor') {
         <div class="tab-pane fade" id="msg" role="tabpanel" aria-labelledby="msg-tab">
             <section class=" bg" style="min-height: 70vh;">
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
-                    <table id="msg" class="table">
+                    <button type='button' class='btn btn-primary contactA' data-toggle='modal' data-target='#contactAdmin' value='$id' style="margin: 20px 50px; margin-left: 70%;  width: 180px;">Contact an Admin</button>
+                    <table id=" msgT" class="table">
                         <thead>
-                        <tr>
-                            <h1>Message</h1>
-                        </tr>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">From</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">messageTitle</th>
+                                <th scope="col" style='display: none;'>messageBody</th>
+                                <th scope="col">Status</th>
+                                <th scope="col" colspan="3">Action</th>
+                            </tr>
                         </thead>
                         <tbody>
+                            <?php
+                            $vendorId = $_SESSION['id'];
+                            $sql = 'SELECT messageId, username, email, messageTitle, messageBody, readStatus FROM message
+                            INNER JOIN user on message.senderId = user.id WHERE receiverId = :receiverId ORDER BY readStatus';
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bindParam(':receiverId', $vendorId);
+                            $stmt->execute();
+                            $count = 1;
+                            if ($stmt->rowCount()) {
+                                while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+                                    $id = $row[0];
+                                    echo "<tr>";
+                                    echo "<th scope='row'>$count</th>";
+                                    echo "<td id='senderName$id'>$row[1]</td>";
+                                    echo "<td>$row[2]</td>";
+                                    echo "<td id='messageTitle$id'>$row[3]</td>";
+                                    echo "<td id='messageB$id' style='display: none;'>$row[4]</td>";
+                                    if ($row[5] == 1) {
+                                        echo "<td><span class='badge bg-success'>Read</span></td>";
+                                        echo "<td colspan='3'>";
+                                        echo "<a href='../admin/read.php?id=$id'><button type='button' class='btn btn-warning'>Mark as unread</button></a>";
+                                    } else if ($row[5] == 0) {
+                                        echo "<td><span class='badge bg-danger'>Unread</span></td>";
+                                        echo "<td colspan='3'>";
+                                        echo "<a href='../admin/read.php?id=$id'><button type='button' class='btn btn-success'>Mark as read</button></a>";
+                                    }
+                                    echo "<button type='button' class='btn btn-secondary view' data-toggle='modal' data-target='#viewMessage' value = '$id'>View</button>";
+                                    echo "<button type='button' class='btn btn-danger deleteMsg' data-toggle='modal' data-target='#deleteMessage' value='$id'>Delete</button></td>";
 
+                                    echo "</tr>";
+                                    $count++;
+                                }
+                            } else {
+                                // no data
+                            }
+
+                            ?>
                         </tbody>
                     </table>
                 </div>
@@ -397,10 +478,153 @@ if ($_SESSION['role'] != 'vendor') {
         </div>
     </div>
 
-    <?php include('../src/components/footer.php'); ?>
+    <?php include('../src/components/footer.php');
+
+    echo '<div class="modal fade" id="viewMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"  style="margin-top: 100px;">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle" style="margin-top: 50px; margin-left: 35%;">View Message</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"></a>
+              <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                      <div class="mb-3">
+                      <label for="sender-name" class="col-form-label">From:</label>
+                      <input type="text" class="form-control" id="sender-name" disabled>
+                      </div>
+                        <div class="mb-3">
+                           <label for="title-name" class="col-form-label">Message Title:</label>
+                          <input type="text" class="form-control" id="title-name" disabled>
+                       </div>
+                        <div class="mb-3">
+                          <label for="message-body" class="col-form-label">Message Body:</label>
+                          <textarea class="form-control" id="message-body" rows="4" disabled></textarea>
+            </div>
+            </div>
+            <div class="modal-footer">';
+    echo "<a id='markRead'><button type='button' class='btn btn-secondary'>Close</button></a>";
+    echo ' </div>
+        </div>
+    </div>
+  </div> ';
+
+    echo
+    '<div class="modal fade" id="deleteMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                  <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLongTitle">Delete Message</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                                  </div>
+                                  <div class="modal-body">
+                                      Are you sure you want to permanently delete this message?
+                                  </div>
+                                  <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>';
+    echo "<a id='deleteM'><button type='button' class='btn btn-danger'>Delete</button></a>";
+    echo '</div>
+                              </div>
+                          </div>
+                      </div> ';
+
+    echo '<div class="modal fade" id="contactAdmin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"  style="margin-top: 100px;">
+                      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Send message to an admin</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                          </div>
+                          <div class="modal-body">
+                            <form id="contactAdminForm">
+                              <div class="mb-3">
+                                           <label for="messageTitle" class="col-form-label">Message Title:</label>
+                                          <input type="text" class="form-control" id="messageTitle" name="messageTitle">
+                                       </div>
+                              <div class="mb-3">
+                                <label for="message-text" class="col-form-label">Message:</label>
+                                <textarea class="form-control" id="message-text" name="message-text" rows="3"></textarea>
+                              </div>
+                              <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-success" id="sendM" value="Send Message">
+                          </div>
+                            </form>
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>';
+
+    ?>
     <script>
         $(document).ready(function() {
-            $('#inventory, #GRN, #ISSUED ,#order, #sold').DataTable();
+            $('#inventory, #GRN, #ISSUED ,#order, #sold, #msgT').DataTable();
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            // View Message
+            $(document).on('click', '.view', function() {
+                var id = $(this).val();
+                var sender = $('#senderName' + id).text();
+                var title = $('#messageTitle' + id).text();
+                var message = $('#messageB' + id).text();
+
+                // $('#viewMessage').modal('show');
+                $('#sender-name').val(sender);
+                $('#title-name').val(title);
+                $('#message-body').val(message);
+
+                $messageId = $(this).val();
+                var viewMsgLink = '../admin/view.php?id=' + $messageId;
+                document.getElementById("markRead").setAttribute("href", viewMsgLink);
+            });
+
+            // Delete Message
+            $(document).on('click', '.deleteMsg', function() {
+                $msgId = $(this).val();
+
+                var deleteMsgLink = '../admin/deleteMsg.php?id=' + $msgId;
+                document.getElementById("deleteM").setAttribute("href", deleteMsgLink);
+            });
+
+            // Contact Admin // Send message
+            $(document).on('click', '.contactA', function() {
+                <?php
+                $_SESSION['vendorId'] = $vendorId;
+                ?>
+            });
+
+            $(document).ready(function() {
+                $("#contactAdminForm").submit(function(event) {
+                    submitContactAForm();
+                    return false;
+                });
+            });
+
+            function submitContactAForm() {
+                $.ajax({
+                    type: "POST",
+                    url: "../admin/sendMessage.php",
+                    cache: false,
+                    data: $('form#contactAdminForm').serialize(),
+                    success: function(response) {
+                        $("body").html(response)
+                        $("#contactAdmin").modal('hide');
+                    },
+                    error: function() {
+                        alert("Error");
+                    }
+                });
+            }
+
         });
     </script>
 </body>

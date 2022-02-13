@@ -4,7 +4,7 @@ session_start();
 if (!isset($_SESSION['user'])) {
     header('location: ../signin.php');
 }
-if ($_SESSION['role'] != 'admin') {
+if (($_SESSION['role'] != 'admin') && ($_SESSION['role'] != 'vendor')) {
     header('location: ../signin.php');
 }
 
@@ -33,8 +33,9 @@ if ($stmt1->rowCount() == 1) {
     }
 }
 
-header("Location: index.php");
-
-
-
-header("Location: index.php");
+if ($_SESSION['role'] == 'admin') {
+    header("Location: index.php");
+}
+if ($_SESSION['role'] == 'vendor') {
+    header("Location: ../vendor/index.php");
+}
