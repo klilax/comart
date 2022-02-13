@@ -50,6 +50,10 @@ class Inventory {
         return $this->imgName;
     }
 
+    public static function fetchImgName($categoryId): string {
+        return Category::getCategoryDefaultImg(Category::getCategoryName($categoryId));
+    }
+
     public function getPrice(): float {
         return $this->price;
     }
@@ -65,7 +69,12 @@ class Inventory {
         $this->productName = $result['inventoryName'];
         $this->quantity = $result['quantity'];
         $this->featured = $result['featured'];
-        $this->imgName = $result['imgName'];
+
+        if (!is_null($result['imgName'])) {
+            $this->imgName = $result['imgName'];
+        } else {
+            $this->imgName = $this->fetchImgName($this->categoryId);
+        }
         $this->price = $result['price'];
     }
     public function addReview($user, $rating, $review) {

@@ -149,6 +149,7 @@ modify
     date timestamp default CURRENT_TIMESTAMP null,
     constraint transaction_product_productId_fk foreign key (inventoryId) references inventory (inventoryId)
   );
+#add columns for image file name
 ALTER TABLE
   inventory
 ADD
