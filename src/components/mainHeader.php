@@ -63,7 +63,7 @@ if (isset($_SESSION['user'])) {
                     } else {
                         echo '
                         <div>
-                            <a href="/comart/src/routes/account.php">
+                            <a href="/comart/src/routes/auth/account.php">
                                 <i class="fa fa-cog"></i>
                                 <span>Edit Profile</span>
                             </a>
