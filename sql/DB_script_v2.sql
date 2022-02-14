@@ -1,8 +1,9 @@
 create table category
 (
-    categoryId   int auto_increment
+    categoryId     int auto_increment
         primary key,
-    categoryName varchar(30) not null,
+    categoryName   varchar(30)  not null,
+    defaultImgName varchar(255) null,
     constraint category_categoryName_uindex
         unique (categoryName)
 );
@@ -118,6 +119,7 @@ create table inventory
     quantity      int        default 0 null,
     price         float                not null,
     featured      tinyint(1) default 0 not null,
+    imgName       varchar(255)         null,
     constraint unique_index
         unique (inventoryName, vendorId),
     constraint inventory_category_categoryId_fk
