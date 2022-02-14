@@ -13,8 +13,42 @@ $categoryName = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'  && isset($_POST['categoryName'])) {
     $categoryName = $_POST['categoryName'];
+    define('MB', 1048576);
+    $defaultFileName = NULL;
+    $file = $_FILES['file'];
+    $fileName = $file['name'];
+    $fileSize = $file['size'];
+    $fileError = $file['error'];
+
+    $fileExt = explode('.', $fileName);
+    $fileActualExt = strtolower(end($fileExt));
+
+    $allowed = array('jpg', 'jpeg', 'png');
+
+    if (in_array($fileActualExt, $allowed)) {
+        if ($fileError === 0) {
+            if ($fileSize < 1 * MB) {
+                $defaultFileName = $fileName;
+            } else {
+                $message = "Image is too large. Maximum file size is 1MB.";
+                $opeStatus = 0;
+                $_SESSION['message'] = $message;
+                $_SESSION['opeStatus'] = $opeStatus;
+            }
+        } else {
+            $message = "There was an error uploading your image.";
+            $opeStatus = 0;
+            $_SESSION['message'] = $message;
+            $_SESSION['opeStatus'] = $opeStatus;
+        }
+    } else {
+        $message = "You can not upload files of this type.";
+        $opeStatus = 0;
+        $_SESSION['message'] = $message;
+        $_SESSION['opeStatus'] = $opeStatus;
+    }
     if (!empty($_POST['categoryName'])) {
-        $add = Category::addCategory($categoryName);
+        $add = Category::addCategory($categoryName, $defaultFileName);
         if ($add == 1) {
             $message = "Category Added Successfully";
             $opeStatus = 0;
@@ -40,9 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'  && isset($_POST['categoryName'])) {
     unset($_POST['categoryName']);
 }
 
-
 ?>
-
 
 <!doctype html>
 <html lang="en">
@@ -286,7 +318,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'  && isset($_POST['categoryName'])) {
                         <tbody>
                             <?php
                             $adminId = $_SESSION['id'];
-                            $sql = 'SELECT id, vendorName, email, role, tinNumber, registrationDate, status FROM vendor INNER JOIN user on vendor.userId = user.id WHERE 1 ORDER BY vendorName';
+                            $sql = 'SELECT id, vendorName, email, role, tinNumber, registrationDate, status FROM vendor INNER JOIN user on vendor.userId = user.id WHERE 1 ORDER BY status';
                             $stmt = $conn->prepare($sql);
                             $stmt->execute();
                             $count = 1;
@@ -391,8 +423,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'  && isset($_POST['categoryName'])) {
             <section class=" bg" style="min-height: 70vh;">
                 <div class="row w-50 mx-auto text-secondary d-flex icon-boxes">
 
-                    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST" id="formId">
-                        <input style="margin-left: 30%; margin: 20px 50px;   width: 180px; float:left;" class="form-control" type="text" placeholder="Category Name" name="categoryName" id="queryV">
+                    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST" id="formId" enctype="multipart/form-data">
+                        <input style="margin: 20px 50px;  width: 180px; float:left;" class="form-control" type="text" placeholder="Category Name" name="categoryName" id="queryV">
+                        <input type="file" class="form-control" id="qty" name="file" placeholder="image" style="margin: 20px 20px; width: 280px; height: 33px;">
                         <input type='submit' class='btn btn-secondary' style="margin: 20px 5px; width: 180px; height: 35px;" value="Add New Category">
                     </form>
                     <table id="categoryT" class="table">

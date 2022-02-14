@@ -1,10 +1,12 @@
 <?php
 require_once('db.php');
 
-class Category {
+class Category
+{
     private static PDO $conn;
 
-    static function isUnique($categoryName) {
+    static function isUnique($categoryName)
+    {
         $sql = "SELECT categoryName from category where categoryName = :categoryName";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':categoryName', $categoryName);
@@ -16,7 +18,8 @@ class Category {
         return false;
     }
 
-    static function getCategoryId($categoryName) {
+    static function getCategoryId($categoryName)
+    {
         $sql = "SELECT categoryId from category where categoryName = :categoryName";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':categoryName', $categoryName);
@@ -29,7 +32,8 @@ class Category {
         return $categoryId;
     }
 
-    static function getCategoryName($categoryId) {
+    static function getCategoryName($categoryId)
+    {
         $sql = "SELECT categoryName from category where categoryId = :categoryId";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':categoryId', $categoryId);
@@ -41,7 +45,8 @@ class Category {
         return $categoryName;
     }
 
-    static function getCategoryDefaultImg($categoryName) {
+    static function getCategoryDefaultImg($categoryName)
+    {
         $sql = "SELECT defaultImgName from category where categoryName = :categoryName";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':categoryName', $categoryName);
@@ -54,18 +59,21 @@ class Category {
         return $defaultImgName;
     }
 
-    static function getAllCategories() {
+    static function getAllCategories()
+    {
         $sql = "SELECT * from category";
         $stmt = self::$conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
-    static function addCategory($categoryName) {
+    static function addCategory($categoryName,  $defaultImgName)
+    {
         if (self::isUnique($categoryName)) {
-            $sql = "INSERT INTO category (categoryName)  VALUES (:categoryName)";
+            $sql = "INSERT INTO category (categoryName, defaultImgName)  VALUES (:categoryName, :defaultImgName)";
             $stmt = self::$conn->prepare($sql);
             $stmt->bindParam(':categoryName', $categoryName);
+            $stmt->bindParam(':defaultImgName', $defaultImgName);
             $stmt->execute();
             if ($stmt->rowCount() == 1) {
                 return 1;
@@ -77,7 +85,8 @@ class Category {
         }
     }
 
-    public static function setConnection($conn) {
+    public static function setConnection($conn)
+    {
         self::$conn = $conn;
     }
 }
