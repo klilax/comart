@@ -55,12 +55,19 @@ if ($_SESSION['role'] != 'vendor') {
         .form-select {
             font-size: 16px;
         }
-    </style>
-
-    <style>
+        .dataTables_filter {
+            float: right;
+        }
+        #adjustQuantity, #newName, #newPrice, #imgFile, #qty, #price, #productName {
+            width: 500px;
+        }
+        #updateInventory, #adjustStockInventory, #category{
+            width: 500px;
+        }
         table button {
             margin: 5px 10px;
         }
+
     </style>
 
 </head>
@@ -199,7 +206,7 @@ if ($_SESSION['role'] != 'vendor') {
                         </div>
                         <div class="form-group mb-5">
                             <label for="image">Image</label>
-                            <input type="file" class="form-control" id="qty" name="file" placeholder="image">
+                            <input type="file" class="form-control" id="imgFile" name="file" placeholder="image">
                             <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; 
                                                                                                                     ?>
                             <!--</span>-->
@@ -245,7 +252,7 @@ if ($_SESSION['role'] != 'vendor') {
                         </div>
                         <div class="form-group mb-5">
                             <label for="quantity">Change Name</label>
-                            <input type="text" class="form-control" id="newName" style="width: 500px " name="newName" placeholder="Product Name">
+                            <input type="text" class="form-control" id="newName" name="newName" placeholder="Product Name">
                             <p id="updateError1" style="color: darkred">error 1</p>
                         </div>
                         <div class="form-group mb-5">
