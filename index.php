@@ -15,7 +15,7 @@ require('class/Inventory.php');
 	<meta name="description" content="Sell and Buy construction materials easily with comart. A platform to improve the distribution of quality construction materials in Ethiopia. Check current prices on the largest selection of essentials and products, including cement, sand, aggregate, steel structures, rebars, ceramics, roofs, electrical pipes, paints and more.">
 
 	<title>COMART - Quality materials for your construction</title>
-	<link rel="icon" href="img/logo_icon.svg">
+	<link rel="icon" href="img/logo_icon.png">
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
