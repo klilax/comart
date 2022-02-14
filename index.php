@@ -45,8 +45,8 @@ require('class/Inventory.php');
 
 	<style>
 		@media screen and (max-width: 600px) {
-			.header .container .row {
-				display: none;
+			main>.section>.container>.row {
+				flex-direction: column-reverse !important;
 			}
 		}
 	</style>
@@ -182,7 +182,7 @@ require('class/Inventory.php');
 			<!-- container -->
 			<div class="container">
 				<!-- row -->
-				<div class="row">
+				<div class="row" style="display: flex; flex-direction: row;">
 					<!-- ASIDE -->
 					<div id="aside" class="col-md-3">
 						<!-- aside Widget -->
