@@ -8,6 +8,7 @@ if (isset($_GET['inventoryId'], $_GET['quantity'])) {
     echo $inventoryId;
     echo $quantity;
     Inventory::addStock($inventoryId, $quantity);
+    $_SESSION['adjust_success_1'] = "Added stock successfully";
     header('location: ../vendor/index.php');
 }
 

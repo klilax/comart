@@ -101,6 +101,20 @@ if ($_SESSION['role'] != 'vendor') {
     }
     ?>
 
+    <?php
+    if (isset($_SESSION['adjust_success_1'])){
+        echo "<div class='alert alert-success row w-25 mx-auto' role='alert'>";
+        echo  $_SESSION['adjust_success_1'];
+        echo "</div>";
+    } elseif (isset($_SESSION['adjust_error_1'])) {
+        echo "<div class='alert alert-warning row w-25 mx-auto' role='alert'>";
+        echo $_SESSION['adjust_error_1'];
+        echo "</div>";
+    }
+    unset($_SESSION['adjust_success_1']);
+    unset($_SESSION['adjust_error_1']);
+    ?>
+
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">Inventory</button>
@@ -173,9 +187,7 @@ if ($_SESSION['role'] != 'vendor') {
                         <div class="form-group">
                             <label for="productName">Product Name</label>
                             <input type="text" class="form-control" id="productName" name="productName" placeholder="Product Name">
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $username_error; 
-                                                                                                                    ?>
-                            <!--</span>-->
+                            <p id="addProductError1" style="color: darkred"></p>
                         </div>
                         <div class="form-group">
                             <label for="category">Category</label><br>
@@ -186,60 +198,45 @@ if ($_SESSION['role'] != 'vendor') {
                                 }
                                 ?>
                             </select>
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $username_error; 
-                                                                                                                    ?>
-                            <!--</span>-->
+
                         </div>
                         <div class="form-group mb-5">
                             <label for="price">Price</label>
-                            <input type="text" class="form-control" id="price" name="price" placeholder="price">
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; 
-                                                                                                                    ?>
-                            <!--</span>-->
+                            <input type="text" class="form-control" id="price" name="price" placeholder="price" onkeyup="validatePriceAdd()">
+                            <p id="addProductError2" style="color: darkred"></p>
                         </div>
                         <div class="form-group mb-5">
                             <label for="quantity">Quantity</label>
                             <input type="text" class="form-control" id="qty" name="quantity" placeholder="quantity">
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; 
-                                                                                                                    ?>
-                            <!--</span>-->
+                            <p id="addProductError3" style="color: darkred"></p>
                         </div>
                         <div class="form-group mb-5">
                             <label for="image">Image</label>
                             <input type="file" class="form-control" id="imgFile" name="file" placeholder="image">
-                            <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; 
-                                                                                                                    ?>
-                            <!--</span>-->
+
                         </div>
-                        <button type="submit" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px">Add Product</button>
+                        <button type="submit" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px" >Add Product</button>
                     </form>
                 </div>
             </section>
         </div>
-        <?php
-        if (isset($_POST['updateInventory'], $_POST['newName'])) {
-            $inventoryId = $_POST['updateInventory'];
-            $name = $_POST['newName'];
-            if (!empty($name)) {
-                Inventory::changeInventoryName($name, $inventoryId);
+        <script>
+
+            function validatePriceAdd() {
+                let quantity = document.getElementById("price").value;
+                if (isNaN(quantity)) {
+                    document.getElementById("addProductError2").innerHTML = "Please enter a valid price";
+                } else {
+                    document.getElementById("addProductError2").innerHTML = "";
+                }
             }
-        }
-        if (isset($_POST['updateInventory'], $_POST['newPrice'])) {
-            $inventoryId = $_POST['updateInventory'];
-            $price = $_POST['newPrice'];
-            if (!empty($price) && is_numeric($price)) {
-                Inventory::changeInventoryPrice($price, $inventoryId);
-            } else {
-                unset($_POST['updateInventory']);
-                unset($_POST['newPrice']);
-            }
-        }
-        ?>
+
+        </script>
         <div class="tab-pane fade" id="updateProduct" role="tabpanel" aria-labelledby="updateProduct-tab">
             <section class=" bg" style="min-height: 70vh;">
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
                     <h1>Update product</h1>
-                    <form action="" method="POST">
+<!--                    <form action="" method="POST">-->
                         <div class="form-group">
                             <select class="form-select" id="updateInventory" name="updateInventory">
                                 <?php
@@ -252,26 +249,55 @@ if ($_SESSION['role'] != 'vendor') {
                         </div>
                         <div class="form-group mb-5">
                             <label for="quantity">Change Name</label>
-                            <input type="text" class="form-control" id="newName" name="newName" placeholder="Product Name">
-                            <p id="updateError1" style="color: darkred">error 1</p>
+                            <input type="text" class="form-control" id="newName" name="newName" placeholder="New product Name">
+                            <p id="updateError1" style="color: darkred"></p>
                         </div>
                         <div class="form-group mb-5">
                             <label for="price">Change Price</label>
-                            <input type="text" class="form-control" id="newPrice" name="newPrice" placeholder="price">
-                            <p id="updateError2" style="color: darkred">error 2</p>
+                            <input type="text" class="form-control" id="newPrice" name="newPrice" placeholder="price" onkeyup="validatePrice()">
+                            <p id="updateError2" style="color: darkred"></p>
 
                         </div>
-
-                        <button type="submit" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px">Update Product</button>
-                    </form>
+                        <div>
+                            <button type="button" id="submit_updateProduct" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px" onclick="updateInventory()">Update Product</button>
+                        </div>
+<!--                    </form>-->
                 </div>
             </section>
+            <script>
+                function updateInventory() {
+                    let name = document.getElementById("newName").value;
+                    let price = document.getElementById("newPrice").value;
+                    let inventoryId = document.getElementById("updateInventory").value;
+                    if (name === "" && price === "") {
+                        document.getElementById("updateError1").innerHTML = "Please fill one of the two fields";
+                        document.getElementById("updateError2").innerHTML = "Please fill one of the two fields";
+                    } else {
+                        document.getElementById('updateError1').innerHTML = "";
+                        document.getElementById('updateError2').innerHTML = "";
+                        if (!isNaN(price)){
+                            window.location.href = "../class/updateInventory.php?newName=" + name + "&newPrice=" + price + "&inventoryId=" + inventoryId;
+                        } else {
+                            document.getElementById("updateError2").innerHTML = "Please enter a valid price";
+                        }
+                    }
+                }
+
+                function validatePrice() {
+                    let quantity = document.getElementById("newPrice").value;
+                    if (isNaN(quantity)) {
+                        document.getElementById("updateError2").innerHTML = "Please enter a valid price";
+                    } else {
+                        document.getElementById("updateError2").innerHTML = "";
+                    }
+                }
+
+            </script>
         </div>
         <div class="tab-pane fade" id="adjustStock" role="tabpanel" aria-labelledby="adjustStock-tab">
             <section class=" bg" style="min-height: 70vh;">
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
                     <h1>Adjust Stock</h1>
-                    <!--                    <form action="../class/addInventory.php" method="POST">-->
                     <div class="form-group">
                         <label for="adjustStockInventory">Adjust Stock</label><br>
                         <select class="form-select" id="adjustStockInventory" name="adjustStockInventory">
@@ -285,10 +311,8 @@ if ($_SESSION['role'] != 'vendor') {
 
                     <div class="form-group mb-5">
                         <label for="quantity">Quantity</label>
-                        <input type="text" class="form-control" id="adjustQuantity" name="quantity" placeholder="quantity">
-                        <!--                            <span class="invalid-feedback" style="color: red;">--><?php //echo $password_error; 
-                                                                                                                ?>
-                        <!--</span>-->
+                        <input type="text" class="form-control" id="adjustQuantity" name="quantity" placeholder="quantity" onkeyup="validateQuantity()">
+                        <p id="adjustError" style="color: darkred"></p>
                     </div>
                     <div>
                         <button type="button" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px" onclick="addStock()">Add Stock</button>
@@ -299,13 +323,26 @@ if ($_SESSION['role'] != 'vendor') {
                         function addStock() {
                             let inventoryId = document.getElementById("adjustStockInventory").value;
                             let quantity = document.getElementById("adjustQuantity").value;
-                            window.location.href = "../class/addStock.php?inventoryId=" + inventoryId + "&quantity=" + quantity;
+                            if (isNaN(quantity)) {
+                                document.getElementById("adjustError").innerHTML = "Quantity must be a number";
+                            } else {
+                                window.location.href = "../class/addStock.php?inventoryId=" + inventoryId + "&quantity=" + quantity;
+                            }
                         }
 
                         function issueStock() {
                             let inventoryId = document.getElementById("adjustStockInventory").value;
                             let quantity = document.getElementById("adjustQuantity").value;
                             window.location.href = "../class/issueStock.php?inventoryId=" + inventoryId + "&quantity=" + quantity;
+                        }
+
+                        function validateQuantity() {
+                            let quantity = document.getElementById("adjustQuantity").value;
+                            if (isNaN(quantity)) {
+                                document.getElementById("adjustError").innerHTML = "Quantity must be a number";
+                            } else {
+                                document.getElementById("adjustError").innerHTML = "";
+                            }
                         }
                     </script>
                 </div>
@@ -660,6 +697,9 @@ if ($_SESSION['role'] != 'vendor') {
             }
 
         });
+        function validateNumber() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        }
     </script>
 </body>
 
