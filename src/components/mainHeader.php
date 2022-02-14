@@ -8,10 +8,10 @@ if (isset($_SESSION['user'])) {
     <!-- container -->
     <div class="container">
         <!-- row -->
-        <div class="row d-flex">
+        <div class="row d-flex" style="display:flex; flex-wrap:wrap;">
             <!-- LOGO -->
-            <div class="col-md-3">
-                <div class="header-logo">
+            <div class="col-md-6" style="flex: 2;">
+                <div class=" header-logo">
                     <a href="\comart\index.php" class="logo">
                         <img src="\comart\img\logo.svg" alt="">
                     </a>
@@ -21,44 +21,51 @@ if (isset($_SESSION['user'])) {
             <!-- SEARCH BAR -->
             <?php
             if (!isset($user)) {
-                echo '<div class="col-md-6">
-                        <div class="header-search">
-                            <form>
-                                <input class="input" placeholder="Search here" style="border-radius: 2rem 0 0 2rem;">
-                                <button class="search-btn">Search</button>
-                            </form>
-                        </div>
-                    </div>';
+                echo
+                '<div class="col-md-6" style="flex: 3;">
+                    <div class="header-search">
+                        <form>
+                            <input class="input" placeholder="Search here" style="border-radius: 2rem 0 0 2rem;">
+                            <button class="search-btn">Search</button>
+                        </form>
+                    </div>
+                </div>';
             } else {
                 if ($user->getRole() == 'admin') {
-                    echo '<h1 style= "color: var(--secondary-color);
-                        margin-top: 10px;
-                        margin-left: 15%;">
-                        Admin Dashboard
-                    </h1>';
+                    echo
+                    '<div class="col-md-6" style="flex: 3;">
+                        <h2 style= "padding-top: 1rem; color: var(--secondary-color); margin-top: 10px; margin-left: 15%;">Admin Dashboard</h2>
+                    </div>';
                 } else if ($user->getRole() == 'vendor') {
-                    echo '<h1 style= "color: var(--secondary-color);
-                        margin-top: 10px;
-                        margin-left: 15%;">
-                        Vendor Dashboard
-                    </h1>';
+                    echo
+                    '<div class="col-md-6" style="flex: 3;">
+                        <h2 style= "padding-top: 1rem; color: var(--secondary-color); margin-top: 10px; margin-left: 15%;">Vendor Dashboard</h2>
+                    </div>';
                 }
             }
             ?>
             <!-- /SEARCH BAR -->
 
             <!-- ACCOUNT -->
-            <div class="col-md-3 clearfix">
+            <div class="col-md-3 clearfix" style="flex: 1;">
                 <div class="header-ctn">
                     <!-- Cart -->
                     <?php
                     if (!isset($user) || $user->getRole() == 'buyer') {
                         echo '
                         <div class="dropdown">
-                            <a href="../routes/checkout.php" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                            <a href="../routes/checkout.php">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Your Cart</span>
                                 <div class="qty">3</div>
+                            </a>
+                        </div>';
+                    } else {
+                        echo '
+                        <div>
+                            <a href="/comart/src/routes/account.php">
+                                <i class="fa fa-cog"></i>
+                                <span>Edit Profile</span>
                             </a>
                         </div>';
                     }
