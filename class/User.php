@@ -90,7 +90,7 @@ class User {
         $row = $stmt->fetch();
         if (password_verify($password, $row['password'])) {
             if ($row['status'] == 1) {
-                session_start();
+//                session_start();
                 $_SESSION['user'] = serialize(new User($row));
                 $_SESSION['role'] = $row['role'];
                 $_SESSION['id'] = $row['id'];
