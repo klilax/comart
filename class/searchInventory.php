@@ -80,7 +80,13 @@ function displayProduct($inventoryId, $name, $encoded_name, $price, $imgName, $c
     } else {
         echo $imgName;
     }
-    echo '" alt="">
+    echo '" ';
+    if ($featuredOnly) {
+        echo 'style = "width: 263px; height: 175px;"';
+    } else {
+        echo 'style = "width: 189px; height: 126px;"';
+    }
+    echo 'alt="">
 
                         <!-- featured or not -->
                         ';

@@ -114,7 +114,7 @@ $vendorProducts = Inventory::getVendorInventory($vendorId);
 							} else {
 								echo $product['imgName'];
 							}
-							echo '" alt="">
+							echo '" style = "width: 263px; height: 175px;" alt="">
 
 							';
 							if ($product['featured'] == 1) {
