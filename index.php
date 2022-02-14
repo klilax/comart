@@ -12,7 +12,10 @@ require('class/Inventory.php');
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>comart - Quality materials for your construction</title>
+	<meta name="description" content="Sell and Buy construction materials easily with comart. A platform to improve the distribution of quality construction materials in Ethiopia. Check current prices on the largest selection of essentials and products, including cement, sand, aggregate, steel structures, rebars, ceramics, roofs, electrical pipes, paints and more.">
+
+	<title>COMART - Quality materials for your construction</title>
+	<link rel="icon" href="img/logo_icon.svg">
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -101,9 +104,9 @@ require('class/Inventory.php');
 				<!-- container -->
 				<div class="container">
 					<!-- row -->
-					<div class="row">
+					<div class="row" style="display:flex; flex-wrap:wrap;">
 						<!-- LOGO -->
-						<div class="col-md-3">
+						<div class="col-md-6" style="flex: 2;">
 							<div class="header-logo">
 								<a href="\comart\index.php" class="logo">
 									<img src="\comart\img\logo.svg" alt="">
@@ -112,7 +115,7 @@ require('class/Inventory.php');
 						</div>
 						<!-- /LOGO -->
 						<!-- SEARCH BAR -->
-						<div class="col-md-6">
+						<div class="col-md-6" style="flex: 3;">
 							<div class="header-search">
 								<form>
 									<input class="input" placeholder="Search here" id="search" onkeyup="searchItem()" style="border-radius: 2rem 0 0 2rem;">
@@ -123,10 +126,8 @@ require('class/Inventory.php');
 						<!-- /SEARCH BAR -->
 
 						<!-- ACCOUNT -->
-						<div class="col-md-3 clearfix">
-							<div class="header-ctn">';
-			if (isset($_SESSION['id'])) {
-				echo '
+						<div class="col-md-3 clearfix" style="flex: 1;">
+							<div class="header-ctn">
 								<!-- Cart -->
 								<div class="dropdown">
 									<a href="/comart/src/routes/checkout.php">
@@ -134,11 +135,9 @@ require('class/Inventory.php');
 										<span>Your Cart</span>
 										<div class="qty">0</div>
 									</a>
-								</div> 
-								<!-- /Cart -->';
-			}
+								</div>
+								<!-- /Cart -->
 
-			echo '
 								<!-- Menu Toogle -->
 								<div class="menu-toggle">
 									<a href="#">
