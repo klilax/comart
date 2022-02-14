@@ -43,6 +43,14 @@ require('class/Inventory.php');
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
+	<style>
+		@media screen and (max-width: 600px) {
+			.header .container .row {
+				display: none;
+			}
+		}
+	</style>
+
 	<script>
 		window.onload = function() {
 			renderInvenotry();
@@ -90,7 +98,7 @@ require('class/Inventory.php');
 	</script>
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
 	<!-- HEADER -->
 	<header>
 		<?php
@@ -116,10 +124,10 @@ require('class/Inventory.php');
 						<!-- /LOGO -->
 						<!-- SEARCH BAR -->
 						<div class="col-md-6" style="flex: 3;">
-							<div class="header-search">
+							<div class="header-search" style="min-width: 600px;">
 								<form>
 									<input class="input" placeholder="Search here" id="search" onkeyup="searchItem()" style="border-radius: 2rem 0 0 2rem;">
-									<button class="search-btn">Search</button>
+									<button class="search-btn" onclick="searchItem()">Search</button>
 								</form>
 							</div>
 						</div>
