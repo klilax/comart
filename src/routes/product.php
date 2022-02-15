@@ -141,7 +141,7 @@ $productReviews = '';
 							<div class="qty-label">
 								Qty
 								<div class="input-number">
-									<input type="number" value="1">
+									<input id="quantity" type="number" value="1">
 									<span class="qty-up">+</span>
 									<span class="qty-down">-</span>
 								</div>

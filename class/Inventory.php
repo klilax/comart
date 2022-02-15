@@ -136,6 +136,16 @@ class Inventory {
         return true;
     }
 
+    public static function fetchInventoryId($productName, $vendorId): int {
+        $sql = "SELECT inventoryId FROM inventory WHERE inventoryName = :productName AND vendorId = :vendorId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':productName', $productName);
+        $stmt->bindParam(':vendorId', $vendorId);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['inventoryId'];
+    }
+
     public static function getStock($inventoryId) {
         $sql = "SELECT quantity FROM inventory WHERE inventoryId = :inventoryId";
         $stmt = self::$conn->prepare($sql);
@@ -164,11 +174,6 @@ class Inventory {
                 INNER JOIN category c on i.categoryId = c.categoryId
                 WHERE i.vendorId = :vendorId
                 AND  il.incoming = :grn ";
-        //        if ($isGRN) {
-        //            $sql = $sql . "AND il.incoming = 1";
-        //        } else {
-        //            $sql = $sql . "AND il.incoming = 0";
-        //        }
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':vendorId', $vendorId);
         $stmt->bindParam(':grn', $isGRN);
@@ -184,35 +189,6 @@ class Inventory {
         $stmt->bindParam(':isGRN', $isGRN);
         $stmt->execute();
     }
-
-
-    //    public static function getCurrentStock($user, $productName) {
-    //        $userId = $user->getId();
-    //        $sql = "SELECT inventoryId, quantity FROM inventory WHERE vendorId = :userId AND inventoryName = :inventoryName";
-    //        $stmt = self::$conn->prepare($sql);
-    //        $stmt->bindParam(':userId', $userId);
-    //        $stmt->bindParam(':inventoryName', $productName);
-    //        $stmt->execute();
-    //        if ($stmt->rowCount() != 0) {
-    //            return $stmt->fetch();
-    //        }
-    //        return null;
-    //    }
-
-    //    public static function updateInventory($user, $productName, $quantity) {
-    //        $stock = self::getCurrentStock($user, $productName);
-    //        if (!is_null($stock)) {
-    //            $sql = "UPDATE inventory SET quantity = :quantity WHERE inventoryId = :inventoryId";
-    //            $stmt = self::$conn->prepare($sql);
-    //            $updatedQuantity = $stock['quantity'] + $quantity;
-    //            $inventoryId = $stock['inventoryId'];
-    //            $stmt->bindParam(':quantity', $updatedQuantity);
-    //            $stmt->bindParam("inventoryId", $inventoryId);
-    //            $stmt->execute();
-    //        } else {
-    //            echo "Item is not in the Inventory";
-    //        }
-    //    }
 
     public static function getCurrentStock($inventoryId) {
         $sql = "SELECT quantity FROM inventory WHERE  inventoryId = :inventoryId";

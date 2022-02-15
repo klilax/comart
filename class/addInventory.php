@@ -48,13 +48,13 @@ if (isset($_SESSION['id'], $_POST['productName'], $_POST['quantity'], $_POST['ca
         echo 'You can not upload files of this type.';
     }
 
-    echo $productName . '<br>';
-    echo $quantity . '<br>';
-    echo $category . '<br>';
-    echo $price . '<br>';
-    echo $imgName . '<br>';
-
-    // Inventory::newInventory($productName, $category, $price, $quantity);
-    Inventory::newInventory($productName, $category, $price, $quantity, $imgName);
+    if (Inventory::newInventory($productName, $category, $price, $quantity, $imgName)) {
+        $vendorId = $_SESSION['id'];
+        $inventoryId = Inventory::fetchInventoryId($productName, $vendorId);
+        Inventory::logTransaction($inventoryId, $quantity,true);
+        $_SESSION['adjust_success_1'] = "New Inventory successfully added";
+    } else {
+        $_SESSION['adjust_error_1'] = "Product already exists";
+    }
     header('location: ../vendor/index.php');
 }

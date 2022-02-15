@@ -186,7 +186,7 @@ if ($_SESSION['role'] != 'vendor') {
                     <form action="../class/addInventory.php" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="productName">Product Name</label>
-                            <input type="text" class="form-control" id="productName" name="productName" placeholder="Product Name">
+                            <input type="text" class="form-control" id="productName" name="productName" placeholder="Product Name" onkeyup="validateProductName(); validateForm()">
                             <p id="addProductError1" style="color: darkred"></p>
                         </div>
                         <div class="form-group">
@@ -202,12 +202,12 @@ if ($_SESSION['role'] != 'vendor') {
                         </div>
                         <div class="form-group mb-5">
                             <label for="price">Price</label>
-                            <input type="text" class="form-control" id="price" name="price" placeholder="price" onkeyup="validatePriceAdd()">
+                            <input type="text" class="form-control" id="price" name="price" placeholder="price" onkeyup="validatePriceAdd(); validateForm()">
                             <p id="addProductError2" style="color: darkred"></p>
                         </div>
                         <div class="form-group mb-5">
                             <label for="quantity">Quantity</label>
-                            <input type="text" class="form-control" id="qty" name="quantity" placeholder="quantity">
+                            <input type="text" class="form-control" id="qty" name="quantity" placeholder="quantity" onkeyup="validateQuantityAdd(); validateForm()">
                             <p id="addProductError3" style="color: darkred"></p>
                         </div>
                         <div class="form-group mb-5">
@@ -215,7 +215,7 @@ if ($_SESSION['role'] != 'vendor') {
                             <input type="file" class="form-control" id="imgFile" name="file" placeholder="image">
 
                         </div>
-                        <button type="submit" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px" >Add Product</button>
+                        <button type="submit" class="btn primary-btn rounded" id="addButton" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px" disabled>Add Product</button>
                     </form>
                 </div>
             </section>
@@ -223,14 +223,54 @@ if ($_SESSION['role'] != 'vendor') {
         <script>
 
             function validatePriceAdd() {
-                let quantity = document.getElementById("price").value;
-                if (isNaN(quantity)) {
+                let price = document.getElementById("price").value;
+                if (isNaN(price) || price === "") {
                     document.getElementById("addProductError2").innerHTML = "Please enter a valid price";
+                    return false;
+                } else if (price <= 0) {
+                    document.getElementById("addProductError2").innerHTML = "Please enter a number greater than 0";
+                    return false;
                 } else {
                     document.getElementById("addProductError2").innerHTML = "";
+                    return true;
                 }
             }
 
+            function validateQuantityAdd() {
+                let quantity = document.getElementById("qty").value;
+                if (isNaN(quantity) || quantity === "") {
+                    document.getElementById("addProductError3").innerHTML = "Please enter a valid quantity";
+                    return false;
+                } else if (quantity <= 0) {
+                    document.getElementById("addProductError3").innerHTML = "Please enter a number greater than 0";
+                    return false;
+                } else {
+                    document.getElementById("addProductError3").innerHTML = "";
+                    return true;
+                }
+            }
+
+            function validateProductName() {
+                let productName = document.getElementById("productName").value;
+                if (productName.length === 0) {
+                    document.getElementById("addProductError1").innerHTML = "Please enter a valid product name";
+                    return false;
+                } else {
+                    document.getElementById("addProductError1").innerHTML = "";
+                    return true;
+                }
+            }
+
+            function validateForm() {
+                let productName = document.getElementById("productName").value;
+                let quantity = document.getElementById("qty").value;
+                let price = document.getElementById("price").value;
+                if (productName.length === 0) {
+                    document.getElementById("addButton").disabled = true;
+                } else if(isNaN(quantity) || quantity === "" || quantity <= 0){
+                    document.getElementById("addButton").disabled = true;
+                } else document.getElementById("addButton").disabled = isNaN(price) || price === "" || price <= 0;
+            }
         </script>
         <div class="tab-pane fade" id="updateProduct" role="tabpanel" aria-labelledby="updateProduct-tab">
             <section class=" bg" style="min-height: 70vh;">
@@ -275,7 +315,7 @@ if ($_SESSION['role'] != 'vendor') {
                     } else {
                         document.getElementById('updateError1').innerHTML = "";
                         document.getElementById('updateError2').innerHTML = "";
-                        if (!isNaN(price)){
+                        if (!isNaN(price) && price > 0) {
                             window.location.href = "../class/updateInventory.php?newName=" + name + "&newPrice=" + price + "&inventoryId=" + inventoryId;
                         } else {
                             document.getElementById("updateError2").innerHTML = "Please enter a valid price";
@@ -325,6 +365,8 @@ if ($_SESSION['role'] != 'vendor') {
                             let quantity = document.getElementById("adjustQuantity").value;
                             if (isNaN(quantity)) {
                                 document.getElementById("adjustError").innerHTML = "Quantity must be a number";
+                            }else if(quantity <= 0){
+                                document.getElementById("adjustError").innerHTML = "Quantity must be greater than 0";
                             } else {
                                 window.location.href = "../class/addStock.php?inventoryId=" + inventoryId + "&quantity=" + quantity;
                             }
@@ -333,7 +375,14 @@ if ($_SESSION['role'] != 'vendor') {
                         function issueStock() {
                             let inventoryId = document.getElementById("adjustStockInventory").value;
                             let quantity = document.getElementById("adjustQuantity").value;
-                            window.location.href = "../class/issueStock.php?inventoryId=" + inventoryId + "&quantity=" + quantity;
+                            if (isNaN(quantity)) {
+                                document.getElementById("adjustError").innerHTML = "Quantity must be a number";
+                            }else if(quantity <= 0){
+                                document.getElementById("adjustError").innerHTML = "Quantity must be greater than 0";
+                            } else {
+                                window.location.href = "../class/issueStock.php?inventoryId=" + inventoryId + "&quantity=" + quantity;
+                            }
+
                         }
 
                         function validateQuantity() {
