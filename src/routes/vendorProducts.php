@@ -74,7 +74,7 @@ $vendorProducts = Inventory::getVendorInventory($vendorId);
 			<div class="row">
 				<div class="col-md-12">
 					<ul class="breadcrumb-tree">
-						<li><a href="/comart.jebena.net/index.php">Home</a></li>
+						<li><a href="/index.php">Home</a></li>
 						<li class="active"><?php echo '' ?> (227,490 Results)</li>
 					</ul>
 				</div>
@@ -100,7 +100,7 @@ $vendorProducts = Inventory::getVendorInventory($vendorId);
 						foreach ($vendorProducts as $product) {
 							$encoded_name = urlencode($product['inventoryName']);
 							echo '
-							<a href="/comart.jebena.net/src/routes/product.php?inventoryId=' . $product['inventoryId'] . '">
+							<a href="/src/routes/product.php?inventoryId=' . $product['inventoryId'] . '">
 								<div class="col-md-3 col-xs-6" style="padding-bottom: 3.5rem;">
 									<div class="product">
 										<div class="product-img">
@@ -141,14 +141,14 @@ $vendorProducts = Inventory::getVendorInventory($vendorId);
 											</div>
 
 											<div class="product-btns">
-                            						<a href="/comart.jebena.net/src/routes/product.php?inventoryId=' . $product['inventoryId'] . '" class="quick-view">
+                            						<a href="/src/routes/product.php?inventoryId=' . $product['inventoryId'] . '" class="quick-view">
 														<i class="fa fa-eye" title="Quick View"></i>
 														<span class="tooltipp"></span>
                             						</a>
 											</div>
 										</div>
 										<div class="add-to-cart">
-											<a href="/comart.jebena.net/class/Cart.php?inventoryId=' . $product['inventoryId'] . '&productName=' . $encoded_name . '&price=' . $product['price'] . '">
+											<a href="/class/Cart.php?inventoryId=' . $product['inventoryId'] . '&productName=' . $encoded_name . '&price=' . $product['price'] . '">
                             					<button class="add-to-cart-btn">
 													<i class="fa fa-shopping-cart"></i>
 											 add to cart
