@@ -12,8 +12,8 @@ if (isset($_SESSION['user'])) {
             <!-- LOGO -->
             <div class="col-md-6" style="flex: 2;">
                 <div class=" header-logo">
-                    <a href="\comart\index.php" class="logo">
-                        <img src="\comart\img\logo.svg" alt="">
+                    <a href="\comart.jebena.net\index.php" class="logo">
+                        <img src="\comart.jebena.net\img\logo.svg" alt="">
                     </a>
                 </div>
             </div>
@@ -63,7 +63,7 @@ if (isset($_SESSION['user'])) {
                     } else {
                         echo '
                         <div>
-                            <a href="/comart/src/routes/auth/account.php">
+                            <a href="/comart.jebena.net/src/routes/auth/account.php">
                                 <i class="fa fa-cog"></i>
                                 <span>Edit Profile</span>
                             </a>

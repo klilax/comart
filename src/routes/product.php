@@ -120,7 +120,7 @@ $productReviews = '';
 								</div>';
 						}
 						?>
-						<h5 class="h5 text-muted p-3">View Seller - <a href="<?php echo '/comart/src/routes/vendorProducts.php?vendorId=' . $productVendorId . ''; ?>" style=" text-decoration: underline; color: var(--secondary-color);"> <?php echo $productVendorName; ?></a></h5>
+						<h5 class="h5 text-muted p-3">View Seller - <a href="<?php echo '/comart.jebena.net/src/routes/vendorProducts.php?vendorId=' . $productVendorId . ''; ?>" style=" text-decoration: underline; color: var(--secondary-color);"> <?php echo $productVendorName; ?></a></h5>
 						<div style="padding: 2rem 0;">
 							<div class="product-rating">
 								<i class="fa fa-star"></i>
@@ -146,7 +146,7 @@ $productReviews = '';
 									<span class="qty-down">-</span>
 								</div>
 							</div>
-							<a href="<?php echo '/comart/class/Cart.php?inventoryId=' . $productId . '&productName=' . $encoded_name . '&price=' . $productPrice . ''; ?>">
+							<a href="<?php echo '/comart.jebena.net/class/Cart.php?inventoryId=' . $productId . '&productName=' . $encoded_name . '&price=' . $productPrice . ''; ?>">
 								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
 							</a>
 						</div>

@@ -8,7 +8,7 @@ if (isset($_SESSION['user'])) {
     <div class="container">
         <ul class="header-links pull-left">
             <li><a href="#"><i class="fa fa-phone"></i>+251-9-11-11-11-11</a></li>
-            <li><a href="#"><i class="fa fa-envelope-o"></i>comart@gmail.com</a></li>
+            <li><a href="#"><i class="fa fa-envelope-o"></i>comart.jebena.net@gmail.com</a></li>
             <li><a href="#"><i class="fa fa-map-marker"></i>Addis Ababa, Ethiopia</a></li>
         </ul>
         <ul class="header-links pull-right">
@@ -47,7 +47,7 @@ if (isset($_SESSION['user'])) {
             if (isset($user)) {
                 echo
                 '<li>
-                    <a href="/comart/src/routes/auth/signout.php">
+                    <a href="/comart.jebena.net/src/routes/auth/signout.php">
                         <i class="fa fa-sign-out"></i>
                         Sign Out
                     </a>

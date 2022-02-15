@@ -50,7 +50,7 @@ if (isset($_GET['query'], $_GET['category'], $_GET['featuredOnly'])) {
 function displayProduct($inventoryId, $name, $encoded_name, $price, $imgName, $category, $featured, $featuredOnly) {
     echo
     '
-        <a href="/comart/src/routes/product.php?inventoryId=' . $inventoryId . '">
+        <a href="/comart.jebena.net/src/routes/product.php?inventoryId=' . $inventoryId . '">
             <div class="col-md-3 col-xs-6" ';
     if ($featuredOnly) {
         echo 'style = "display: flex; padding-bottom: 3.5rem; width: 100%;"';
@@ -114,14 +114,14 @@ function displayProduct($inventoryId, $name, $encoded_name, $price, $imgName, $c
                         </div>
 
                         <div class="product-btns">
-                            <a href="/comart/src/routes/product.php?inventoryId=' . $inventoryId . '" class="quick-view">
+                            <a href="/comart.jebena.net/src/routes/product.php?inventoryId=' . $inventoryId . '" class="quick-view">
                                 <i class="fa fa-eye" title="Quick View"></i>
                                 <span class="tooltipp"></span>
                             </a>
                         </div>
                     </div>
                     <div class="add-to-cart">
-                        <a href="/comart/class/Cart.php?inventoryId=' . $inventoryId . '&productName=' . $encoded_name . '&price=' . $price . '">
+                        <a href="/comart.jebena.net/class/Cart.php?inventoryId=' . $inventoryId . '&productName=' . $encoded_name . '&price=' . $price . '">
                             <button class="add-to-cart-btn">
                                 <i class="fa fa-shopping-cart"></i>
                                 add to cart

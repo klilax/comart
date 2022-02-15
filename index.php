@@ -116,8 +116,8 @@ require('class/Inventory.php');
 						<!-- LOGO -->
 						<div class="col-md-6" style="flex: 2;">
 							<div class="header-logo">
-								<a href="\comart\index.php" class="logo">
-									<img src="\comart\img\logo.svg" alt="">
+								<a href="\comart.jebena.net\index.php" class="logo">
+									<img src="\comart.jebena.net\img\logo.svg" alt="">
 								</a>
 							</div>
 						</div>
@@ -138,7 +138,7 @@ require('class/Inventory.php');
 							<div class="header-ctn">
 								<!-- Cart -->
 								<div class="dropdown">
-									<a href="/comart/src/routes/checkout.php">
+									<a href="/comart.jebena.net/src/routes/checkout.php">
 										<i class="fa fa-shopping-cart"></i>
 										<span>Your Cart</span>
 										<div class="qty">0</div>
