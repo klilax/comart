@@ -11,41 +11,36 @@ if (isset($_SESSION['id'], $_POST['productName'], $_POST['quantity'], $_POST['ca
     $quantity = $_POST['quantity'];
     $category = $_POST['category'];
     $price = $_POST['price'];
-    // $imgName = Category::getCategoryDefaultImg($category);
     $imgName = '';
 
-    $file = $_FILES['file'];
+    if (isset($_FILES['file'])) {
+        $file = $_FILES['file'];
+        $fileInputError = '';
+        $fileName = $file['name'];
+        $fileTmpName = $file['tmp_name'];
+        $fileSize = $file['size'];
+        $fileError = $file['error'];
+        $fileExt = explode('.', $fileName);
+        $fileActualExt = strtolower(end($fileExt));
 
-    $fileInputError = '';
-
-    $fileName = $file['name'];
-
-    $fileTmpName = $file['tmp_name'];
-    $fileSize = $file['size'];
-    $fileError = $file['error'];
-    // $fileType = $file['type'];
-
-    $fileExt = explode('.', $fileName);
-    $fileActualExt = strtolower(end($fileExt));
-
-    $allowed = array('jpg', 'jpeg', 'png');
-
-    if (in_array($fileActualExt, $allowed)) {
-        if ($fileError === 0) {
-            if ($fileSize < 1 * MB) {
-                $fileNameNew = uniqid('', true) . "." . $fileActualExt;
-                $filePath = '../img/' . $fileNameNew;
-                move_uploaded_file($fileTmpName, $filePath);
-                $imgName = $fileNameNew;
-                // header('Location: /comart/vendor/index.php?uploaded');
+        $allowed = array('jpg', 'jpeg', 'png');
+        if (in_array($fileActualExt, $allowed)) {
+            if ($fileError === 0) {
+                if ($fileSize < 1 * MB) {
+                    $fileNameNew = uniqid('', true) . "." . $fileActualExt;
+                    $filePath = '../img/' . $fileNameNew;
+                    move_uploaded_file($fileTmpName, $filePath);
+                    $imgName = $fileNameNew;
+                    // header('Location: /comart/vendor/index.php?uploaded');
+                } else {
+                    $_SESSION['adjust_error_1'] = 'File is too large. Maximum file size is 1MB.';
+                }
             } else {
-                echo 'File is too large. Maximum file size is 1MB.';
+                $_SESSION['adjust_error_1'] = 'There was an error uploading your file.';
             }
         } else {
-            echo 'There was an error uploading your file.';
+            $_SESSION['adjust_error_1'] = 'You can not upload files of this type.';
         }
-    } else {
-        echo 'You can not upload files of this type.';
     }
 
     if (Inventory::newInventory($productName, $category, $price, $quantity, $imgName)) {
