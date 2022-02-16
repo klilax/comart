@@ -104,6 +104,15 @@ class Inventory {
         return $result['vendorName'];
     }
     /*----------------------------------- Static Methods -----------------------------------------------*/
+    public static function vendorName($vendorId): string {
+        $sql = "SELECT vendorName FROM vendor WHERE userId = :vendorId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':vendorId', $vendorId);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['vendorName'];
+    }
+
     public static function newInventory($productName, $categoryId, $price, $quantity, $imgName): bool {
         $vendorId = $_SESSION['id'];
         if (self::isUnique($vendorId, $productName)) {
@@ -267,6 +276,7 @@ class Inventory {
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
     public static function getAllInventory($category): bool|array {
         if ($category == 'all') {
             $sql = "SELECT * FROM inventory";

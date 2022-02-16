@@ -134,6 +134,22 @@ class User
         }
     }
 
+    public static function checkPassword($password, $userId)
+    {
+        $sql = "SELECT password FROM user WHERE id = :id LIMIT 1";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':id', $userId);
+        $stmt->execute();
+        if ($stmt->rowCount() == 1) {
+            $row = $stmt->fetch();
+            if (password_verify($password, $row[0])) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     public static function fetchId($username)
     {
         $sql = "SELECT id FROM user WHERE username = :username LIMIT 1";
