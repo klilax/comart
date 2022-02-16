@@ -47,12 +47,8 @@ require('class/Inventory.php');
 
 	<style>
 		@media screen and (max-width: 500px) {
-			main>.section>.container>.row {
-				flex-direction: column-reverse !important;
-			}
-
 			.header-links li a {
-				font-size: 0.9rem;
+				font-size: 1rem;
 			}
 
 			#products a {
@@ -162,9 +158,8 @@ require('class/Inventory.php');
 
 						<!-- ACCOUNT -->
 						<div class="col-md-3 clearfix" style="flex: 1;">
-							<div class="header-ctn">';
-			if (isset($_SESSION['id']) && $user->getRole() == 'buyer') {
-				echo '<!-- Cart -->
+							<div class="header-ctn">
+							<!-- Cart -->
 								<div class="dropdown">
 									<a href="/comart/src/routes/checkout.php">
 										<i class="fa fa-shopping-cart"></i>
@@ -172,11 +167,8 @@ require('class/Inventory.php');
 										<div class="qty">0</div>
 									</a>
 								</div>
-								<!-- /Cart -->';
-			}
-
-
-			echo '	<!-- Menu Toogle -->
+								<!-- /Cart -->
+								<!-- Menu Toogle -->
 								<div class="menu-toggle">
 									<a href="#">
 										<i class="fa fa-bars"></i>

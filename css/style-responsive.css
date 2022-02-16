@@ -6,8 +6,9 @@
         flex-direction: column-reverse !important;
     }
     .logo img {
-        transform: scale(0.8) !important;
+        transform: scale(0.75) !important;
         position: relative;
+        left: -10rem;
     }
     .menu-toggle,
     .dropdown {
@@ -16,7 +17,7 @@
         left: 27rem;
     }
     .menu-toggle {
-        left: 29.5rem;
+        left: 26rem;
         top: -19rem;
     }
 }
