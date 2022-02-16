@@ -60,7 +60,7 @@ if (isset($_SESSION['user'])) {
                                 <div class="qty">3</div>
                             </a>
                         </div>';
-                    } else {
+                    } else if ($user->getRole() != 'admin') {
                         echo '
                         <div>
                             <a href="/comart/src/routes/auth/account.php">

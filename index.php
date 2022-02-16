@@ -43,10 +43,25 @@ require('class/Inventory.php');
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
+	<link rel="stylesheet" href="css/style-responsive.css">
+
 	<style>
-		@media screen and (max-width: 600px) {
+		@media screen and (max-width: 500px) {
 			main>.section>.container>.row {
 				flex-direction: column-reverse !important;
+			}
+
+			.header-links li a {
+				font-size: 0.9rem;
+			}
+
+			#products a {
+				width: 25% !important;
+			}
+
+			#featuredProducts a {
+				width: 15%;
+				padding: 0;
 			}
 		}
 	</style>
@@ -95,18 +110,18 @@ require('class/Inventory.php');
 			ajax.send();
 		}
 
-        function getCategory(link){
-            let category = link.innerText;
-            let query = '';
-            const ajax = new XMLHttpRequest();
-            ajax.onreadystatechange = function() {
-                if (this.readyState === 4 && this.status === 200) {
-                    document.getElementById("products").innerHTML = this.responseText;
-                }
-            };
-            ajax.open("GET", "class/searchInventory.php?query=" + query + "&category=" + category, true);
-            ajax.send();
-        }
+		function getCategory(link) {
+			let category = link.innerText;
+			let query = '';
+			const ajax = new XMLHttpRequest();
+			ajax.onreadystatechange = function() {
+				if (this.readyState === 4 && this.status === 200) {
+					document.getElementById("products").innerHTML = this.responseText;
+				}
+			};
+			ajax.open("GET", "class/searchInventory.php?query=" + query + "&category=" + category, true);
+			ajax.send();
+		}
 	</script>
 </head>
 
@@ -136,10 +151,10 @@ require('class/Inventory.php');
 						<!-- /LOGO -->
 						<!-- SEARCH BAR -->
 						<div class="col-md-6" style="flex: 3;">
-							<div class="header-search" style="min-width: 600px;">
+							<div class="header-search" style="min-width: 520px;">
 								<form>
 									<input class="input" placeholder="Search here" id="search" onkeyup="searchItem()" style="border-radius: 2rem 0 0 2rem;">
-									<button class="search-btn" onclick="searchItem()">Search</button>
+									<button type="button" class="search-btn" onclick="searchItem()">Search</button>
 								</form>
 							</div>
 						</div>
@@ -147,8 +162,9 @@ require('class/Inventory.php');
 
 						<!-- ACCOUNT -->
 						<div class="col-md-3 clearfix" style="flex: 1;">
-							<div class="header-ctn">
-								<!-- Cart -->
+							<div class="header-ctn">';
+			if (isset($_SESSION['id']) && $user->getRole() == 'buyer') {
+				echo '<!-- Cart -->
 								<div class="dropdown">
 									<a href="/comart/src/routes/checkout.php">
 										<i class="fa fa-shopping-cart"></i>
@@ -156,13 +172,15 @@ require('class/Inventory.php');
 										<div class="qty">0</div>
 									</a>
 								</div>
-								<!-- /Cart -->
+								<!-- /Cart -->';
+			}
 
-								<!-- Menu Toogle -->
+
+			echo '	<!-- Menu Toogle -->
 								<div class="menu-toggle">
 									<a href="#">
 										<i class="fa fa-bars"></i>
-										<span>Menu</span>
+										<span></span>
 									</a>
 								</div>
 								<!-- /Menu Toogle -->
@@ -184,28 +202,28 @@ require('class/Inventory.php');
 
 	<!-- Main -->
 
-    <!-- NAVIGATION -->
-    <nav id="navigation">
-        <!-- container -->
-        <div class="container">
-            <!-- responsive-nav -->
-            <div id="responsive-nav">
-                <!-- NAV -->
-                <ul class="main-nav nav navbar-nav">
-                    <li class="active"><a href="/comart/index.php">Home</a></li>
-                    <?php
-                    foreach (Category::getAllCategories() as $row) {
-                        echo '<li><a href="#" onclick="getCategory(this)">' . $row['categoryName'] . '</a></li>';
-                    }
-                    ?>
-                </ul>
-                <!-- /NAV -->
-            </div>
-            <!-- /responsive-nav -->
-        </div>
-        <!-- /container -->
-    </nav>
-    <!-- /NAVIGATION -->
+	<!-- NAVIGATION -->
+	<nav id="navigation">
+		<!-- container -->
+		<div class="container">
+			<!-- responsive-nav -->
+			<div id="responsive-nav">
+				<!-- NAV -->
+				<ul class="main-nav nav navbar-nav">
+					<li class="active"><a href="/comart/index.php">Home</a></li>
+					<?php
+					foreach (Category::getAllCategories() as $row) {
+						echo '<li><a href="#" onclick="getCategory(this)">' . $row['categoryName'] . '</a></li>';
+					}
+					?>
+				</ul>
+				<!-- /NAV -->
+			</div>
+			<!-- /responsive-nav -->
+		</div>
+		<!-- /container -->
+	</nav>
+	<!-- /NAVIGATION -->
 
 	<main>
 		<!-- SECTION -->
@@ -239,8 +257,8 @@ require('class/Inventory.php');
 								<label>
 									Sort By:
 									<select class="input-select">
-										<option value="0">Popular</option>
-										<option value="1">Position</option>
+										<option value="0">All</option>
+										<option value="1">Featured</option>
 									</select>
 								</label>
 
@@ -338,6 +356,7 @@ require('class/Inventory.php');
 		<script src="js/nouislider.min.js"></script>
 		<script src="js/jquery.zoom.min.js"></script>
 		<script src="js/main.js"></script>
+		<script src="js/menu-toggle.js"></script>
 
 </body>
 
