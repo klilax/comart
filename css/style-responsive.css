@@ -1,0 +1,22 @@
+@media screen and (max-width: 500px) {
+    html {
+        overflow-x: hidden;
+    }
+    main>.section>.container>.row {
+        flex-direction: column-reverse !important;
+    }
+    .logo img {
+        transform: scale(0.8) !important;
+        position: relative;
+    }
+    .menu-toggle,
+    .dropdown {
+        position: absolute;
+        top: -13rem;
+        left: 27rem;
+    }
+    .menu-toggle {
+        left: 29.5rem;
+        top: -19rem;
+    }
+}

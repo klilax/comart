@@ -43,10 +43,25 @@ require('class/Inventory.php');
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
+	<link rel="stylesheet" href="css/style-responsive.css">
+
 	<style>
-		@media screen and (max-width: 600px) {
+		@media screen and (max-width: 500px) {
 			main>.section>.container>.row {
 				flex-direction: column-reverse !important;
+			}
+
+			.header-links li a {
+				font-size: 0.9rem;
+			}
+
+			#products a {
+				width: 25% !important;
+			}
+
+			#featuredProducts a {
+				width: 15%;
+				padding: 0;
 			}
 		}
 	</style>
@@ -136,10 +151,10 @@ require('class/Inventory.php');
 						<!-- /LOGO -->
 						<!-- SEARCH BAR -->
 						<div class="col-md-6" style="flex: 3;">
-							<div class="header-search" style="min-width: 600px;">
+							<div class="header-search" style="min-width: 520px;">
 								<form>
 									<input class="input" placeholder="Search here" id="search" onkeyup="searchItem()" style="border-radius: 2rem 0 0 2rem;">
-									<button class="search-btn" onclick="searchItem()">Search</button>
+									<button type="button" class="search-btn" onclick="searchItem()">Search</button>
 								</form>
 							</div>
 						</div>
@@ -165,7 +180,7 @@ require('class/Inventory.php');
 								<div class="menu-toggle">
 									<a href="#">
 										<i class="fa fa-bars"></i>
-										<span>Menu</span>
+										<span></span>
 									</a>
 								</div>
 								<!-- /Menu Toogle -->
@@ -242,8 +257,8 @@ require('class/Inventory.php');
 								<label>
 									Sort By:
 									<select class="input-select">
-										<option value="0">Popular</option>
-										<option value="1">Position</option>
+										<option value="0">All</option>
+										<option value="1">Featured</option>
 									</select>
 								</label>
 
@@ -341,6 +356,7 @@ require('class/Inventory.php');
 		<script src="js/nouislider.min.js"></script>
 		<script src="js/jquery.zoom.min.js"></script>
 		<script src="js/main.js"></script>
+		<script src="js/menu-toggle.js"></script>
 
 </body>
 
