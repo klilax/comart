@@ -128,7 +128,10 @@ require('class/Inventory.php');
 		//<!-- TOP HEADER -->
 		include('src/components/topHeader.php');
 		//<!-- /TOP HEADER -->
-
+        $itemQty = 0;
+        if (isset($_SESSION['cartId'])) {
+            $itemQty = $_SESSION['cart']['count'];
+        }
 		if (!isset($_SESSION['id']) || $user->getRole() == 'buyer') {
 			echo '
 			<div id="header">
@@ -164,7 +167,8 @@ require('class/Inventory.php');
 									<a href="/comart/src/routes/checkout.php">
 										<i class="fa fa-shopping-cart"></i>
 										<span>Your Cart</span>
-										<div class="qty">0</div>
+										
+										<div class="qty">'. $itemQty. '</div>
 									</a>
 								</div>
 								<!-- /Cart -->

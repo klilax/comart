@@ -4,7 +4,7 @@ require_once('../../class/Inventory.php');
 $vendorId = $_GET['vendorId'];
 
 $vendorProducts = Inventory::getVendorInventory($vendorId);
-
+session_start();
 // print_r($vendorProducts);
 
 ?>

@@ -17,6 +17,7 @@ class Cart {
         $cartId = self::getCartId();
         $_SESSION['cartId'] = $cartId;
         $_SESSION['cart'][$cartId] = array();
+        $_SESSION['cart']['count'] = 0;
     }
 
 
@@ -29,6 +30,7 @@ class Cart {
             $_SESSION['cart'][$cartId][$inventoryId]['quantity'] += $quantity;
         } else {
             $_SESSION['cart'][$cartId][$inventoryId]['quantity'] = $quantity;
+            $_SESSION['cart']['count'] += 1;
         }
         $_SESSION['cart'][$cartId][$inventoryId]['name'] = $productName;
         $_SESSION['cart'][$cartId][$inventoryId]['price'] = $price;

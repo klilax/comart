@@ -51,13 +51,17 @@ if (isset($_SESSION['user'])) {
                 <div class="header-ctn">
                     <!-- Cart -->
                     <?php
+                    $itemQty = 0;
+                    if (isset($_SESSION['cartId'])) {
+                        $itemQty = $_SESSION['cart']['count'];
+                    }
                     if (!isset($user) || $user->getRole() == 'buyer') {
                         echo '
                         <div class="dropdown">
                             <a href="../routes/checkout.php">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Your Cart</span>
-                                <div class="qty">3</div>
+                                <div class="qty">'. $itemQty . '</div>
                             </a>
                         </div>';
                     } else if ($user->getRole() != 'admin') {
