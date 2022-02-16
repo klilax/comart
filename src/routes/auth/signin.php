@@ -25,17 +25,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$password_error = 'Please enter your password.';
 	}
 
-	$user = array('username' => $username, 'password' => $password);
-
 	//validate
-
 	if (empty($username_error) && empty($password_error)) {
-
-		// $password_error = 'Incorrect password. Please try again.';
-		// $username_error = 'This account has been deactivated, Please contact the Administrator.';
-		// $username_error = 'No account found with that username.';
-
-		User::auth($username, $password);
+		$log = User::auth($username, $password);
+		if ($log == 'vendor') {
+			header('location: ../../../vendor/index.php');
+		} else if ($log == 'buyer') {
+			header('location: ../../../index.php');
+		} else if ($log == 'admin') {
+			header('location: ../../../admin/index.php');
+		} else if ($log == 'inactive') {
+			$username_error = 'This account has been deactivated, Please contact the Administrator.';
+		} else if ($log == 'notactive') {
+			$username_error = 'Sorry, This account is not approved yet.';
+		} else if ($log == 'notFound') {
+			$username_error = 'No account found with that username.';
+		} else if ($log == 'passError') {
+			$password_error = 'Incorrect password. Please try again.';
+		}
 	}
 }
 
@@ -151,12 +158,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 										<form action="<?php $_PHP_SELF ?>" method="POST">
 											<div class="form-group">
 												<label for="username">Username</label>
-												<input type="username" class="form-control" id="username" name="username" placeholder="Username">
+												<input type="username" class="form-control  <?php echo (!empty($username_error)) ? 'is-invalid' : ''; ?>" id="username" name="username" placeholder="Username" value="<?php echo $username ?>">
 												<span class="invalid-feedback" style="color: red;"><?php echo $username_error; ?></span>
 											</div>
 											<div class="form-group mb-5">
 												<label for="password">Password</label>
-												<input type="password" class="form-control" id="password" name="password" placeholder="Password">
+												<input type="password" class="form-control <?php echo (!empty($password_error)) ? 'is-invalid' : ''; ?>" id="password" name="password" placeholder="Password" value="">
 												<span class="invalid-feedback" style="color: red;"><?php echo $password_error; ?></span>
 											</div>
 											<button type=" submit" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px">Sign In</button>

@@ -1,7 +1,8 @@
 <?php
 require('db.php');
 
-class User {
+class User
+{
     private $id;
     private $username;
     private $email;
@@ -9,7 +10,8 @@ class User {
     private $status;
     private static $conn;
 
-    function __construct($userInfo) {
+    function __construct($userInfo)
+    {
         //        if (array_key_exists('id', $userInfo))
         $this->id = $userInfo['id'];
         //        if (array_key_exists('username', $userInfo))
@@ -22,51 +24,63 @@ class User {
         $this->status = $userInfo['status'];
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    public function getUsername() {
+    public function getUsername()
+    {
         return $this->username;
     }
 
-    public function setUsername($username) {
+    public function setUsername($username)
+    {
         $this->username = $username;
     }
 
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
 
-    public function setEmail($email) {
+    public function setEmail($email)
+    {
         $this->email = $email;
     }
 
-    public function getRole() {
+    public function getRole()
+    {
         return $this->role;
     }
 
-    public function setRole($role) {
+    public function setRole($role)
+    {
         $this->role = $role;
     }
 
-    public function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
-    public function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->status = $status;
     }
 
-    public static function setConn($conn) {
+    public static function setConn($conn)
+    {
         self::$conn = $conn;
     }
 
-    public static function isNewUser($username) {
+    public static function isNewUser($username)
+    {
         $sql = "SELECT * FROM user WHERE username = :username LIMIT 1";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':username', $username);
@@ -74,7 +88,8 @@ class User {
         return $stmt->rowCount() == 0;
     }
 
-    public static function isNewEmail($email) {
+    public static function isNewEmail($email)
+    {
         $sql = "SELECT * FROM user WHERE email = :email LIMIT 1";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':email', $email);
@@ -82,34 +97,45 @@ class User {
         return $stmt->rowCount() == 0;
     }
 
-    public static function auth($username, $password) {
+    public static function auth($username, $password)
+    {
         $sql = "SELECT * FROM user WHERE username = :username LIMIT 1";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':username', $username);
         $stmt->execute();
-        $row = $stmt->fetch();
-        if (password_verify($password, $row['password'])) {
-            if ($row['status'] == 1) {
-//                session_start();
-                $_SESSION['user'] = serialize(new User($row));
-                $_SESSION['role'] = $row['role'];
-                $_SESSION['id'] = $row['id'];
-                if ($row['role'] == 'vendor') {
-                    header('location: ../../../vendor/index.php');
-                } elseif ($row['role'] == 'buyer') {
-                    header('location: ../../../index.php');
-                } elseif ($row['role'] == 'admin') {
-                    header('location: ../../../admin/index.php');
+        if ($stmt->rowCount() == 1) {
+            $row = $stmt->fetch();
+            if (password_verify($password, $row['password'])) {
+                if ($row['status'] == 1) {
+                    //                session_start();
+                    $_SESSION['user'] = serialize(new User($row));
+                    $_SESSION['role'] = $row['role'];
+                    $_SESSION['id'] = $row['id'];
+                    if ($row['role'] == 'vendor') {
+                        return 'vendor';
+                        // header('location: ../../../vendor/index.php');
+                    } elseif ($row['role'] == 'buyer') {
+                        return 'buyer';
+                        // header('location: ../../../index.php');
+                    } elseif ($row['role'] == 'admin') {
+                        return 'admin';
+                        // header('location: ../../../admin/index.php');
+                    }
+                } else if ($row['status'] == 2) {
+                    return 'inactive';
+                } else if ($row['status'] == 0) {
+                    return 'notactive';
                 }
             } else {
-                echo 'Account not active';
+                return 'passError';
             }
         } else {
-            echo 'error password or username';
+            return 'notFound';
         }
     }
 
-    public static function fetchId($username) {
+    public static function fetchId($username)
+    {
         $sql = "SELECT id FROM user WHERE username = :username LIMIT 1";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':username', $username);
@@ -122,7 +148,8 @@ class User {
         }
     }
 
-    public static function saveUserInfo($userInfo) {
+    public static function saveUserInfo($userInfo)
+    {
         if (self::isNewUser($userInfo['username'])) {
             $sql = "INSERT INTO user (username, email, password, role, status) VALUE 
                 (:username, :email, :password, :role, :status)";
@@ -142,7 +169,8 @@ class User {
         }
     }
 
-    public static function saveVendorInfo($userInfo) {
+    public static function saveVendorInfo($userInfo)
+    {
         $userId = self::fetchId($userInfo['username']);
         if ($userId != -1) {
             $sql = "INSERT INTO vendor (userId, vendorName, tinNumber) VALUE 
@@ -155,7 +183,8 @@ class User {
         }
     }
 
-    public static function saveBuyerInfo($userInfo) {
+    public static function saveBuyerInfo($userInfo)
+    {
         $userId = self::fetchId($userInfo['username']);
         if ($userId != -1) {
             $sql = "INSERT INTO buyer (userId, firstname, lastname, tinNumber) VALUE 
@@ -169,7 +198,8 @@ class User {
         }
     }
 
-    public static function saveAdminInfo($userInfo) {
+    public static function saveAdminInfo($userInfo)
+    {
         $userId = self::fetchId($userInfo['username']);
         if ($userId != -1) {
             $sql = "INSERT INTO admin (userId, firstname, lastname) VALUE 
@@ -182,7 +212,8 @@ class User {
         }
     }
 
-    public static function register($userInfo) {
+    public static function register($userInfo)
+    {
         self::saveUserInfo($userInfo);
         if ($userInfo['role'] == 'vendor') {
             self::saveVendorInfo($userInfo);
@@ -194,7 +225,8 @@ class User {
     }
 
     //Message methods
-    public static function sendMessage($sender, $receiverId) {
+    public static function sendMessage($sender, $receiverId)
+    {
         $sql = "INSERT INTO message (senderId, receiverId, messageBody, messageTitle) 
                 values (:senderId, :receiverId, :messageId, :messageTitle)";
         $stmt = self::$conn->prepare($sql);
@@ -205,14 +237,15 @@ class User {
         $stmt->execute();
     }
 
-    public static function viewReceivedMessage($receiverId) {
+    public static function viewReceivedMessage($receiverId)
+    {
         $sql = "SELECT messageId, senderId, receiverId, messageBody, messageTitle, timeSent 
                 FROM message where receiverId = :receiverId";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':receiverId', $receiverId);
         $stmt->execute();
 
-        if($stmt->rowCount() != 0) {
+        if ($stmt->rowCount() != 0) {
             $row = $stmt->fetch();
             return $row;
         } else {
@@ -220,14 +253,15 @@ class User {
         }
     }
 
-    public static function viewSentMessage($senderId) {
+    public static function viewSentMessage($senderId)
+    {
         $sql = "SELECT messageId, senderId, receiverId, messageBody, messageTitle, timeSent 
                 FROM message where senderId = :senderId";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':senderId', $senderId);
         $stmt->execute();
 
-        if($stmt->rowCount() != 0) {
+        if ($stmt->rowCount() != 0) {
             $row = $stmt->fetch();
             return $row;
         } else {
@@ -235,7 +269,8 @@ class User {
         }
     }
 
-    public static function deleteMessage($messageId) {
+    public static function deleteMessage($messageId)
+    {
         $sql = "DELETE FROM message WHERE messageId = :messageId";
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':messageId', $messageId);
