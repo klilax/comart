@@ -224,56 +224,67 @@ class User
         }
     }
 
-    //Message methods
-    public static function sendMessage($sender, $receiverId)
+    // edit account methods
+    public static function updateVendorName($vendorName, $vendorId)
     {
-        $sql = "INSERT INTO message (senderId, receiverId, messageBody, messageTitle) 
-                values (:senderId, :receiverId, :messageId, :messageTitle)";
+        $sql = "UPDATE vendor SET vendorName = :newName WHERE userId = :userId";
         $stmt = self::$conn->prepare($sql);
-        $stmt->bindParam(':senderId', $sender['id']);
-        $stmt->bindParam(':receiverId', $receiverId);
-        $stmt->bindParam(':messageBody', $sender['messageBody']);
-        $stmt->bindParam(':messageTitle', $sender['messageTitle']);
+        $stmt->bindParam(':newName', $vendorName);
+        $stmt->bindParam(':userId', $vendorId);
         $stmt->execute();
     }
 
-    public static function viewReceivedMessage($receiverId)
+    public static function updateVendorTin($tinNumber, $vendorId)
     {
-        $sql = "SELECT messageId, senderId, receiverId, messageBody, messageTitle, timeSent 
-                FROM message where receiverId = :receiverId";
+        $sql = "UPDATE vendor SET tinNumber = :newTin WHERE userId = :userId";
         $stmt = self::$conn->prepare($sql);
-        $stmt->bindParam(':receiverId', $receiverId);
+        $stmt->bindParam(':newName', $tinNumber);
+        $stmt->bindParam(':userId', $vendorId);
         $stmt->execute();
-
-        if ($stmt->rowCount() != 0) {
-            $row = $stmt->fetch();
-            return $row;
-        } else {
-            return -1;
-        }
     }
 
-    public static function viewSentMessage($senderId)
+    public static function updateFirstName($firstName, $buyerId)
     {
-        $sql = "SELECT messageId, senderId, receiverId, messageBody, messageTitle, timeSent 
-                FROM message where senderId = :senderId";
+        $sql = "UPDATE buyer SET firstname = :newName WHERE userId = :userId";
         $stmt = self::$conn->prepare($sql);
-        $stmt->bindParam(':senderId', $senderId);
+        $stmt->bindParam(':newName', $firstName);
+        $stmt->bindParam(':userId', $buyerId);
         $stmt->execute();
-
-        if ($stmt->rowCount() != 0) {
-            $row = $stmt->fetch();
-            return $row;
-        } else {
-            return -1;
-        }
     }
 
-    public static function deleteMessage($messageId)
+    public static function updateLastname($lastName, $buyerId)
     {
-        $sql = "DELETE FROM message WHERE messageId = :messageId";
+        $sql = "UPDATE buyer SET lastname = :newName WHERE userId = :userId";
         $stmt = self::$conn->prepare($sql);
-        $stmt->bindParam(':messageId', $messageId);
+        $stmt->bindParam(':newName', $lastName);
+        $stmt->bindParam(':userId', $buyerId);
+        $stmt->execute();
+    }
+
+    public static function updateBuyerTin($tinNumber, $buyerId)
+    {
+        $sql = "UPDATE buyer SET tinNumber = :newTin WHERE userId = :userId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':newName', $tinNumber);
+        $stmt->bindParam(':userId', $buyerId);
+        $stmt->execute();
+    }
+
+    public static function updateUsername($username, $userId)
+    {
+        $sql = "UPDATE user SET username = :newName WHERE id = :userId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':newName', $username);
+        $stmt->bindParam(':userId', $userId);
+        $stmt->execute();
+    }
+
+    public static function updateEmail($email, $userId)
+    {
+        $sql = "UPDATE user SET email = :newEmail WHERE id = :userId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':newEmail', $email);
+        $stmt->bindParam(':userId', $userId);
         $stmt->execute();
     }
 }

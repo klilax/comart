@@ -1,79 +1,58 @@
 <?php
-// require_once '../../../class/db.php';
 session_start();
 require('../../../class/User.php');
 
-$firstName = $lastName = $shopName = $username = $email = $tinNumber = $password = $confirm_password = '';
+$password = '';
 
-$firstName_error = $lastName_error = $shopName_error = $username_error = $email_error = $password_error = $confirm_password_error = $agreement_error = '';
+$password_error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+    $userId = $_SESSION['id'];
     $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-    $firstName = trim($_POST['firstName']);
-    $lastName = trim($_POST['lastName']);
-    $username = trim($_POST['username']);
-    $email = trim($_POST['email']);
-    $tinNumber = trim($_POST['tinNumber']);
     $password = trim($_POST['password']);
-    $role = 'buyer';
-    $confirm_password = trim($_POST['confirm_password']);
-
-    if (empty($firstName)) {
-        $firstName_error = 'Please enter your first name.';
-    }
-    if (empty($lastName)) {
-        $lastName_error = 'Please enter your last name.';
-    }
-
-    if (empty($username)) {
-        $username_error = 'Please enter a username.';
-    } else {
-        if (!User::isNewUser($username)) {
-            $username_error = 'Username is already taken.';
-        }
-    }
-
-    if (empty($email)) {
-        $email_error = 'Please enter your email.';
-    } else {
-        if (!User::isNewUser($email)) {
-            $email_error = 'Email is already taken.';
-        }
-    }
 
     if (empty($password)) {
         $password_error = 'Please enter your password.';
-    } else if (strlen($password) < 6) {
-        $password_error = 'Passoword must be at least 6 characters.';
     }
 
-    //validate confirm password
-    if (empty($confirm_password)) {
-        $confirm_password_error = 'Please confirm your password.';
-    } else {
-        if ($password !== $confirm_password) {
-            $confirm_password_error = 'Passwords do not match.';
+    if (empty($password_error)) {
+        $vendorName = $firstName = $lastName = '';
+        if ($_SESSION['role'] == 'vendor') {
+            $vendorName = trim($_POST['vendorName']);
+        } else if ($_SESSION['role'] == 'buyer') {
+            $firstName = trim($_POST['firstName']);
+            $lastName = trim($_POST['lastName']);
         }
-    }
+        $username = trim($_POST['username']);
+        $email = trim($_POST['email']);
+        $tinNumber = trim($_POST['tinNumber']);
 
-    //validate agreement checkbox
-    if (!isset($_POST['agreement'])) {
-        $agreement_error = 'Please click on the agreement checkbox.';
-    }
+        if ($_SESSION['role'] == 'vendor') {
+            if (!empty($vendorName)) {
+                User::updateVendorName($vendorName, $userId);
+            }
 
+            if (!empty($tinNumber)) {
+                User::updateVendorTin($tinNumber, $userId);
+            }
+        } else if ($_SESSION['role'] == 'buyer') {
+            if (!empty($firstName)) {
+                User::updateFirstName($firstName, $userId);
+            }
 
-    if (empty($firstName_error) && (empty($lastName_error)) && empty($username_error) && empty($email_error) && empty($password_error) && empty($confirm_password_error) && empty($agreement_error)) {
-        $buyer = ['username' => $username, 'email' => $email, 'password' => $password, 'role' => 'buyer', 'firstName' => $firstName, 'lastName' => $lastName, 'tinNumber' => $tinNumber];
-        User::register($buyer);
-
-        $message = "Account Created Successfully";
-        $opeStatus = 0;
-        $_SESSION['message'] = $message;
-        $_SESSION['opeStatus'] = $opeStatus;
-
-        header("Location: signin.php");
+            if (!empty($lastName)) {
+                User::updateLastname($lastName, $userId);
+            }
+            if (!empty($tinNumber)) {
+                User::updateBuyerTin($tinNumber, $userId);
+            }
+        }
+        if (!empty($username)) {
+            User::updateUsername($username, $userId);
+        }
+        if (!empty($email)) {
+            User::updateEmail($email, $userId);
+        }
     }
 }
 
@@ -142,6 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row">
                 <div class="col-md-12">
                     <h3 class="breadcrumb-header">Edit Account Details</h3>
+                    <h4 style="float:right;">Fill the fields you want to update</h4>
                 </div>
             </div>
             <!-- /row -->
@@ -155,70 +135,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <!-- container -->
         <div class="container">
             <form action="<?php $_PHP_SELF ?>" method="POST" class="form-horizontal" role="form">
+                <?php
+                $userRole = $_SESSION['role'];
+                if ($userRole == 'vendor') {
+                    echo '<div class="form-group">
+                            <label for="vendorName" class="col-sm-3 control-label">Vendor Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="vendorName" placeholder="Vendor Name" class="form-control" name="vendorName" value="" autofocus>
+                            </div>
+                        </div>';
+                } else if ($userRole == 'buyer') {
+                    echo '<div class="form-group">
+                            <label for="firstName" class="col-sm-3 control-label">First Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="firstName" placeholder="First Name" class="form-control" name="firstName" value="" autofocus>
+                            </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName" class="col-sm-3 control-label">Last Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="lastName" placeholder="Last Name" class="form-control" name="lastName" value="" autofocus>
+                                </div>
+                            </div>';
+                }
+                ?>
+
                 <div class="form-group">
-                    <div class="col-sm-9 col-sm-offset-3">
-                        <span class="help-block">*Required fields</span>
+                    <label for="username" class="col-sm-3 control-label">Username</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="username" placeholder="username" class="form-control" name="username" value="">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="firstName" class="col-sm-3 control-label">First Name*</label>
+                    <label for="email" class="col-sm-3 control-label">Email</label>
                     <div class="col-sm-9">
-                        <input type="text" id="firstName" placeholder="First Name" class="form-control <?php echo (!empty($firstName_error)) ? 'is-invalid' : ''; ?>" name="firstName" value="<?php echo $firstName ?>" autofocus>
-                        <span class="invalid-feedback" style="color: red;"><?php echo $firstName_error; ?></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="lastName" class="col-sm-3 control-label">Last Name*</label>
-                    <div class="col-sm-9">
-                        <input type="text" id="lastName" placeholder="Last Name" class="form-control <?php echo (!empty($lastName_error)) ? 'is-invalid' : ''; ?>" name="lastName" value="<?php echo $lastName ?>" autofocus>
-                        <span class="invalid-feedback" style="color: red;"><?php echo $lastName_error; ?></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="username" class="col-sm-3 control-label">Username*</label>
-                    <div class="col-sm-9">
-                        <input type="text" id="username" placeholder="Username" class="form-control <?php echo (!empty($username_error)) ? 'is-invalid' : ''; ?>" name="username" value="<?php echo $username ?>" autofocus>
-                        <span class="invalid-feedback" style="color: red;"><?php echo $username_error; ?></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="email" class="col-sm-3 control-label">Email* </label>
-                    <div class="col-sm-9">
-                        <input type="email" id="email" placeholder="Email" class="form-control <?php echo (!empty($email_error)) ? 'is-invalid' : ''; ?>" name="email" value="<?php echo $email ?>">
-                        <span class="invalid-feedback" style="color: red;"><?php echo $email_error; ?></span>
+                        <input type="email" id="email" placeholder="Email" class="form-control" name="email" value="">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="tinNumber" class="col-sm-3 control-label">Tin Number</label>
                     <div class="col-sm-9">
-                        <input type="number" id="tinNumber" placeholder="Tin Number" class="form-control" name="tinNumber">
+                        <input type="text" id="tinNumber" placeholder="Tin Number" class="form-control" name="tinNumber">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="password" class="col-sm-3 control-label">Password*</label>
                     <div class="col-sm-9">
-                        <input type="password" id="password" placeholder="Password" class="form-control <?php echo (!empty($password_error)) ? 'is-invalid' : ''; ?>" name="password" value="<?php echo $password ?>">
+                        <input type="password" id="password" placeholder="Password" class="form-control <?php echo (!empty($password_error)) ? 'is-invalid' : ''; ?>" name="password" value="">
                         <span class="invalid-feedback" style="color: red;"><?php echo $password_error; ?></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="confirm_password" class="col-sm-3 control-label">Confirm Password*</label>
-                    <div class="col-sm-9">
-                        <input type="password" id="confirm_password" placeholder="Confirm Password" class="form-control <?php echo (!empty($confirm_password_error)) ? 'is-invalid' : ''; ?>" name="confirm_password" value="<?php echo $confirm_password ?>">
-                        <span class="invalid-feedback" style="color: red;"><?php echo $confirm_password_error; ?></span>
-                    </div>
-                </div>
-                <div class="form-group ">
-                    <div class="col-sm-9 col-sm-offset-3">
-                        <input type="checkbox" class="form-check-input <?php echo (!empty($agreement_error)) ? 'is-invalid' : ''; ?>" id="exampleCheck1" name="agreement">
-                        <label class="form-check-label" for="exampleCheck1">Agree to Privacy terms and conditions</label><br>
-                        <span class="invalid-feedback" style="color: red;"><?php echo $agreement_error; ?></span>
                     </div>
                 </div>
                 <!-- /.form-group -->
                 <div class="col-sm-9 col-sm-offset-3">
-                    <button type="submit" class="btn primary-btn" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px">Create Account</button>
-                </div>
+                    <button type="submit" class="btn primary-btn" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px">Update Account</button>
+                </div>';
             </form> <!-- /form -->
         </div> <!-- ./container -->
         <!-- /container -->
