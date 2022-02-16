@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userId = $_SESSION['id'];
     $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
     $password = trim($_POST['password']);
+    $change = false;
 
     if (empty($password)) {
         $password_error = 'Please enter your password.';
@@ -30,28 +31,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($_SESSION['role'] == 'vendor') {
             if (!empty($vendorName)) {
                 User::updateVendorName($vendorName, $userId);
+                $change = true;
             }
 
             if (!empty($tinNumber)) {
                 User::updateVendorTin($tinNumber, $userId);
+                $change = true;
             }
         } else if ($_SESSION['role'] == 'buyer') {
             if (!empty($firstName)) {
                 User::updateFirstName($firstName, $userId);
+                $change = true;
             }
 
             if (!empty($lastName)) {
                 User::updateLastname($lastName, $userId);
+                $change = true;
             }
             if (!empty($tinNumber)) {
                 User::updateBuyerTin($tinNumber, $userId);
+                $change = true;
             }
         }
         if (!empty($username)) {
             User::updateUsername($username, $userId);
+            $change = true;
         }
         if (!empty($email)) {
             User::updateEmail($email, $userId);
+            $change = true;
+        }
+        if ($change) {
+            $message = "Account Updated Successfully";
+            $opeStatus = 0;
+            $_SESSION['message'] = $message;
+            $_SESSION['opeStatus'] = $opeStatus;
+        } else {
+            $message = "Please fill an attribute to update";
+            $opeStatus = 1;
+            $_SESSION['message'] = $message;
+            $_SESSION['opeStatus'] = $opeStatus;
         }
     }
 }
@@ -66,6 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <link rel="stylesheet" href="../../../css/bootstrap.css">
+    <script src="../../../js/bootstrap.js"></script>
 
     <title>comart - Quality materials for your construction</title>
 
@@ -115,6 +136,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- BREADCRUMB -->
     <div id="breadcrumb" class="section">
+        <?php
+        if (isset($_SESSION['message'])) {
+            if ($_SESSION['opeStatus'] == 0) {
+                echo "<div class='alert alert-success row w-25 mx-auto' role='alert'>";
+                echo  $_SESSION['message'];
+                echo "</div>";
+            } else {
+                echo "<div class='alert alert-warning row w-25 mx-auto' role='alert'>";
+                echo  $_SESSION['message'];
+                echo "</div>";
+            }
+            unset($_SESSION['message']);
+            unset($_SESSION['opeStatus']);
+        } else {
+            echo '
         <!-- container -->
         <div class="container">
             <!-- row -->
@@ -126,7 +162,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <!-- /row -->
         </div>
-        <!-- /container -->
+        <!-- /container -->';
+        }
+        ?>
     </div>
     <!-- /BREADCRUMB -->
 
