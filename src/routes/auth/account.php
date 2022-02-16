@@ -17,60 +17,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($password_error)) {
-        $vendorName = $firstName = $lastName = '';
-        if ($_SESSION['role'] == 'vendor') {
-            $vendorName = trim($_POST['vendorName']);
-        } else if ($_SESSION['role'] == 'buyer') {
-            $firstName = trim($_POST['firstName']);
-            $lastName = trim($_POST['lastName']);
-        }
-        $username = trim($_POST['username']);
-        $email = trim($_POST['email']);
-        $tinNumber = trim($_POST['tinNumber']);
+        if (User::checkPassword($password, $userId)) {
+            $vendorName = $firstName = $lastName = '';
+            if ($_SESSION['role'] == 'vendor') {
+                $vendorName = trim($_POST['vendorName']);
+            } else if ($_SESSION['role'] == 'buyer') {
+                $firstName = trim($_POST['firstName']);
+                $lastName = trim($_POST['lastName']);
+            }
+            $username = trim($_POST['username']);
+            $email = trim($_POST['email']);
+            $tinNumber = trim($_POST['tinNumber']);
 
-        if ($_SESSION['role'] == 'vendor') {
-            if (!empty($vendorName)) {
-                User::updateVendorName($vendorName, $userId);
-                $change = true;
-            }
+            if ($_SESSION['role'] == 'vendor') {
+                if (!empty($vendorName)) {
+                    User::updateVendorName($vendorName, $userId);
+                    $change = true;
+                }
 
-            if (!empty($tinNumber)) {
-                User::updateVendorTin($tinNumber, $userId);
-                $change = true;
-            }
-        } else if ($_SESSION['role'] == 'buyer') {
-            if (!empty($firstName)) {
-                User::updateFirstName($firstName, $userId);
-                $change = true;
-            }
+                if (!empty($tinNumber)) {
+                    User::updateVendorTin($tinNumber, $userId);
+                    $change = true;
+                }
+            } else if ($_SESSION['role'] == 'buyer') {
+                if (!empty($firstName)) {
+                    User::updateFirstName($firstName, $userId);
+                    $change = true;
+                }
 
-            if (!empty($lastName)) {
-                User::updateLastname($lastName, $userId);
+                if (!empty($lastName)) {
+                    User::updateLastname($lastName, $userId);
+                    $change = true;
+                }
+                if (!empty($tinNumber)) {
+                    User::updateBuyerTin($tinNumber, $userId);
+                    $change = true;
+                }
+            }
+            if (!empty($username)) {
+                User::updateUsername($username, $userId);
                 $change = true;
             }
-            if (!empty($tinNumber)) {
-                User::updateBuyerTin($tinNumber, $userId);
+            if (!empty($email)) {
+                User::updateEmail($email, $userId);
                 $change = true;
             }
-        }
-        if (!empty($username)) {
-            User::updateUsername($username, $userId);
-            $change = true;
-        }
-        if (!empty($email)) {
-            User::updateEmail($email, $userId);
-            $change = true;
-        }
-        if ($change) {
-            $message = "Account Updated Successfully";
-            $opeStatus = 0;
-            $_SESSION['message'] = $message;
-            $_SESSION['opeStatus'] = $opeStatus;
+            if ($change) {
+                $message = "Account Updated Successfully";
+                $opeStatus = 0;
+                $_SESSION['message'] = $message;
+                $_SESSION['opeStatus'] = $opeStatus;
+            } else {
+                $message = "Please fill an attribute to update";
+                $opeStatus = 1;
+                $_SESSION['message'] = $message;
+                $_SESSION['opeStatus'] = $opeStatus;
+            }
         } else {
-            $message = "Please fill an attribute to update";
-            $opeStatus = 1;
-            $_SESSION['message'] = $message;
-            $_SESSION['opeStatus'] = $opeStatus;
+            $password_error = 'Wrong Password';
         }
     }
 }
