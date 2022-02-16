@@ -23,7 +23,7 @@ if (isset($_SESSION['user'])) {
             if (!isset($user)) {
                 echo
                 '<div class="col-md-6" style="flex: 3;">
-                    <div class="header-search" style="min-width: 600px;">
+                    <div class="header-search" style="min-width: 520px;">
                         <form>
                             <input class="input" placeholder="Search here" style="border-radius: 2rem 0 0 2rem;">
                             <button class="search-btn">Search</button>
@@ -76,7 +76,7 @@ if (isset($_SESSION['user'])) {
                     <div class="menu-toggle">
                         <a href="#">
                             <i class="fa fa-bars"></i>
-                            <span>Menu</span>
+                            <span></span>
                         </a>
                     </div>
                     <!-- /Menu Toogle -->

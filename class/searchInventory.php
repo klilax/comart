@@ -50,7 +50,7 @@ if (isset($_GET['query'], $_GET['category'], $_GET['featuredOnly'])) {
 function displayProduct($inventoryId, $name, $encoded_name, $price, $imgName, $category, $featured, $featuredOnly) {
     echo
     '
-        <a href="/comart/src/routes/product.php?inventoryId=' . $inventoryId . '">
+        <a href="/comart/src/routes/product.php?inventoryId=' . $inventoryId . '" style="position: relative;">
             <div class="col-md-3 col-xs-6" ';
     if ($featuredOnly) {
         echo 'style = "display: flex; padding-bottom: 3.5rem; width: 100%;"';

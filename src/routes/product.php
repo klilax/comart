@@ -30,7 +30,10 @@ $productReviews = '';
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>comart - Quality materials for your construction</title>
+	<meta name="description" content="Sell and Buy construction materials easily with comart. A platform to improve the distribution of quality construction materials in Ethiopia. Check current prices on the largest selection of essentials and products, including cement, sand, aggregate, steel structures, rebars, ceramics, roofs, electrical pipes, paints and more.">
+
+	<title>COMART - Quality materials for your construction</title>
+	<link rel="icon" href="../../img/logo_icon.png">
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -58,9 +61,32 @@ $productReviews = '';
  		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
  		<![endif]-->
 
+	<link rel="stylesheet" href="../../css/style-responsive.css">
+
+	<style>
+		@media screen and (max-width: 500px) {
+			.header-links li a {
+				font-size: 0.9rem;
+			}
+
+			.container>.row {
+				flex-direction: column !important;
+			}
+
+			.container>.row>div.img-div,
+			.container>.row>div.details-div {
+				width: 100% !important;
+			}
+
+			.logo img {
+				position: relative !important;
+				left: -18rem;
+			}
+		}
+	</style>
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
 	<!-- HEADER -->
 	<header>
 		<?php
@@ -75,18 +101,14 @@ $productReviews = '';
 	</header>
 	<!-- /HEADER -->
 
-	<!-- NAVIGATION -->
-	<?php include('../components/navigation.php'); ?>
-	<!-- /NAVIGATION -->
-
 	<!-- SECTION -->
-	<div class="section" style="padding: 0;">
+	<div class="section">
 		<!-- container -->
 		<div class="container">
 			<!-- row -->
 			<div class="row" style="display: flex;">
 				<!-- Product main img -->
-				<div class="col-md-5 col-md-2" style="width: 50%">
+				<div class="img-div col-md-5 col-md-2" style="width: 50%">
 					<div id="product-main-img">
 						<div class="product-preview">
 							<img src="../../img/
@@ -108,7 +130,7 @@ $productReviews = '';
 				<!-- /Product main img -->
 
 				<!-- Product details -->
-				<div class="col-md-5" style="width: 50%; padding: 3rem;">
+				<div class="details-div col-md-5" style="width: 50%; padding: 3rem;">
 					<div class="product-details">
 						<h5 class="h5 text-muted"><?php echo $productCategory; ?></h5>
 						<h2 class="product-name" style="display: inline;"><?php echo $productName; ?></h2>
@@ -147,7 +169,7 @@ $productReviews = '';
 								</div>
 							</div>
 
-                            <button class="add-to-cart-btn" onclick="sendCart()"><i class="fa fa-shopping-cart" ></i> add to cart</button>
+							<button class="add-to-cart-btn" onclick="sendCart()"><i class="fa fa-shopping-cart"></i> add to cart</button>
 
 						</div>
 
@@ -167,12 +189,12 @@ $productReviews = '';
 					</div>
 				</div>
 				<!-- /Product details -->
-                <script>
-                    function sendCart() {
-                        let qty = document.getElementById("cartQuantity").value;
-                        window.location.href = "<?php echo '../../class/Cart.php?inventoryId=' . $productId . '&productName=' . $encoded_name . '&price=' . $productPrice . '&quantity='; ?>" + qty;
-                    }
-                </script>
+				<script>
+					function sendCart() {
+						let qty = document.getElementById("cartQuantity").value;
+						window.location.href = "<?php echo '../../class/Cart.php?inventoryId=' . $productId . '&productName=' . $encoded_name . '&price=' . $productPrice . '&quantity='; ?>" + qty;
+					}
+				</script>
 			</div>
 			<!-- /row -->
 			<!-- Product tab -->
@@ -439,7 +461,7 @@ $productReviews = '';
 	<script src="../../js/nouislider.min.js"></script>
 	<script src="../../js/jquery.zoom.min.js"></script>
 	<script src="../../js/main.js"></script>
-
+	<script src="js/menu-toggle.js"></script>
 </body>
 
 </html>
