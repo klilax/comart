@@ -44,7 +44,7 @@
 	<!-- HEADER -->
 	<header>
 		<?php
-//		session_start();
+		session_start();
 		//<!-- TOP HEADER -->
 		//		include('../components/topHeader.php');
 		//<!-- /TOP HEADER -->
