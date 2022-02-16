@@ -18,7 +18,10 @@ if ($_SESSION['role'] != 'vendor') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>vendor</title>
+    <meta name="description" content="Sell and Buy construction materials easily with comart. A platform to improve the distribution of quality construction materials in Ethiopia. Check current prices on the largest selection of essentials and products, including cement, sand, aggregate, steel structures, rebars, ceramics, roofs, electrical pipes, paints and more.">
+
+    <title>COMART - Quality materials for your construction</title>
+    <link rel="icon" href="img/logo_icon.png">
 
     <!-- link for modal  -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -55,19 +58,30 @@ if ($_SESSION['role'] != 'vendor') {
         .form-select {
             font-size: 16px;
         }
+
         .dataTables_filter {
             float: right;
         }
-        #adjustQuantity, #newName, #newPrice, #imgFile, #qty, #price, #productName {
+
+        #adjustQuantity,
+        #newName,
+        #newPrice,
+        #imgFile,
+        #qty,
+        #price,
+        #productName {
             width: 500px;
         }
-        #updateInventory, #adjustStockInventory, #category{
+
+        #updateInventory,
+        #adjustStockInventory,
+        #category {
             width: 500px;
         }
+
         table button {
             margin: 5px 10px;
         }
-
     </style>
 
 </head>
@@ -102,7 +116,7 @@ if ($_SESSION['role'] != 'vendor') {
     ?>
 
     <?php
-    if (isset($_SESSION['adjust_success_1'])){
+    if (isset($_SESSION['adjust_success_1'])) {
         echo "<div class='alert alert-success row w-25 mx-auto' role='alert'>";
         echo  $_SESSION['adjust_success_1'];
         echo "</div>";
@@ -221,7 +235,6 @@ if ($_SESSION['role'] != 'vendor') {
             </section>
         </div>
         <script>
-
             function validatePriceAdd() {
                 let price = document.getElementById("price").value;
                 if (isNaN(price) || price === "") {
@@ -267,7 +280,7 @@ if ($_SESSION['role'] != 'vendor') {
                 let price = document.getElementById("price").value;
                 if (productName.length === 0) {
                     document.getElementById("addButton").disabled = true;
-                } else if(isNaN(quantity) || quantity === "" || quantity <= 0){
+                } else if (isNaN(quantity) || quantity === "" || quantity <= 0) {
                     document.getElementById("addButton").disabled = true;
                 } else document.getElementById("addButton").disabled = isNaN(price) || price === "" || price <= 0;
             }
@@ -276,32 +289,32 @@ if ($_SESSION['role'] != 'vendor') {
             <section class=" bg" style="min-height: 70vh;">
                 <div class="row w-75 mx-auto text-secondary d-flex icon-boxes">
                     <h1>Update product</h1>
-<!--                    <form action="" method="POST">-->
-                        <div class="form-group">
-                            <select class="form-select" id="updateInventory" name="updateInventory">
-                                <?php
-                                foreach (Inventory::getVendorInventory($vendorId) as $row) {
-                                    echo "<option value='" . $row['inventoryId'] . "'>" . $row['inventoryName'] . "</option>";
-                                }
-                                ?>
-                            </select>
+                    <!--                    <form action="" method="POST">-->
+                    <div class="form-group">
+                        <select class="form-select" id="updateInventory" name="updateInventory">
+                            <?php
+                            foreach (Inventory::getVendorInventory($vendorId) as $row) {
+                                echo "<option value='" . $row['inventoryId'] . "'>" . $row['inventoryName'] . "</option>";
+                            }
+                            ?>
+                        </select>
 
-                        </div>
-                        <div class="form-group mb-5">
-                            <label for="quantity">Change Name</label>
-                            <input type="text" class="form-control" id="newName" name="newName" placeholder="New product Name">
-                            <p id="updateError1" style="color: darkred"></p>
-                        </div>
-                        <div class="form-group mb-5">
-                            <label for="price">Change Price</label>
-                            <input type="text" class="form-control" id="newPrice" name="newPrice" placeholder="price" onkeyup="validatePrice()">
-                            <p id="updateError2" style="color: darkred"></p>
+                    </div>
+                    <div class="form-group mb-5">
+                        <label for="quantity">Change Name</label>
+                        <input type="text" class="form-control" id="newName" name="newName" placeholder="New product Name">
+                        <p id="updateError1" style="color: darkred"></p>
+                    </div>
+                    <div class="form-group mb-5">
+                        <label for="price">Change Price</label>
+                        <input type="text" class="form-control" id="newPrice" name="newPrice" placeholder="price" onkeyup="validatePrice()">
+                        <p id="updateError2" style="color: darkred"></p>
 
-                        </div>
-                        <div>
-                            <button type="button" id="submit_updateProduct" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px" onclick="updateInventory()">Update Product</button>
-                        </div>
-<!--                    </form>-->
+                    </div>
+                    <div>
+                        <button type="button" id="submit_updateProduct" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px" onclick="updateInventory()">Update Product</button>
+                    </div>
+                    <!--                    </form>-->
                 </div>
             </section>
             <script>
@@ -331,7 +344,6 @@ if ($_SESSION['role'] != 'vendor') {
                         document.getElementById("updateError2").innerHTML = "";
                     }
                 }
-
             </script>
         </div>
         <div class="tab-pane fade" id="adjustStock" role="tabpanel" aria-labelledby="adjustStock-tab">
@@ -365,7 +377,7 @@ if ($_SESSION['role'] != 'vendor') {
                             let quantity = document.getElementById("adjustQuantity").value;
                             if (isNaN(quantity)) {
                                 document.getElementById("adjustError").innerHTML = "Quantity must be a number";
-                            }else if(quantity <= 0){
+                            } else if (quantity <= 0) {
                                 document.getElementById("adjustError").innerHTML = "Quantity must be greater than 0";
                             } else {
                                 window.location.href = "../class/addStock.php?inventoryId=" + inventoryId + "&quantity=" + quantity;
@@ -377,7 +389,7 @@ if ($_SESSION['role'] != 'vendor') {
                             let quantity = document.getElementById("adjustQuantity").value;
                             if (isNaN(quantity)) {
                                 document.getElementById("adjustError").innerHTML = "Quantity must be a number";
-                            }else if(quantity <= 0){
+                            } else if (quantity <= 0) {
                                 document.getElementById("adjustError").innerHTML = "Quantity must be greater than 0";
                             } else {
                                 window.location.href = "../class/issueStock.php?inventoryId=" + inventoryId + "&quantity=" + quantity;
@@ -746,6 +758,7 @@ if ($_SESSION['role'] != 'vendor') {
             }
 
         });
+
         function validateNumber() {
             this.value = this.value.replace(/[^0-9]/g, '');
         }
