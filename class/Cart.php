@@ -51,6 +51,18 @@ class Cart {
 
 }
 if (isset($_SESSION['id'])) {
+
+    if (isset($_GET['inventoryId'], $_GET['productName'], $_GET['price'], $_GET['quantity'])) {
+        echo "hello";
+        $buyerId = $_SESSION['id'];
+        $inventoryId = $_GET['inventoryId'];
+        $name = urldecode($_GET['productName']);
+        $price = $_GET['price'];
+        $quantity = $_GET['quantity'];
+        Cart::addToCart($inventoryId, $name, $price, $quantity);
+        header("Location: ../src/routes/product.php?inventoryId=" . $inventoryId);
+    }
+
     if (isset($_GET['inventoryId'], $_GET['productName'], $_GET['price'])) {
         $buyerId = $_SESSION['id'];
         $inventoryId = $_GET['inventoryId'];
@@ -60,5 +72,3 @@ if (isset($_SESSION['id'])) {
         header("Location: ../index.php");
     }
 }
-
-//echo Cart::getCartId();

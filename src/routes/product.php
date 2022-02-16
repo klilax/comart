@@ -141,14 +141,14 @@ $productReviews = '';
 							<div class="qty-label">
 								Qty
 								<div class="input-number">
-									<input id="quantity" type="number" value="1">
+									<input id="cartQuantity" type="number" value="1">
 									<span class="qty-up">+</span>
 									<span class="qty-down">-</span>
 								</div>
 							</div>
-							<a href="<?php echo '/comart/class/Cart.php?inventoryId=' . $productId . '&productName=' . $encoded_name . '&price=' . $productPrice . ''; ?>">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</a>
+
+                            <button class="add-to-cart-btn" onclick="sendCart()"><i class="fa fa-shopping-cart" ></i> add to cart</button>
+
 						</div>
 
 						<ul class="product-links">
@@ -167,7 +167,12 @@ $productReviews = '';
 					</div>
 				</div>
 				<!-- /Product details -->
-
+                <script>
+                    function sendCart() {
+                        let qty = document.getElementById("cartQuantity").value;
+                        window.location.href = "<?php echo '../../class/Cart.php?inventoryId=' . $productId . '&productName=' . $encoded_name . '&price=' . $productPrice . '&quantity='; ?>" + qty;
+                    }
+                </script>
 			</div>
 			<!-- /row -->
 			<!-- Product tab -->
@@ -421,6 +426,7 @@ $productReviews = '';
 	<!-- /NEWSLETTER -->
 
 	<!-- FOOTER -->
+
 
 	<?php include('../components/footer.php'); ?>
 
