@@ -44,7 +44,21 @@ $vendorProducts = Inventory::getVendorInventory($vendorId);
  		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
  		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
  		<![endif]-->
+	<link rel="stylesheet" href="../../css/style-responsive.css">
 
+	<style>
+		@media screen and (max-width: 500px) {
+
+			.header-links li a {
+				font-size: 0.9rem;
+			}
+
+			#vendorProducts a img {
+				width: 100% !important;
+				height: 255px !important;
+			}
+		}
+	</style>
 </head>
 
 <body>
@@ -75,7 +89,7 @@ $vendorProducts = Inventory::getVendorInventory($vendorId);
 				<div class="col-md-12">
 					<ul class="breadcrumb-tree">
 						<li><a href="/comart/index.php">Home</a></li>
-						<li class="active"><?php echo Inventory::vendorName($vendorId)?></li>
+						<li class="active"><?php echo Inventory::vendorName($vendorId) ?></li>
 					</ul>
 				</div>
 			</div>
@@ -234,6 +248,7 @@ $vendorProducts = Inventory::getVendorInventory($vendorId);
 	<script src="../../js/nouislider.min.js"></script>
 	<script src="../../js/jquery.zoom.min.js"></script>
 	<script src="../../js/main.js"></script>
+	<script src="../../js/menu-toggle.js"></script>
 
 </body>
 
