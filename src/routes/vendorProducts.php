@@ -75,7 +75,7 @@ $vendorProducts = Inventory::getVendorInventory($vendorId);
 				<div class="col-md-12">
 					<ul class="breadcrumb-tree">
 						<li><a href="/comart/index.php">Home</a></li>
-						<li class="active"><?php echo '' ?> (227,490 Results)</li>
+						<li class="active"><?php echo Inventory::vendorName($vendorId)?></li>
 					</ul>
 				</div>
 			</div>
