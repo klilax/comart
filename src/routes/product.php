@@ -142,7 +142,7 @@ $productReviews = '';
 								</div>';
 						}
 						?>
-						<h5 class="h5 text-muted p-3">View Seller - <a href="<?php echo '/comart/src/routes/vendorProducts.php?vendorId=' . $productVendorId . ''; ?>" style=" text-decoration: underline; color: var(--secondary-color);"> <?php echo $productVendorName; ?></a></h5>
+						<h5 class="h5 text-muted p-3">View Seller - <a href="<?php echo '/src/routes/vendorProducts.php?vendorId=' . $productVendorId . ''; ?>" style=" text-decoration: underline; color: var(--secondary-color);"> <?php echo $productVendorName; ?></a></h5>
 						<div style="padding: 2rem 0;">
 							<div class="product-rating">
 								<i class="fa fa-star"></i>

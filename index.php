@@ -142,8 +142,8 @@ require('class/Inventory.php');
 						<!-- LOGO -->
 						<div class="col-md-6" style="flex: 2;">
 							<div class="header-logo">
-								<a href="\comart\index.php" class="logo">
-									<img src="\comart\img\logo.svg" alt="">
+								<a href="\index.php" class="logo">
+									<img src="\img\logo.svg" alt="">
 								</a>
 							</div>
 						</div>
@@ -164,7 +164,7 @@ require('class/Inventory.php');
 							<div class="header-ctn">
 							<!-- Cart -->
 								<div class="dropdown">
-									<a href="/comart/src/routes/checkout.php">
+									<a href="/src/routes/checkout.php">
 										<i class="fa fa-shopping-cart"></i>
 										<span>Your Cart</span>
 										
@@ -206,7 +206,7 @@ require('class/Inventory.php');
 			<div id="responsive-nav">
 				<!-- NAV -->
 				<ul class="main-nav nav navbar-nav">
-					<li class="active"><a href="/comart/index.php">Home</a></li>
+					<li class="active"><a href="/index.php">Home</a></li>
 					<?php
 					foreach (Category::getAllCategories() as $row) {
 						echo '<li><a href="#" onclick="getCategory(this)">' . $row['categoryName'] . '</a></li>';
