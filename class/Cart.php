@@ -55,7 +55,6 @@ class Cart {
 if (isset($_SESSION['id'])) {
 
     if (isset($_GET['inventoryId'], $_GET['productName'], $_GET['price'], $_GET['quantity'])) {
-        echo "hello";
         $buyerId = $_SESSION['id'];
         $inventoryId = $_GET['inventoryId'];
         $name = urldecode($_GET['productName']);
