@@ -238,7 +238,7 @@ class User
     {
         $sql = "UPDATE vendor SET tinNumber = :newTin WHERE userId = :userId";
         $stmt = self::$conn->prepare($sql);
-        $stmt->bindParam(':newName', $tinNumber);
+        $stmt->bindParam(':newTin', $tinNumber);
         $stmt->bindParam(':userId', $vendorId);
         $stmt->execute();
     }
@@ -265,7 +265,7 @@ class User
     {
         $sql = "UPDATE buyer SET tinNumber = :newTin WHERE userId = :userId";
         $stmt = self::$conn->prepare($sql);
-        $stmt->bindParam(':newName', $tinNumber);
+        $stmt->bindParam(':newTin', $tinNumber);
         $stmt->bindParam(':userId', $buyerId);
         $stmt->execute();
     }
