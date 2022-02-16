@@ -31,19 +31,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'  && isset($_POST['categoryName'])) {
                 $defaultFileName = $fileName;
             } else {
                 $message = "Image is too large. Maximum file size is 1MB.";
-                $opeStatus = 0;
+                $opeStatus = 1;
                 $_SESSION['message'] = $message;
                 $_SESSION['opeStatus'] = $opeStatus;
             }
         } else {
             $message = "There was an error uploading your image.";
-            $opeStatus = 0;
+            $opeStatus = 1;
             $_SESSION['message'] = $message;
             $_SESSION['opeStatus'] = $opeStatus;
         }
     } else {
         $message = "You can not upload files of this type.";
-        $opeStatus = 0;
+        $opeStatus = 1;
         $_SESSION['message'] = $message;
         $_SESSION['opeStatus'] = $opeStatus;
     }
@@ -421,13 +421,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'  && isset($_POST['categoryName'])) {
         </div>
         <div class="tab-pane fade" id="category" role="tabpanel" aria-labelledby="category-tab">
             <section class=" bg" style="min-height: 70vh;">
-                <div class="row w-50 mx-auto text-secondary d-flex icon-boxes">
-
-                    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST" id="formId" enctype="multipart/form-data">
-                        <input style="margin: 20px 50px;  width: 180px; float:left;" class="form-control" type="text" placeholder="Category Name" name="categoryName" id="queryV">
-                        <input type="file" class="form-control" id="qty" name="file" placeholder="image" style="margin: 20px 20px; width: 280px; height: 33px;">
-                        <input type='submit' class='btn btn-secondary' style="margin: 20px 5px; width: 180px; height: 35px;" value="Add New Category">
-                    </form>
+                <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST" id="formId" enctype="multipart/form-data">
+                    <input style="margin: 20px 25px; margin-left: 20%;  width: 180px; float:left;" class="form-control" type="text" placeholder="Category Name" name="categoryName" id="queryV">
+                    <input type="file" class="form-control" id="qty" name="file" placeholder="image" style="margin: 20px 25px; width: 280px; height: 33px;  float:left;">
+                    <input type='submit' class='btn btn-dark' style="margin: 20px 25px; width: 180px; height: 33px;" value="Add New Category">
+                </form>
+                <div class="row w-50 mx-auto text-secondary d-flex icon-boxes" style="clear: both;">
                     <table id="categoryT" class="table">
                         <thead>
                             <tr>
