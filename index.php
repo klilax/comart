@@ -95,18 +95,18 @@ require('class/Inventory.php');
 			ajax.send();
 		}
 
-        function getCategory(link){
-            let category = link.innerText;
-            let query = '';
-            const ajax = new XMLHttpRequest();
-            ajax.onreadystatechange = function() {
-                if (this.readyState === 4 && this.status === 200) {
-                    document.getElementById("products").innerHTML = this.responseText;
-                }
-            };
-            ajax.open("GET", "class/searchInventory.php?query=" + query + "&category=" + category, true);
-            ajax.send();
-        }
+		function getCategory(link) {
+			let category = link.innerText;
+			let query = '';
+			const ajax = new XMLHttpRequest();
+			ajax.onreadystatechange = function() {
+				if (this.readyState === 4 && this.status === 200) {
+					document.getElementById("products").innerHTML = this.responseText;
+				}
+			};
+			ajax.open("GET", "class/searchInventory.php?query=" + query + "&category=" + category, true);
+			ajax.send();
+		}
 	</script>
 </head>
 
@@ -147,8 +147,9 @@ require('class/Inventory.php');
 
 						<!-- ACCOUNT -->
 						<div class="col-md-3 clearfix" style="flex: 1;">
-							<div class="header-ctn">
-								<!-- Cart -->
+							<div class="header-ctn">';
+			if (isset($_SESSION['id']) && $user->getRole() == 'buyer') {
+				echo '<!-- Cart -->
 								<div class="dropdown">
 									<a href="/comart/src/routes/checkout.php">
 										<i class="fa fa-shopping-cart"></i>
@@ -156,9 +157,11 @@ require('class/Inventory.php');
 										<div class="qty">0</div>
 									</a>
 								</div>
-								<!-- /Cart -->
+								<!-- /Cart -->';
+			}
 
-								<!-- Menu Toogle -->
+
+			echo '	<!-- Menu Toogle -->
 								<div class="menu-toggle">
 									<a href="#">
 										<i class="fa fa-bars"></i>
@@ -184,28 +187,28 @@ require('class/Inventory.php');
 
 	<!-- Main -->
 
-    <!-- NAVIGATION -->
-    <nav id="navigation">
-        <!-- container -->
-        <div class="container">
-            <!-- responsive-nav -->
-            <div id="responsive-nav">
-                <!-- NAV -->
-                <ul class="main-nav nav navbar-nav">
-                    <li class="active"><a href="/comart/index.php">Home</a></li>
-                    <?php
-                    foreach (Category::getAllCategories() as $row) {
-                        echo '<li><a href="#" onclick="getCategory(this)">' . $row['categoryName'] . '</a></li>';
-                    }
-                    ?>
-                </ul>
-                <!-- /NAV -->
-            </div>
-            <!-- /responsive-nav -->
-        </div>
-        <!-- /container -->
-    </nav>
-    <!-- /NAVIGATION -->
+	<!-- NAVIGATION -->
+	<nav id="navigation">
+		<!-- container -->
+		<div class="container">
+			<!-- responsive-nav -->
+			<div id="responsive-nav">
+				<!-- NAV -->
+				<ul class="main-nav nav navbar-nav">
+					<li class="active"><a href="/comart/index.php">Home</a></li>
+					<?php
+					foreach (Category::getAllCategories() as $row) {
+						echo '<li><a href="#" onclick="getCategory(this)">' . $row['categoryName'] . '</a></li>';
+					}
+					?>
+				</ul>
+				<!-- /NAV -->
+			</div>
+			<!-- /responsive-nav -->
+		</div>
+		<!-- /container -->
+	</nav>
+	<!-- /NAVIGATION -->
 
 	<main>
 		<!-- SECTION -->
