@@ -47,7 +47,7 @@ if (isset($_SESSION['user'])) {
             if (isset($user)) {
                 echo
                 '<li>
-                    <a href="/comart/src/routes/auth/signout.php">
+                    <a href="/src/routes/auth/signout.php">
                         <i class="fa fa-sign-out"></i>
                         Sign Out
                     </a>

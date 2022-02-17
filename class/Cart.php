@@ -61,7 +61,7 @@ if (isset($_SESSION['id'])) {
         $price = $_GET['price'];
         $quantity = $_GET['quantity'];
         Cart::addToCart($inventoryId, $name, $price, $quantity);
-        header("Location: /comart/src/routes/product.php?inventoryId=" . $inventoryId);
+        header("Location: /src/routes/product.php?inventoryId=" . $inventoryId);
     } elseif (isset($_GET['inventoryId'], $_GET['productName'], $_GET['price'])) {
         $buyerId = $_SESSION['id'];
         $inventoryId = $_GET['inventoryId'];

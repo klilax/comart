@@ -31,7 +31,7 @@ if (isset($_SESSION['id'], $_POST['productName'], $_POST['quantity'], $_POST['ca
                     $filePath = '../img/' . $fileNameNew;
                     move_uploaded_file($fileTmpName, $filePath);
                     $imgName = $fileNameNew;
-                    // header('Location: /comart/vendor/index.php?uploaded');
+                    // header('Location: /vendor/index.php?uploaded');
                 } else {
                     $_SESSION['adjust_error_1'] = 'File is too large. Maximum file size is 1MB.';
                 }

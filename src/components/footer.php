@@ -38,10 +38,10 @@
                     <div class="footer">
                         <h3 class="footer-title">Information</h3>
                         <ul class="footer-links">
-                            <li><a href="/comart/src/routes/underConstruction.php">About Us</a></li>
-                            <li><a href="/comart/src/routes/underConstruction.php">Contact Us</a></li>
-                            <li><a href="/comart/src/routes/underConstruction.php">Privacy Policy</a></li>
-                            <li><a href="/comart/src/routes/underConstruction.php">Terms & Conditions</a></li>
+                            <li><a href="/src/routes/underConstruction.php">About Us</a></li>
+                            <li><a href="/src/routes/underConstruction.php">Contact Us</a></li>
+                            <li><a href="/src/routes/underConstruction.php">Privacy Policy</a></li>
+                            <li><a href="/src/routes/underConstruction.php">Terms & Conditions</a></li>
                         </ul>
                     </div>
                 </div>
@@ -50,9 +50,9 @@
                     <div class="footer">
                         <h3 class="footer-title">Service</h3>
                         <ul class="footer-links">
-                            <li><a href="/comart/src/routes/auth/signin.php">My Account</a></li>
-                            <li><a href="/comart/src/routes/checkout.php">View Cart</a></li>
-                            <li><a href="/comart/src/routes/underConstruction.php">Help</a></li>
+                            <li><a href="/src/routes/auth/signin.php">My Account</a></li>
+                            <li><a href="/src/routes/checkout.php">View Cart</a></li>
+                            <li><a href="/src/routes/underConstruction.php">Help</a></li>
                         </ul>
                     </div>
                 </div>
