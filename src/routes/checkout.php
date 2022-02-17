@@ -1,6 +1,4 @@
-		<?php
-		session_start();
-        ?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,15 +44,7 @@
 <body>
 	<!-- HEADER -->
 	<header>
-		<?php
-		//<!-- TOP HEADER -->
-		//		include('../components/topHeader.php');
-		//<!-- /TOP HEADER -->
 
-		//<!-- MAIN HEADER -->
-		//		include('../components/mainHeader.php');
-		//<!-- /MAIN HEADER -->
-		?>
 	</header>
 	<!-- /HEADER -->
 
