@@ -230,7 +230,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- /.form-group -->
                 <div class="col-sm-9 col-sm-offset-3">
                     <button type="submit" class="btn primary-btn" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px">Update Account</button>
-                </div>';
+                </div>
             </form> <!-- /form -->
         </div> <!-- ./container -->
         <!-- /container -->
