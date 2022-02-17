@@ -328,17 +328,17 @@ if ($_SESSION['role'] != 'vendor') {
                     } else {
                         document.getElementById('updateError1').innerHTML = "";
                         document.getElementById('updateError2').innerHTML = "";
-                        if (!isNaN(price) && price > 0) {
+                        if (price === "" || !isNaN(price) && price > 0) {
                             window.location.href = "../class/updateInventory.php?newName=" + name + "&newPrice=" + price + "&inventoryId=" + inventoryId;
                         } else {
-                            document.getElementById("updateError2").innerHTML = "Please enter a valid price";
+                            document.getElementById("updateError2").innerHTML = "Please enter a valid price 2";
                         }
                     }
                 }
 
                 function validatePrice() {
-                    let quantity = document.getElementById("newPrice").value;
-                    if (isNaN(quantity)) {
+                    let price = document.getElementById("newPrice").value;
+                    if (isNaN(price) || price < 0) {
                         document.getElementById("updateError2").innerHTML = "Please enter a valid price";
                     } else {
                         document.getElementById("updateError2").innerHTML = "";

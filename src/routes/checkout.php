@@ -1,3 +1,6 @@
+		<?php
+		session_start();
+        ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,7 +47,6 @@
 	<!-- HEADER -->
 	<header>
 		<?php
-		session_start();
 		//<!-- TOP HEADER -->
 		//		include('../components/topHeader.php');
 		//<!-- /TOP HEADER -->
@@ -193,45 +195,41 @@
 					<!--							<div><strong>TOTAL</strong></div>-->
 					<!--						</div>-->
 					<?php
-					$buyerId = $_SESSION['id'];
-					$total = 0;
-					//                        if (isset($_SESSION['cartId'], $_SESSION['cart'][$buyerId])) {
-					if (isset($_SESSION['cartId'])) {
-						$cartId = $_SESSION['cartId'];
-						echo '<div class="order-summary">';
-						echo '<div class="order-col">';
-						echo '<div><strong>PRODUCT</strong></div>';
-						echo '<div><strong>TOTAL</strong></div>';
-						echo '</div>';
+                    $total = 0;
+                    if (isset($_SESSION['id'])) {
+                        $buyerId = $_SESSION['id'];
+                        if (isset($_SESSION['cartId'])) {
+                            $cartId = $_SESSION['cartId'];
+                            echo '<div class="order-summary">';
+                            echo '<div class="order-col">';
+                            echo '<div><strong>PRODUCT</strong></div>';
+                            echo '<div><strong>TOTAL</strong></div>';
+                            echo '</div>';
 
-						foreach ($_SESSION['cart'][$cartId] as $key => $value) {
-							$qty = $_SESSION['cart'][$cartId][$key]['quantity'];
-							$name = $_SESSION['cart'][$cartId][$key]['name'];
-							$price = $_SESSION['cart'][$cartId][$key]['price'];
-							$subtotal = $qty * $price;
-							$total += $subtotal;
-							echo '<div class="order-products">';
-							echo '<div class="order-col">';
-							echo '<div>' . $qty . 'x ' . $name . '</div>';
-							echo '<div>' . number_format($subtotal, 2, '.', ',') . '</div>';
-							echo '</div>';
-						}
-					} else {
-						echo '<div>You have no product in your cart</div>';
-						echo '</div>';
-					}
+                            foreach ($_SESSION['cart'][$cartId] as $key => $value) {
+                                $qty = $_SESSION['cart'][$cartId][$key]['quantity'];
+                                $name = $_SESSION['cart'][$cartId][$key]['name'];
+                                $price = $_SESSION['cart'][$cartId][$key]['price'];
+                                $subtotal = $qty * $price;
+                                $total += $subtotal;
+                                echo '<div class="order-products">';
+                                echo '<div class="order-col">';
+                                echo '<div>' . $qty . 'x ' . $name . '</div>';
+                                echo '<div>' . number_format($subtotal, 2, '.', ',') . '</div>';
+                                echo '</div>';
+
+                            }
+                        } else {
+                            echo '<div>You have no product in your cart</div>';
+                            echo '</div>';
+                        }
+                    } else {
+                        echo '<div>Please <a href="auth/signin.php">Sign in</a> to access your cart </div>';
+                        echo '</div>';
+                    }
+
 					?>
 
-					<!--						<div class="order-products">-->
-					<!--							<div class="order-col">-->
-					<!--								<div>1x Product Name Goes Here</div>-->
-					<!--								<div>$980.00</div>-->
-					<!--							</div>-->
-					<!--							<div class="order-col">-->
-					<!--								<div>2x Product Name Goes Here</div>-->
-					<!--								<div>$980.00</div>-->
-					<!--							</div>-->
-					<!--						</div>-->
 					<div class="order-col">
 						<div>Shiping</div>
 						<div><strong>FREE</strong></div>
