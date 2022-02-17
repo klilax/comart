@@ -349,15 +349,12 @@ require('class/Inventory.php');
 				icon.toggle('fa-close');
 				icon.toggle('fa-bars');
 			})
-			// toggleMenu();
-			// console.log(navLinks);
 			navLinks.forEach((link) => {
 				link.addEventListener('click', (e) => {
 					for (let li of navLinks) {
 						li.classList.remove('active');
 					}
 					e.target.classList.add('active');
-					console.log(e.target);
 					navBar.classList.remove('active');
 					icon.classList.toggle('fa-bars');
 					icon.classList.toggle('fa-close');
