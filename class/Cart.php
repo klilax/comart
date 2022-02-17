@@ -17,8 +17,8 @@ class Cart {
         $cartId = self::getCartId();
         $_SESSION['cartId'] = $cartId;
         $_SESSION['cart'][$cartId] = array();
+        $_SESSION['cart']['count'] = 0;
     }
-
 
     static function addToCart($inventoryId, $productName, $price, $quantity = 1) {
         if (!isset($_SESSION['cartId'])) {
@@ -29,6 +29,7 @@ class Cart {
             $_SESSION['cart'][$cartId][$inventoryId]['quantity'] += $quantity;
         } else {
             $_SESSION['cart'][$cartId][$inventoryId]['quantity'] = $quantity;
+            $_SESSION['cart']['count'] += 1;
         }
         $_SESSION['cart'][$cartId][$inventoryId]['name'] = $productName;
         $_SESSION['cart'][$cartId][$inventoryId]['price'] = $price;
@@ -50,20 +51,18 @@ class Cart {
     }
 
 }
+
 if (isset($_SESSION['id'])) {
 
     if (isset($_GET['inventoryId'], $_GET['productName'], $_GET['price'], $_GET['quantity'])) {
-        echo "hello";
         $buyerId = $_SESSION['id'];
         $inventoryId = $_GET['inventoryId'];
         $name = urldecode($_GET['productName']);
         $price = $_GET['price'];
         $quantity = $_GET['quantity'];
         Cart::addToCart($inventoryId, $name, $price, $quantity);
-        header("Location: ../src/routes/product.php?inventoryId=" . $inventoryId);
-    }
-
-    if (isset($_GET['inventoryId'], $_GET['productName'], $_GET['price'])) {
+        header("Location: /comart/src/routes/product.php?inventoryId=" . $inventoryId);
+    } elseif (isset($_GET['inventoryId'], $_GET['productName'], $_GET['price'])) {
         $buyerId = $_SESSION['id'];
         $inventoryId = $_GET['inventoryId'];
         $name = urldecode($_GET['productName']);
@@ -71,4 +70,5 @@ if (isset($_SESSION['id'])) {
         Cart::addToCart($inventoryId, $name, $price);
         header("Location: ../index.php");
     }
+
 }

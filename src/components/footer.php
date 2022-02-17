@@ -38,10 +38,10 @@
                     <div class="footer">
                         <h3 class="footer-title">Information</h3>
                         <ul class="footer-links">
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms & Conditions</a></li>
+                            <li><a href="/comart/src/routes/underConstruction.php">About Us</a></li>
+                            <li><a href="/comart/src/routes/underConstruction.php">Contact Us</a></li>
+                            <li><a href="/comart/src/routes/underConstruction.php">Privacy Policy</a></li>
+                            <li><a href="/comart/src/routes/underConstruction.php">Terms & Conditions</a></li>
                         </ul>
                     </div>
                 </div>
@@ -70,12 +70,7 @@
             <div class="row">
                 <div class="col-md-12 text-center">
                     <ul class="footer-payments">
-                        <li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
-                        <li><a href="#"><i class="fa fa-credit-card"></i></a></li>
-                        <li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
-                        <li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
-                        <li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
-                        <li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
+                        <li>comart&copy;2022 | All rights reserved.</li>
                     </ul>
                 </div>
             </div>

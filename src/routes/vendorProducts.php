@@ -4,7 +4,7 @@ require_once('../../class/Inventory.php');
 $vendorId = $_GET['vendorId'];
 
 $vendorProducts = Inventory::getVendorInventory($vendorId);
-
+session_start();
 // print_r($vendorProducts);
 
 ?>
@@ -17,7 +17,10 @@ $vendorProducts = Inventory::getVendorInventory($vendorId);
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>comart - Quality materials for your construction</title>
+	<meta name="description" content="Sell and Buy construction materials easily with comart. A platform to improve the distribution of quality construction materials in Ethiopia. Check current prices on the largest selection of essentials and products, including cement, sand, aggregate, steel structures, rebars, ceramics, roofs, electrical pipes, paints and more.">
+
+	<title>COMART - Quality materials for your construction</title>
+	<link rel="icon" href="img/logo_icon.png">
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -61,7 +64,7 @@ $vendorProducts = Inventory::getVendorInventory($vendorId);
 	</style>
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
 	<!-- HEADER -->
 	<header>
 		<?php

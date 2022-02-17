@@ -56,7 +56,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>comart - Quality materials for your construction</title>
+	<meta name="description" content="Sell and Buy construction materials easily with comart. A platform to improve the distribution of quality construction materials in Ethiopia. Check current prices on the largest selection of essentials and products, including cement, sand, aggregate, steel structures, rebars, ceramics, roofs, electrical pipes, paints and more.">
+
+	<title>COMART - Quality materials for your construction</title>
+	<link rel="icon" href="img/logo_icon.png">
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -83,10 +86,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
  		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
  		<![endif]-->
+	<link rel="stylesheet" href="../../../css/style-responsive.css">
 
+	<style>
+		.menu-toggle {
+			display: none !important;
+		}
+	</style>
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
 	<!-- HEADER -->
 	<header>
 		<?php
@@ -167,8 +176,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 												<span class="invalid-feedback" style="color: red;"><?php echo $password_error; ?></span>
 											</div>
 											<button type=" submit" class="btn primary-btn rounded" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px">Sign In</button>
+											<p class="text-muted text-left mt-3 mb-0" style="padding: 1rem 0; color: var(--secondary-color);">Don't have an account? <a href="" class="text-primary ml-1" data-toggle='modal' data-target='#exampleModalCenter'>Create Account</a></p>
 										</form>
-										<p class="text-muted text-center mt-3 mb-0">Don't have an account? <a href="" class="text-primary ml-1" data-toggle='modal' data-target='#exampleModalCenter'>Create Account</a></p>
 									</div>
 								</div>
 
@@ -176,9 +185,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 									<div class="account-block rounded-right">
 										<div class="overlay rounded-right"></div>
 										<div class="account-testimonial text-center">
-											<h4 class="text-white mb-4">Shop and Sell Quality materials for your construction!</h4>
-											<p class="lead text-white">"Best investment I made for a long time. Can only recommend it for other users."</p>
-											<p>- comart team head</p>
+											<h4 class="text-white mb-4" style="margin-top: 3rem;">Shop and Sell Quality materials for your construction!</h4>
+											<p class="lead text-white">"Best investment we made for a long time. Can only recommend it for other users."</p>
+											<p>- comart team</p>
 										</div>
 									</div>
 								</div>
@@ -202,7 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 	<?php
 	echo
-	'<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	'<div class="modal fade w-25" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="min-width: 400px;">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div style="display: flex; justify-content: center; align-items: center; padding: 1.2rem 0;">
@@ -272,6 +281,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<script src="../../../js/nouislider.min.js"></script>
 	<script src="../../../js/jquery.zoom.min.js"></script>
 	<script src="../../../js/main.js"></script>
+	<script src="../../../js/menu-toggle.js"></script>
 </body>
 
 

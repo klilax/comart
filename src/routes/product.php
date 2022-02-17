@@ -82,6 +82,10 @@ $productReviews = '';
 				position: relative !important;
 				left: -18rem;
 			}
+
+			.menu-toggle {
+				display: none !important;
+			}
 		}
 	</style>
 </head>

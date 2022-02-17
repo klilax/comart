@@ -42,7 +42,7 @@ if (isset($_GET['query'], $_GET['category'], $_GET['featuredOnly'])) {
         }
     } else {
         echo '<hr>';
-        echo '<h2 style="color: var(--danger-color); margin-top: 3rem; text-align: center;"> The product you searched can not be found.</h2>';
+        echo '<h3 style="color: var(--danger-color); margin-top: 3rem; text-align: center;">No product found.</h3>';
         echo '<hr>';
     }
 }
