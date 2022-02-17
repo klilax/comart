@@ -50,9 +50,9 @@
                     <div class="footer">
                         <h3 class="footer-title">Service</h3>
                         <ul class="footer-links">
-                            <li><a href="#">My Account</a></li>
-                            <li><a href="#">View Cart</a></li>
-                            <li><a href="#">Help</a></li>
+                            <li><a href="/comart/src/routes/auth/signin.php">My Account</a></li>
+                            <li><a href="/comart/src/routes/checkout.php">View Cart</a></li>
+                            <li><a href="/comart/src/routes/underConstruction.php">Help</a></li>
                         </ul>
                     </div>
                 </div>
