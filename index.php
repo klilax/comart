@@ -128,10 +128,10 @@ require('class/Inventory.php');
 		//<!-- TOP HEADER -->
 		include('src/components/topHeader.php');
 		//<!-- /TOP HEADER -->
-        $itemQty = 0;
-        if (isset($_SESSION['cartId'])) {
-            $itemQty = $_SESSION['cart']['count'];
-        }
+		$itemQty = 0;
+		if (isset($_SESSION['cartId'])) {
+			$itemQty = $_SESSION['cart']['count'];
+		}
 		if (!isset($_SESSION['id']) || $user->getRole() == 'buyer') {
 			echo '
 			<div id="header">
@@ -167,8 +167,7 @@ require('class/Inventory.php');
 									<a href="/comart/src/routes/checkout.php">
 										<i class="fa fa-shopping-cart"></i>
 										<span>Your Cart</span>
-										
-										<div class="qty">'. $itemQty. '</div>
+										<div class="qty">' . $itemQty . '</div>
 									</a>
 								</div>
 								<!-- /Cart -->
@@ -206,10 +205,10 @@ require('class/Inventory.php');
 			<div id="responsive-nav">
 				<!-- NAV -->
 				<ul class="main-nav nav navbar-nav">
-					<li class="active"><a href="/comart/index.php">Home</a></li>
+					<li class="active link-nav"><a href="/comart/index.php">Home</a></li>
 					<?php
 					foreach (Category::getAllCategories() as $row) {
-						echo '<li><a href="#" onclick="getCategory(this)">' . $row['categoryName'] . '</a></li>';
+						echo '<li><a href="#" class="link-nav" onclick="getCategory(this)">' . $row['categoryName'] . '</a></li>';
 					}
 					?>
 				</ul>
@@ -339,11 +338,32 @@ require('class/Inventory.php');
 
 		<!-- /FOOTER -->
 
-		<!-- AJAX -->
+		<script>
+			const menu = document.querySelector('.menu-toggle');
+			const icon = document.querySelector('.fa.fa-bars');
+			const navBar = document.querySelector('#responsive-nav');
+			const navLinks = document.querySelectorAll('.link-nav');
 
-
-
-		<!-- /AJAX -->
+			menu.addEventListener('click', (e) => {
+				let icon = e.target.classList;
+				icon.toggle('fa-close');
+				icon.toggle('fa-bars');
+			})
+			// toggleMenu();
+			// console.log(navLinks);
+			navLinks.forEach((link) => {
+				link.addEventListener('click', (e) => {
+					for (let li of navLinks) {
+						li.classList.remove('active');
+					}
+					e.target.classList.add('active');
+					console.log(e.target);
+					navBar.classList.remove('active');
+					icon.classList.toggle('fa-bars');
+					icon.classList.toggle('fa-close');
+				})
+			})
+		</script>
 
 		<!-- jQuery Plugins -->
 		<script src="js/jquery.min.js"></script>
@@ -352,8 +372,7 @@ require('class/Inventory.php');
 		<script src="js/nouislider.min.js"></script>
 		<script src="js/jquery.zoom.min.js"></script>
 		<script src="js/main.js"></script>
-		<script src="js/menu-toggle.js"></script>
-
+		<!-- <script src="js/menu-toggle.js"></script> -->
 </body>
 
 </html>
