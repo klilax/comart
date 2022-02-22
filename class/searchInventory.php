@@ -15,10 +15,12 @@ if (isset($_GET['query'], $_GET['category'], $_GET['featuredOnly'])) {
             $featured = $row['featured'];
             $featuredOnly = true;
             $imgName = $row['imgName'];
+            // $rating = $row['rating'];
+            $rating = 5;
 
             $encoded_name = urlencode($name);
 
-            displayProduct($inventoryId, $name, $encoded_name, $price, $imgName, $category, $featured, $featuredOnly);
+            displayProduct($inventoryId, $name, $encoded_name, $price, $imgName, $rating, $category, $featured, $featuredOnly);
         }
     }
 } else if (isset($_GET['query'], $_GET['category'])) {
@@ -36,9 +38,12 @@ if (isset($_GET['query'], $_GET['category'], $_GET['featuredOnly'])) {
             $featured = $row['featured'];
             $featuredOnly = false;
             $imgName = $row['imgName'];
+            $rating = 5;
+            // $rating = $row['rating'];
+
             $encoded_name = urlencode($name);
 
-            displayProduct($inventoryId, $name, $encoded_name, $price, $imgName, $category, $featured, $featuredOnly);
+            displayProduct($inventoryId, $name, $encoded_name, $price, $imgName, $rating, $category, $featured, $featuredOnly);
         }
     } else {
         echo '<hr>';
@@ -47,7 +52,8 @@ if (isset($_GET['query'], $_GET['category'], $_GET['featuredOnly'])) {
     }
 }
 
-function displayProduct($inventoryId, $name, $encoded_name, $price, $imgName, $category, $featured, $featuredOnly) {
+function displayProduct($inventoryId, $name, $encoded_name, $price, $imgName, $rating, $category, $featured, $featuredOnly) {
+    // function displayProduct($inventoryId, $name, $encoded_name, $price, $imgName, $category, $featured, $featuredOnly) {
     echo
     '
         <a href="/comart/src/routes/product.php?inventoryId=' . $inventoryId . '" style="position: relative;">
@@ -106,11 +112,11 @@ function displayProduct($inventoryId, $name, $encoded_name, $price, $imgName, $c
 
                         <!-- review - rating -->
                         <div class="product-rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
+                            ';
+    for ($i = 0; $i < $rating; $i++) {
+        echo '<i class="fa fa-star" style="margin: 0.1rem"></i>';
+    }
+    echo '
                         </div>
 
                         <div class="product-btns">

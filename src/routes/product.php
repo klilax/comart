@@ -14,9 +14,11 @@ $productFeatured = $product->getFeatured();
 $productCategory = Category::getCategoryName($product->getCategoryId());
 $productVendorId = $product->getVendorId();
 $productVendorName = $product->getVendorName();
-$productDesc = 'Product Description';
+$productDesc = $product->getDescription();
+// $productDesc = 'Product Description';
 $productImg = $product->getImgName();
 $categoryImg = Category::getCategoryDefaultImg($productCategory);
+$productRating = 0;
 $productReviews = '';
 
 ?>
