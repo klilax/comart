@@ -91,9 +91,9 @@ class Inventory {
             $this->description = $this->fetchDescription($this->categoryId);
         }
     }
-    public function addReview($user, $rating, $review) {
+
+    public function addReview($buyerId, $rating, $review) {
         $sql = "INSERT INTO review (inventoryId, buyerId, rating, review) VALUES (:inventoryId, :buyerId, :rating, :review)";
-        $buyerId = $user->getId();
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':inventoryId', $this->inventoryId);
         $stmt->bindParam(':buyerId', $buyerId);
@@ -101,8 +101,13 @@ class Inventory {
         $stmt->bindParam(':review', $review);
         $stmt->execute();
     }
+
     public function getReviews(): bool|array {
-        $sql = "SELECT * FROM review WHERE inventoryId = :inventoryId";
+        $sql = "SELECT firstname, lastname, rating, review
+                FROM review AS r
+                INNER JOIN buyer AS b ON b.userId = r.buyerId
+                AND r.inventoryId = :inventoryId";
+
         $stmt = self::$conn->prepare($sql);
         $stmt->bindParam(':inventoryId', $this->inventoryId);
         $stmt->execute();
@@ -117,6 +122,7 @@ class Inventory {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['vendorName'];
     }
+
     /*----------------------------------- Static Methods -----------------------------------------------*/
     public static function vendorName($vendorId): string {
         $sql = "SELECT vendorName FROM vendor WHERE userId = :vendorId";
@@ -319,6 +325,8 @@ class Inventory {
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+
 
     public static function setConnection($conn) {
         self::$conn = $conn;
