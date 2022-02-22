@@ -11,8 +11,9 @@ if ($_SESSION['role'] != 'admin') {
 
 $categoryName = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST'  && isset($_POST['categoryName'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $categoryName = $_POST['categoryName'];
+    $categoryDesc = $_POST['categoryDesc'];
     define('MB', 1048576);
     $defaultFileName = NULL;
     $file = $_FILES['file'];
@@ -25,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'  && isset($_POST['categoryName'])) {
 
     $allowed = array('jpg', 'jpeg', 'png');
 
+    $isImgValid = true;
     if (in_array($fileActualExt, $allowed)) {
         if ($fileError === 0) {
             if ($fileSize < 1 * MB) {
@@ -34,43 +36,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'  && isset($_POST['categoryName'])) {
                 $opeStatus = 1;
                 $_SESSION['message'] = $message;
                 $_SESSION['opeStatus'] = $opeStatus;
+                $isImgValid = false;
             }
         } else {
             $message = "There was an error uploading your image.";
             $opeStatus = 1;
             $_SESSION['message'] = $message;
             $_SESSION['opeStatus'] = $opeStatus;
+            $isImgValid = false;
         }
-    } else {
+    } else if (!empty($fileActualExt)) {
         $message = "You can not upload files of this type.";
         $opeStatus = 1;
         $_SESSION['message'] = $message;
         $_SESSION['opeStatus'] = $opeStatus;
+        $isImgValid = false;
     }
-    if (!empty($_POST['categoryName'])) {
-        $add = Category::addCategory($categoryName, $defaultFileName);
-        if ($add == 1) {
-            $message = "Category Added Successfully";
-            $opeStatus = 0;
-            $_SESSION['message'] = $message;
-            $_SESSION['opeStatus'] = $opeStatus;
-        } else if ($add == 2) {
-            $message = "Error, try again later!";
-            $opeStatus = 1;
-            $_SESSION['message'] = $message;
-            $_SESSION['opeStatus'] = $opeStatus;
-        } else if ($add == 3) {
-            $message = "Category Already Exists!";
+    if ($isImgValid) {
+        if (!empty($categoryName) && !empty($categoryDesc)) {
+            $add = Category::addCategory($categoryName, $categoryDesc, $defaultFileName);
+            if ($add == 1) {
+                $message = "Category Added Successfully";
+                $opeStatus = 0;
+                $_SESSION['message'] = $message;
+                $_SESSION['opeStatus'] = $opeStatus;
+            } else if ($add == 2) {
+                $message = "Error, try again later!";
+                $opeStatus = 1;
+                $_SESSION['message'] = $message;
+                $_SESSION['opeStatus'] = $opeStatus;
+            } else if ($add == 3) {
+                $message = "Category Already Exists!";
+                $opeStatus = 1;
+                $_SESSION['message'] = $message;
+                $_SESSION['opeStatus'] = $opeStatus;
+            }
+        } else {
+            $message = "Please Enter both Name and Description!";
             $opeStatus = 1;
             $_SESSION['message'] = $message;
             $_SESSION['opeStatus'] = $opeStatus;
         }
-    } else {
-        $message = "Please Enter Category name first";
-        $opeStatus = 1;
-        $_SESSION['message'] = $message;
-        $_SESSION['opeStatus'] = $opeStatus;
     }
+
     unset($_POST['categoryName']);
 }
 
@@ -132,6 +140,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'  && isset($_POST['categoryName'])) {
         #titleh3 {
             text-align: center;
             margin-top: 30px;
+        }
+
+        #catName,
+        #catImg,
+        #catDesc,
+        #catAdd {
+            width: 300px;
+            margin: 5px;
+        }
+
+        #formId {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            align-items: center;
+            min-height: 10vh;
+            width: 70%;
+            margin: 20px auto;
         }
     </style>
 
@@ -425,9 +451,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'  && isset($_POST['categoryName'])) {
         <div class="tab-pane fade" id="category" role="tabpanel" aria-labelledby="category-tab">
             <section class=" bg" style="min-height: 70vh;">
                 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST" id="formId" enctype="multipart/form-data">
-                    <input style="margin: 20px 25px; margin-left: 20%;  width: 180px; float:left;" class="form-control" type="text" placeholder="Category Name" name="categoryName" id="queryV">
-                    <input type="file" class="form-control" id="qty" name="file" placeholder="image" style="margin: 20px 25px; width: 280px; height: 33px;  float:left;">
-                    <input type='submit' class='btn btn-dark' style="margin: 20px 25px; width: 180px; height: 33px;" value="Add New Category">
+                    <input class="form-control" type="text" placeholder="Category Name" name="categoryName" id="catName">
+                    <input type="text" class="form-control" id="catDesc" name="categoryDesc" placeholder="Default Description">
+                    <input type="file" class="form-control" id="catImg" name="file" placeholder="image">
+                    <input type='submit' class='btn btn-dark' value="Add New Category" id="catAdd">
                 </form>
                 <div class="row w-50 mx-auto text-secondary d-flex icon-boxes" style="clear: both;">
                     <table id="categoryT" class="table">
