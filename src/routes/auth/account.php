@@ -2,12 +2,46 @@
 session_start();
 require('../../../class/User.php');
 
+$userRole = $_SESSION['role'];
+$userId = $_SESSION['id'];
+
+if ($userRole == 'vendor') {
+    $sql = 'SELECT vendorName, tinNumber FROM vendor WHERE userId = :userId';
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':userId', $userId);
+    $stmt->execute();
+    $row = $stmt->fetch();
+
+    $vName = $row[0];
+    $vTIn = $row[1];
+} else if ($userRole == 'buyer') {
+    $sql = 'SELECT firstname, lastname, tinNumber FROM buyer WHERE userId = :userId';
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':userId', $userId);
+    $stmt->execute();
+
+    $row = $stmt->fetch();
+
+    $bFirstName = $row[0];
+    $bLastName = $row[1];
+    $bTin = $row[2];
+} else {
+    header("Location: signin.php");
+}
+
+$sql = 'SELECT username, email FROM user WHERE id = :userId';
+$stmt = $conn->prepare($sql);
+$stmt->bindParam(':userId', $userId);
+$stmt->execute();
+$row = $stmt->fetch();
+$uName = $row[0];
+$uEmail = $row[1];
+
 $password = '';
 
 $password_error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $userId = $_SESSION['id'];
     $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
     $password = trim($_POST['password']);
     $change = false;
@@ -19,9 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($password_error)) {
         if (User::checkPassword($password, $userId)) {
             $vendorName = $firstName = $lastName = '';
-            if ($_SESSION['role'] == 'vendor') {
+            if ($userRole == 'vendor') {
                 $vendorName = trim($_POST['vendorName']);
-            } else if ($_SESSION['role'] == 'buyer') {
+            } else if ($userRole == 'buyer') {
                 $firstName = trim($_POST['firstName']);
                 $lastName = trim($_POST['lastName']);
             }
@@ -29,36 +63,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = trim($_POST['email']);
             $tinNumber = trim($_POST['tinNumber']);
 
-            if ($_SESSION['role'] == 'vendor') {
-                if (!empty($vendorName)) {
+            if ($userRole == 'vendor') {
+                if (!empty($vendorName) && $vendorName != $vName) {
                     User::updateVendorName($vendorName, $userId);
                     $change = true;
                 }
 
-                if (!empty($tinNumber)) {
+                if (!empty($tinNumber) && $tinNumber != $vTIn) {
                     User::updateVendorTin($tinNumber, $userId);
                     $change = true;
                 }
-            } else if ($_SESSION['role'] == 'buyer') {
-                if (!empty($firstName)) {
+            } else if ($userRole == 'buyer') {
+                if (!empty($firstName) && $firstName != $bFirstName) {
                     User::updateFirstName($firstName, $userId);
                     $change = true;
                 }
 
-                if (!empty($lastName)) {
+                if (!empty($lastName) && $lastName != $bLastName) {
                     User::updateLastname($lastName, $userId);
                     $change = true;
                 }
-                if (!empty($tinNumber)) {
+                if (!empty($tinNumber) && $tinNumber != $bTin) {
                     User::updateBuyerTin($tinNumber, $userId);
                     $change = true;
                 }
             }
-            if (!empty($username)) {
+            if (!empty($username) && $username != $uName) {
                 User::updateUsername($username, $userId);
                 $change = true;
             }
-            if (!empty($email)) {
+            if (!empty($email) && $email != $uEmail) {
                 User::updateEmail($email, $userId);
                 $change = true;
             }
@@ -68,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['message'] = $message;
                 $_SESSION['opeStatus'] = $opeStatus;
             } else {
-                $message = "Please fill an attribute to update";
+                $message = "No change made, Please edit an attribute to update";
                 $opeStatus = 1;
                 $_SESSION['message'] = $message;
                 $_SESSION['opeStatus'] = $opeStatus;
@@ -162,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row">
                 <div class="col-md-12">
                     <h3 class="breadcrumb-header">Edit Account Details</h3>
-                    <h4 style="float:right;">Fill the fields you want to update</h4>
+                    <h4 style="float:right;">Edit the fields you want to update</h4>
                 </div>
             </div>
             <!-- /row -->
@@ -179,52 +213,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="container">
             <form action="<?php $_PHP_SELF ?>" method="POST" class="form-horizontal" role="form">
                 <?php
-                $userRole = $_SESSION['role'];
                 if ($userRole == 'vendor') {
                     echo '<div class="form-group">
                             <label for="vendorName" class="col-sm-3 control-label">Vendor Name</label>
-                            <div class="col-sm-9">
-                                <input type="text" id="vendorName" placeholder="Vendor Name" class="form-control" name="vendorName" value="" autofocus>
+                            <div class="col-sm-9">';
+                    echo "<input type='text' id='vendorName' placeholder='Vendor Name' class='form-control' name='vendorName' value='$vName' autofocus>
                             </div>
-                        </div>';
+                        </div>";
                 } else if ($userRole == 'buyer') {
                     echo '<div class="form-group">
                             <label for="firstName" class="col-sm-3 control-label">First Name</label>
-                            <div class="col-sm-9">
-                                <input type="text" id="firstName" placeholder="First Name" class="form-control" name="firstName" value="" autofocus>
-                            </div>
-                            </div>
+                            <div class="col-sm-9"> ';
+                    echo "<input type='text' id='firstName' placeholder='First Name' class='form-control' name='firstName' value='$bFirstName' autofocus>
+                            </div>";
+                    echo '</div>
                             <div class="form-group">
                                 <label for="lastName" class="col-sm-3 control-label">Last Name</label>
-                                <div class="col-sm-9">
-                                    <input type="text" id="lastName" placeholder="Last Name" class="form-control" name="lastName" value="" autofocus>
+                                <div class="col-sm-9">';
+                    echo "<input type='text' id='lastName' placeholder='Last Name' class='form-control' name='lastName' value='$bLastName' autofocus>
                                 </div>
-                            </div>';
+                            </div>";
                 }
                 ?>
 
                 <div class="form-group">
                     <label for="username" class="col-sm-3 control-label">Username</label>
                     <div class="col-sm-9">
-                        <input type="text" id="username" placeholder="username" class="form-control" name="username" value="">
+                        <input type="text" id="username" placeholder="username" class="form-control" name="username" value="<?php echo $uName ?>">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="email" class="col-sm-3 control-label">Email</label>
                     <div class="col-sm-9">
-                        <input type="email" id="email" placeholder="Email" class="form-control" name="email" value="">
+                        <input type="email" id="email" placeholder="Email" class="form-control" name="email" value="<?php echo $uEmail ?>">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="tinNumber" class="col-sm-3 control-label">Tin Number</label>
                     <div class="col-sm-9">
-                        <input type="text" id="tinNumber" placeholder="Tin Number" class="form-control" name="tinNumber">
+                        <input type="text" id="tinNumber" placeholder="Tin Number" class="form-control" name="tinNumber" value="<?php echo ($userRole == 'vendor') ? $vTIn : $bTin ?>">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class=" form-group">
                     <label for="password" class="col-sm-3 control-label">Password*</label>
                     <div class="col-sm-9">
-                        <input type="password" id="password" placeholder="Password" class="form-control <?php echo (!empty($password_error)) ? 'is-invalid' : ''; ?>" name="password" value="">
+                        <input type="password" id="password" placeholder="Enter Password" class="form-control <?php echo (!empty($password_error)) ? 'is-invalid' : ''; ?>" name="password" value="">
                         <span class="invalid-feedback" style="color: red;"><?php echo $password_error; ?></span>
                     </div>
                 </div>

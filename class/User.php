@@ -288,20 +288,24 @@ class User
 
     public static function updateUsername($username, $userId)
     {
-        $sql = "UPDATE user SET username = :newName WHERE id = :userId";
-        $stmt = self::$conn->prepare($sql);
-        $stmt->bindParam(':newName', $username);
-        $stmt->bindParam(':userId', $userId);
-        $stmt->execute();
+        if (self::isNewUser($username)) {
+            $sql = "UPDATE user SET username = :newName WHERE id = :userId";
+            $stmt = self::$conn->prepare($sql);
+            $stmt->bindParam(':newName', $username);
+            $stmt->bindParam(':userId', $userId);
+            $stmt->execute();
+        }
     }
 
     public static function updateEmail($email, $userId)
     {
-        $sql = "UPDATE user SET email = :newEmail WHERE id = :userId";
-        $stmt = self::$conn->prepare($sql);
-        $stmt->bindParam(':newEmail', $email);
-        $stmt->bindParam(':userId', $userId);
-        $stmt->execute();
+        if (self::isNewEmail($email)) {
+            $sql = "UPDATE user SET email = :newEmail WHERE id = :userId";
+            $stmt = self::$conn->prepare($sql);
+            $stmt->bindParam(':newEmail', $email);
+            $stmt->bindParam(':userId', $userId);
+            $stmt->execute();
+        }
     }
 }
 
