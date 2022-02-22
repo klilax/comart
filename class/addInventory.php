@@ -12,6 +12,7 @@ if (isset($_SESSION['id'], $_POST['productName'], $_POST['quantity'], $_POST['ca
     $category = $_POST['category'];
     $price = $_POST['price'];
     $imgName = '';
+    $description = isset($_POST['description']) ? $_POST['description'] : '';
 
     if (isset($_FILES['file'])) {
         $file = $_FILES['file'];
@@ -43,10 +44,10 @@ if (isset($_SESSION['id'], $_POST['productName'], $_POST['quantity'], $_POST['ca
         }
     }
 
-    if (Inventory::newInventory($productName, $category, $price, $quantity, $imgName)) {
+    if (Inventory::newInventory($productName, $category, $price, $quantity, $imgName, $description)) {
         $vendorId = $_SESSION['id'];
         $inventoryId = Inventory::fetchInventoryId($productName, $vendorId);
-        Inventory::logTransaction($inventoryId, $quantity,true);
+        Inventory::logTransaction($inventoryId, $quantity, true);
         $_SESSION['adjust_success_1'] = "New Inventory successfully added";
     } else {
         $_SESSION['adjust_error_1'] = "Product already exists";

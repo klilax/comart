@@ -227,7 +227,11 @@ if ($_SESSION['role'] != 'vendor') {
                         <div class="form-group mb-5">
                             <label for="image">Image</label>
                             <input type="file" class="form-control" id="imgFile" name="file" placeholder="image">
-
+                        </div>
+                        <div class="form-group mb-5">
+                            <label for="description">Product Description</label>
+                            <!-- <input type="text" class="form-control" id="qty" name="description" placeholder="description"> -->
+                            <textarea name="description" id="description" cols="100" rows="10"></textarea>
                         </div>
                         <button type="submit" class="btn primary-btn rounded" id="addButton" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px" disabled>Add Product</button>
                     </form>
