@@ -15,10 +15,10 @@ $productCategory = Category::getCategoryName($product->getCategoryId());
 $productVendorId = $product->getVendorId();
 $productVendorName = $product->getVendorName();
 $productDesc = $product->getDescription();
-// $productDesc = 'Product Description';
 $productImg = $product->getImgName();
 $categoryImg = Category::getCategoryDefaultImg($productCategory);
-$productRating = 0;
+// $productRating = $product->getRating();
+$productRating = 4;
 $productReviews = '';
 
 ?>
@@ -151,11 +151,14 @@ $productReviews = '';
 						<h5 class="h5 text-muted p-3">View Seller - <a href="<?php echo '/comart/src/routes/vendorProducts.php?vendorId=' . $productVendorId . ''; ?>" style=" text-decoration: underline; color: var(--secondary-color);"> <?php echo $productVendorName; ?></a></h5>
 						<div style="padding: 2rem 0;">
 							<div class="product-rating">
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star-o"></i>
+								<?php
+								for ($i = 0; $i < $productRating; $i++) {
+									echo '<i class="fa fa-star" style="margin: 0.1rem"></i>';
+								}
+								for ($i = 0; $i < 5 - $productRating; $i++) {
+									echo '<i class="fa fa-star-o" style="margin: 0.1rem"></i>';
+								}
+								?>
 							</div>
 							<a class="review-link" href="#">10 Review(s) | Add your review</a>
 						</div>
