@@ -18,17 +18,17 @@ if (isset($_SESSION['user'])) {
                     if (isset($user)) {
                         switch ($user->getRole()) {
                             case 'admin':
-                                echo '/admin/index.php';
+                                echo '/comart/admin/index.php';
                                 break;
                             case 'vendor':
-                                echo '/vendor/index.php';
+                                echo '/comart/vendor/index.php';
                                 break;
                             case 'buyer':
-                                echo '/index.php';
+                                echo '/comart/index.php';
                                 break;
                         }
                     } else {
-                        echo '/src/routes/auth/signin.php';
+                        echo '/comart/src/routes/auth/signin.php';
                     }
                     ?>
                 ">
