@@ -12,6 +12,7 @@ class Inventory {
     private int $quantity;
     private int $featured;
     private string $imgName;
+    private string $description;
     private float $price;
 
 
@@ -50,8 +51,16 @@ class Inventory {
         return $this->imgName;
     }
 
+    public function getDescription(): string {
+        return $this->description;
+    }
+
     public static function fetchImgName($categoryId): string {
         return Category::getCategoryDefaultImg(Category::getCategoryName($categoryId));
+    }
+
+    public static function fetchDescription($categoryId): string {
+        return Category::getCategoryDefaultDescription(Category::getCategoryName($categoryId));
     }
 
     public function getPrice(): float {
@@ -69,13 +78,18 @@ class Inventory {
         $this->productName = $result['inventoryName'];
         $this->quantity = $result['quantity'];
         $this->featured = $result['featured'];
+        $this->price = $result['price'];
 
         if (!is_null($result['imgName'])) {
             $this->imgName = $result['imgName'];
         } else {
             $this->imgName = $this->fetchImgName($this->categoryId);
         }
-        $this->price = $result['price'];
+        if (!is_null($result['description'])) {
+            $this->description = $result['description'];
+        } else {
+            $this->description = $this->fetchDescription($this->categoryId);
+        }
     }
     public function addReview($user, $rating, $review) {
         $sql = "INSERT INTO review (inventoryId, buyerId, rating, review) VALUES (:inventoryId, :buyerId, :rating, :review)";
@@ -113,11 +127,11 @@ class Inventory {
         return $result['vendorName'];
     }
 
-    public static function newInventory($productName, $categoryId, $price, $quantity, $imgName): bool {
+    public static function newInventory($productName, $categoryId, $price, $quantity, $imgName, $description): bool {
         $vendorId = $_SESSION['id'];
         if (self::isUnique($vendorId, $productName)) {
-            $sql = "INSERT INTO inventory (inventoryName, categoryId, vendorId, quantity ,price , imgName)
-            VALUES (:inventoryName, :categoryId, :vendorId, :quantity, :price, :imgName)";
+            $sql = "INSERT INTO inventory (inventoryName, categoryId, vendorId, quantity ,price , imgName, description)
+            VALUES (:inventoryName, :categoryId, :vendorId, :quantity, :price, :imgName, :description)";
 
             $stmt = self::$conn->prepare($sql);
             $stmt->bindParam(':inventoryName', $productName);
@@ -126,6 +140,7 @@ class Inventory {
             $stmt->bindParam(':quantity', $quantity);
             $stmt->bindParam(':price', $price);
             $stmt->bindParam(':imgName', $imgName);
+            $stmt->bindParam(':description', $description);
             $stmt->execute();
             return true;
         }

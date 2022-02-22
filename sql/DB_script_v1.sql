@@ -17,7 +17,7 @@ create table admin (
   registrationDate timestamp default CURRENT_TIMESTAMP null,
   firstName varchar(30) not null,
   lastName varchar(30) null,
-  constraint admin_userId_uindex unique (userId),
+  constraint admintin_userId_uindex unique (userId),
   constraint admin_user_id_fk foreign key (userId) references user (id) on delete cascade
 );
 create table buyer (
@@ -158,3 +158,17 @@ ALTER TABLE
   category
 ADD
   defaultImgName VARCHAR(255) NULL;
+--
+  -- new update
+ALTER TABLE
+  inventory
+ADD
+  description VARCHAR(255) NULL;
+ALTER TABLE
+  category
+ADD
+  defaultDescription VARCHAR(255) NULL;
+ALTER TABLE
+  inventory
+ADD
+  rating int NULL;
