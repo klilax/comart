@@ -294,7 +294,9 @@ class User
             $stmt->bindParam(':newName', $username);
             $stmt->bindParam(':userId', $userId);
             $stmt->execute();
+            return true;
         }
+        return false;
     }
 
     public static function updateEmail($email, $userId)
@@ -305,7 +307,9 @@ class User
             $stmt->bindParam(':newEmail', $email);
             $stmt->bindParam(':userId', $userId);
             $stmt->execute();
+            return true;
         }
+        return false;
     }
 }
 

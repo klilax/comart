@@ -63,46 +63,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = trim($_POST['email']);
             $tinNumber = trim($_POST['tinNumber']);
 
-            if ($userRole == 'vendor') {
-                if (!empty($vendorName) && $vendorName != $vName) {
-                    User::updateVendorName($vendorName, $userId);
-                    $change = true;
-                }
-
-                if (!empty($tinNumber) && $tinNumber != $vTIn) {
-                    User::updateVendorTin($tinNumber, $userId);
-                    $change = true;
-                }
-            } else if ($userRole == 'buyer') {
-                if (!empty($firstName) && $firstName != $bFirstName) {
-                    User::updateFirstName($firstName, $userId);
-                    $change = true;
-                }
-
-                if (!empty($lastName) && $lastName != $bLastName) {
-                    User::updateLastname($lastName, $userId);
-                    $change = true;
-                }
-                if (!empty($tinNumber) && $tinNumber != $bTin) {
-                    User::updateBuyerTin($tinNumber, $userId);
-                    $change = true;
-                }
-            }
+            $username_err = $email_err = false;
             if (!empty($username) && $username != $uName) {
-                User::updateUsername($username, $userId);
-                $change = true;
+                if (User::updateUsername($username, $userId)) {
+                    $change = true;
+                } else {
+                    $username_err = true;
+                }
             }
-            if (!empty($email) && $email != $uEmail) {
-                User::updateEmail($email, $userId);
-                $change = true;
+            if (!empty($email) && $email != $uEmail && !$username_err) {
+                if (User::updateEmail($email, $userId)) {
+                    $change = true;
+                } else {
+                    $email_err = true;
+                }
             }
-            if ($change) {
+
+            if (!$username_err && !$email_err) {
+                if ($userRole == 'vendor') {
+                    if (!empty($vendorName) && $vendorName != $vName) {
+                        User::updateVendorName($vendorName, $userId);
+                        $change = true;
+                    }
+
+                    if (!empty($tinNumber) && $tinNumber != $vTIn) {
+                        User::updateVendorTin($tinNumber, $userId);
+                        $change = true;
+                    }
+                } else if ($userRole == 'buyer') {
+                    if (!empty($firstName) && $firstName != $bFirstName) {
+                        User::updateFirstName($firstName, $userId);
+                        $change = true;
+                    }
+
+                    if (!empty($lastName) && $lastName != $bLastName) {
+                        User::updateLastname($lastName, $userId);
+                        $change = true;
+                    }
+                    if (!empty($tinNumber) && $tinNumber != $bTin) {
+                        User::updateBuyerTin($tinNumber, $userId);
+                        $change = true;
+                    }
+                }
+            }
+
+
+            if ($change && !$username_err && !$email_err) {
                 $message = "Account Updated Successfully";
                 $opeStatus = 0;
                 $_SESSION['message'] = $message;
                 $_SESSION['opeStatus'] = $opeStatus;
-            } else {
+            } else if (!$change && !$username_err && !$email_err) {
                 $message = "No change made, Please edit an attribute to update";
+                $opeStatus = 1;
+                $_SESSION['message'] = $message;
+                $_SESSION['opeStatus'] = $opeStatus;
+            } else if ($username_err) {
+                $message = "User name already taken, Please try another.";
+                $opeStatus = 1;
+                $_SESSION['message'] = $message;
+                $_SESSION['opeStatus'] = $opeStatus;
+            } else if ($email_err) {
+                $message = "Email is already taken, Please try another";
                 $opeStatus = 1;
                 $_SESSION['message'] = $message;
                 $_SESSION['opeStatus'] = $opeStatus;
@@ -217,20 +239,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo '<div class="form-group">
                             <label for="vendorName" class="col-sm-3 control-label">Vendor Name</label>
                             <div class="col-sm-9">';
-                    echo "<input type='text' id='vendorName' placeholder='Vendor Name' class='form-control' name='vendorName' value='$vName' autofocus>
+                    echo "<input type='text' id='vendorName' placeholder='Vendor Name' class='form-control' name='vendorName' value='$vName' onkeyup='enableUpdateBtn()' autofocus>
                             </div>
                         </div>";
                 } else if ($userRole == 'buyer') {
                     echo '<div class="form-group">
                             <label for="firstName" class="col-sm-3 control-label">First Name</label>
                             <div class="col-sm-9"> ';
-                    echo "<input type='text' id='firstName' placeholder='First Name' class='form-control' name='firstName' value='$bFirstName' autofocus>
+                    echo "<input type='text' id='firstName' placeholder='First Name' class='form-control' name='firstName' value='$bFirstName' onkeyup='enableUpdateBtn()' autofocus>
                             </div>";
                     echo '</div>
                             <div class="form-group">
                                 <label for="lastName" class="col-sm-3 control-label">Last Name</label>
                                 <div class="col-sm-9">';
-                    echo "<input type='text' id='lastName' placeholder='Last Name' class='form-control' name='lastName' value='$bLastName' autofocus>
+                    echo "<input type='text' id='lastName' placeholder='Last Name' class='form-control' name='lastName' value='$bLastName' onkeyup='enableUpdateBtn()' autofocus>
                                 </div>
                             </div>";
                 }
@@ -239,19 +261,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="username" class="col-sm-3 control-label">Username</label>
                     <div class="col-sm-9">
-                        <input type="text" id="username" placeholder="username" class="form-control" name="username" value="<?php echo $uName ?>">
+                        <input type="text" id="username" placeholder="username" class="form-control" name="username" value="<?php echo $uName ?>" onkeyup='enableUpdateBtn()'>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="email" class="col-sm-3 control-label">Email</label>
                     <div class="col-sm-9">
-                        <input type="email" id="email" placeholder="Email" class="form-control" name="email" value="<?php echo $uEmail ?>">
+                        <input type="email" id="email" placeholder="Email" class="form-control" name="email" value="<?php echo $uEmail ?>" onkeyup='enableUpdateBtn()'>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="tinNumber" class="col-sm-3 control-label">Tin Number</label>
                     <div class="col-sm-9">
-                        <input type="text" id="tinNumber" placeholder="Tin Number" class="form-control" name="tinNumber" value="<?php echo ($userRole == 'vendor') ? $vTIn : $bTin ?>">
+                        <input type="text" id="tinNumber" placeholder="Tin Number" class="form-control" name="tinNumber" value="<?php echo ($userRole == 'vendor') ? $vTIn : $bTin ?>" onkeyup='enableUpdateBtn()'>
                     </div>
                 </div>
                 <div class=" form-group">
@@ -263,7 +285,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <!-- /.form-group -->
                 <div class="col-sm-9 col-sm-offset-3">
-                    <button type="submit" class="btn primary-btn" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px">Update Account</button>
+                    <button type="submit" class="btn primary-btn" id="updateBtn" style="background-color: var(--primary-color); border-radius: 5px; padding: 10px 20px" disabled>Update Account</button>
                 </div>
             </form> <!-- /form -->
         </div> <!-- ./container -->
@@ -320,6 +342,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="../../../js/nouislider.min.js"></script>
     <script src="../../../js/jquery.zoom.min.js"></script>
     <script src="../../../js/main.js"></script>
+
+    <script>
+        function enableUpdateBtn() {
+            document.getElementById("updateBtn").disabled = false;
+        }
+    </script>
 
 </body>
 
