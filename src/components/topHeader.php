@@ -24,7 +24,7 @@ if (isset($_SESSION['user'])) {
                                 echo '/comart/vendor/index.php';
                                 break;
                             case 'buyer':
-                                echo '/comart/index.php';
+                                echo '/comart/src/routes/auth/account.php';
                                 break;
                         }
                     } else {
