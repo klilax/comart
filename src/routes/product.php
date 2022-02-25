@@ -17,8 +17,7 @@ $productVendorName = $product->getVendorName();
 $productDesc = $product->getDescription();
 $productImg = $product->getImgName();
 $categoryImg = Category::getCategoryDefaultImg($productCategory);
-// $productRating = $product->getRating();
-$productRating = 4;
+$productRating = $product->getRating();
 $productReviews = '';
 
 ?>

@@ -15,8 +15,7 @@ if (isset($_GET['query'], $_GET['category'], $_GET['featuredOnly'])) {
             $featured = $row['featured'];
             $featuredOnly = true;
             $imgName = $row['imgName'];
-            // $rating = $row['rating'];
-            $rating = 5;
+            $rating = $row['rating'];
 
             $encoded_name = urlencode($name);
 
@@ -38,8 +37,7 @@ if (isset($_GET['query'], $_GET['category'], $_GET['featuredOnly'])) {
             $featured = $row['featured'];
             $featuredOnly = false;
             $imgName = $row['imgName'];
-            $rating = 5;
-            // $rating = $row['rating'];
+            $rating = $row['rating'];
 
             $encoded_name = urlencode($name);
 

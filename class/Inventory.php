@@ -13,6 +13,7 @@ class Inventory {
     private int $featured;
     private string $imgName;
     private string $description;
+    private float $rating;
     private float $price;
 
 
@@ -55,6 +56,10 @@ class Inventory {
         return $this->description;
     }
 
+    public function getRating(): float {
+        return $this->rating;
+    }
+
     public static function fetchImgName($categoryId): string {
         return Category::getCategoryDefaultImg(Category::getCategoryName($categoryId));
     }
@@ -79,6 +84,7 @@ class Inventory {
         $this->quantity = $result['quantity'];
         $this->featured = $result['featured'];
         $this->price = $result['price'];
+        $this->rating = $result['rating'];
 
         if (!is_null($result['imgName'])) {
             $this->imgName = $result['imgName'];
