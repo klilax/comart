@@ -172,3 +172,6 @@ ALTER TABLE
   inventory
 ADD
   rating int NULL;
+
+alter table inventory
+    modify rating float null;

@@ -103,7 +103,7 @@ class Inventory {
     }
 
     public function getReviews(): bool|array {
-        $sql = "SELECT firstname, lastname, rating, review
+        $sql = "SELECT firstname, lastname, rating, review, date
                 FROM review AS r
                 INNER JOIN buyer AS b ON b.userId = r.buyerId
                 AND r.inventoryId = :inventoryId";
