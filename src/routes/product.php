@@ -151,7 +151,7 @@ $productReviews = '';
 						<div style="padding: 2rem 0;">
 							<div class="product-rating">
 								<?php
-								for ($i = 0; $i < $productRating; $i++) {
+								for ($i = 0; $i < floor($productRating); $i++) {
 									echo '<i class="fa fa-star" style="margin: 0.1rem"></i>';
 								}
 								for ($i = 0; $i < 5 - $productRating; $i++) {

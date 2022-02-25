@@ -111,7 +111,7 @@ function displayProduct($inventoryId, $name, $encoded_name, $price, $imgName, $r
                         <!-- review - rating -->
                         <div class="product-rating">
                             ';
-    for ($i = 0; $i < $rating; $i++) {
+    for ($i = 0; $i < floor($rating); $i++) {
         echo '<i class="fa fa-star" style="margin: 0.1rem"></i>';
     }
     echo '
