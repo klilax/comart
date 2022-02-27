@@ -18,7 +18,18 @@ $productDesc = $product->getDescription();
 $productImg = $product->getImgName();
 $categoryImg = Category::getCategoryDefaultImg($productCategory);
 $productRating = $product->getRating();
-$productReviews = '';
+$reviews = $product->getReviews();
+// print_r($reviews);
+$numOfReviews = count($reviews);
+
+function renderStars($rating) {
+	for ($i = 0; $i < floor($rating); $i++) {
+		echo '<i class="fa fa-star" style="margin: 0.1rem"></i>';
+	}
+	for ($i = 0; $i < 5 - $rating; $i++) {
+		echo '<i class="fa fa-star-o" style="margin: 0.1rem"></i>';
+	}
+}
 
 ?>
 
@@ -151,15 +162,10 @@ $productReviews = '';
 						<div style="padding: 2rem 0;">
 							<div class="product-rating">
 								<?php
-								for ($i = 0; $i < floor($productRating); $i++) {
-									echo '<i class="fa fa-star" style="margin: 0.1rem"></i>';
-								}
-								for ($i = 0; $i < 5 - $productRating; $i++) {
-									echo '<i class="fa fa-star-o" style="margin: 0.1rem"></i>';
-								}
+								renderStars($productRating);
 								?>
 							</div>
-							<a class="review-link" href="#">10 Review(s) | Add your review</a>
+							<a class="review-link" href="#"><?php echo $numOfReviews; ?> Review(s) | Add your review</a>
 						</div>
 						<div>
 							<h3 class="product-price"><?php echo $productPrice; ?> Birr</h3>
@@ -211,7 +217,7 @@ $productReviews = '';
 					<!-- product tab nav -->
 					<ul class="tab-nav">
 						<li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
-						<li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
+						<li><a data-toggle="tab" href="#tab3">Reviews (<?php echo $numOfReviews; ?>)</a></li>
 					</ul>
 					<!-- /product tab nav -->
 
@@ -318,68 +324,39 @@ $productReviews = '';
 								<div class="col-md-6">
 									<div id="reviews">
 										<ul class="reviews">
-											<li>
-												<div class="review-heading">
-													<h5 class="name">John</h5>
-													<p class="date">27 DEC 2018, 8:0 PM</p>
-													<div class="review-rating">
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star-o empty"></i>
-													</div>
-												</div>
-												<div class="review-body">
-													<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-														do eiusmod tempor incididunt ut labore et dolore magna
-														aliqua</p>
-												</div>
-											</li>
-											<li>
-												<div class="review-heading">
-													<h5 class="name">John</h5>
-													<p class="date">27 DEC 2018, 8:0 PM</p>
-													<div class="review-rating">
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star-o empty"></i>
-													</div>
-												</div>
-												<div class="review-body">
-													<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-														do eiusmod tempor incididunt ut labore et dolore magna
-														aliqua</p>
-												</div>
-											</li>
-											<li>
-												<div class="review-heading">
-													<h5 class="name">John</h5>
-													<p class="date">27 DEC 2018, 8:0 PM</p>
-													<div class="review-rating">
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star-o empty"></i>
-													</div>
-												</div>
-												<div class="review-body">
-													<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-														do eiusmod tempor incididunt ut labore et dolore magna
-														aliqua</p>
-												</div>
-											</li>
+											<?php
+											foreach ($reviews as $review) {
+												echo '
+													<li>
+														<div class="review-heading">
+															<h5 class="name">' . $review['firstname'] . '</h5>
+															<p class="date">' . $review['date'] . '</p>
+															<div class="review-rating">
+																';
+												for ($i = 0; $i < floor($review['rating']); $i++) {
+													echo '<i class="fa fa-star" style="margin: 0.1rem"></i>';
+												}
+												for ($i = 0; $i < 5 - $review['rating']; $i++) {
+													echo '<i class="fa fa-star-o" style="margin: 0.1rem"></i>';
+												}
+												echo '
+															</div>
+														</div>
+														<div class="review-body">
+															<p>' . $review['review'] . '</p>
+														</div>
+													</li>
+												';
+											}
+											?>
 										</ul>
-										<ul class="reviews-pagination">
+										<!-- <ul class="reviews-pagination">
 											<li class="active">1</li>
 											<li><a href="#">2</a></li>
 											<li><a href="#">3</a></li>
 											<li><a href="#">4</a></li>
 											<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-										</ul>
+										</ul> -->
 									</div>
 								</div>
 								<!-- /Reviews -->
@@ -388,24 +365,41 @@ $productReviews = '';
 								<div class="col-md-3">
 									<div id="review-form">
 										<form class="review-form">
-											<input class="input" type="text" placeholder="Your Name">
-											<input class="input" type="email" placeholder="Your Email">
 											<textarea class="input" placeholder="Your Review"></textarea>
 											<div class="input-rating">
 												<span>Your Rating: </span>
 												<div class="stars">
-													<input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
-													<input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
-													<input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
-													<input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
-													<input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
+													<input id="star5" class="review-stars" name="rating" value="5" type="radio"><label for="star5"></label>
+													<input id="star4" class="review-stars" name="rating" value="4" type="radio"><label for="star4"></label>
+													<input id="star3" class="review-stars" name="rating" value="3" type="radio"><label for="star3"></label>
+													<input id="star2" class="review-stars" name="rating" value="2" type="radio"><label for="star2"></label>
+													<input id="star1" class="review-stars" name="rating" value="1" type="radio"><label for="star1"></label>
 												</div>
 											</div>
-											<button class="primary-btn">Submit</button>
+											<button class="primary-btn" type="button" onclick="sendReview()">Submit</button>
 										</form>
 									</div>
 								</div>
 								<!-- /Review Form -->
+								<script>
+									let ratingStars = document.querySelectorAll('.review-stars');
+									let review = document.querySelector('.review-form textarea');
+
+									ratingStars.forEach(star => {
+										star.addEventListener('click', e => {
+											rating = e.target.value;
+										})
+									})
+
+									function sendReview() {
+										let reviewMsg = review.value;
+										let encodedReviewMsg = encodeURIComponent(reviewMsg);
+										// console.log(rating);
+										// console.log(reviewMsg);
+										// console.log(encodedReviewMsg);
+										window.location.href = "<?php echo '../../class/addReview.php?inventoryId=' . $productId . '&review='; ?>" + encodedReviewMsg + "<?php echo '&rating='; ?>" + rating;
+									}
+								</script>
 							</div>
 						</div>
 						<!-- /tab3  -->
