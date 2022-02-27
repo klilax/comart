@@ -1,5 +1,6 @@
 <?php
-require_once('../../class/Inventory.php');
+//require_once('../../class/Inventory.php');
+require_once ('../../class/Order.php');
 session_start();
 
 $productId = $_GET['inventoryId'];
