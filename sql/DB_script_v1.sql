@@ -175,3 +175,25 @@ ADD
 
 alter table inventory
     modify rating float null;
+
+
+# Update march-07-2022
+# additional table to handel rating count and average
+
+create table ratingstat
+(
+    inventoryId int not null,
+    5Star int default 0 not null,
+    4Star int default 0 not null,
+    3Star int default 0 not null,
+    2Star int default 0 not null,
+    1Star int default 0 not null,
+    total int AS (5Star + 4Star + 3Star + 2Star + 1Star),
+    avg double AS (((5Star * 5) + (4Star * 4) + (3Star * 3) + (2Star * 2) + (1Star)) / total),
+
+    constraint ratingstat_inventory_inventoryId_fk
+        foreign key (inventoryId) references inventory (inventoryId)
+);
+
+create unique index ratingstat_inventoryId_uindex
+    on ratingstat (inventoryId);

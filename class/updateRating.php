@@ -3,22 +3,50 @@ require_once ('db.php');
 
 $conn = getConnection();
 
-function averageRating($id) {
+function intRatingStat($id) {
     global $conn;
-    $sql = "SELECT AVG(rating) FROM review WHERE inventoryId = :id";
+    $sql = "INSERT INTO ratingstat (inventoryId) VALUE (:id)";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':id', $id);
     $stmt->execute();
-    return $stmt->fetchColumn();
+}
+
+function getRating($inventorId): array {
+    global $conn;
+    $rating = array();
+    for ($i=1; $i<=5; $i++) {
+
+        $sql = "SELECT COUNT(rating) AS rating from review where inventoryId = :id AND rating = :rating";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':id', $inventorId);
+        $stmt->bindParam(':rating', $i);
+        $stmt->execute();
+        $row = $stmt->fetch();
+        $rating[$i-1] = $row[0];
+
+    }
+    return $rating;
 }
 
 function updateRating($id) {
     global $conn;
-    $rating = averageRating($id);
-    $sql = "UPDATE inventory SET rating = :rating WHERE inventoryId = :id";
+    $rating = getRating($id);
+    $sql = "UPDATE ratingstat 
+            SET 
+                `5Star` = :rating_5,
+                `4Star` = :rating_4,
+                `3Star` = :rating_3,
+                `2Star` = :rating_2,
+                `1Star` = :rating_1
+            WHERE inventoryId = :id";
     $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':rating_5', $rating[4]);
+    $stmt->bindParam(':rating_4', $rating[3]);
+    $stmt->bindParam(':rating_3', $rating[2]);
+    $stmt->bindParam(':rating_2', $rating[1]);
+    $stmt->bindParam(':rating_1', $rating[0]);
     $stmt->bindParam(':id', $id);
-    $stmt->bindParam(':rating', $rating);
+
     $stmt->execute();
 }
 
@@ -30,6 +58,7 @@ function updateInventoryRating() {
     $result = $stmt->fetchAll();
     foreach ($result as $row) {
         updateRating($row['inventoryId']);
+//        intRatingStat($row['inventoryId']);
     }
 }
 
@@ -50,11 +79,11 @@ if (isset($_GET['update'])) {
     <title>Update</title>
 </head>
 <body>
-    <button id="update" onclick="updateRating()"></button>
+    <button id="update" onclick="updateRating()">Update</button>
 </body>
 <script>
     function updateRating() {
-        window.location.href = 'class/updateRating.php?update=true';
+        window.location.href = 'updateRating.php?update=true';
     }
 </script>
 </html>
