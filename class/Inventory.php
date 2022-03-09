@@ -129,6 +129,15 @@ class Inventory {
         return $result['vendorName'];
     }
 
+    public function getRatingDetails(): array {
+        $sql = "SELECT * FROM ratingstat
+                WHERE inventoryId = :inventoryId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':inventoryId', $this->inventoryId);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     /*----------------------------------- Static Methods -----------------------------------------------*/
     public static function vendorName($vendorId): string {
         $sql = "SELECT vendorName FROM vendor WHERE userId = :vendorId";
@@ -330,6 +339,18 @@ class Inventory {
         }
         $stmt->execute();
         return $stmt->fetchAll();
+    }
+
+    public static function fetchAvgRating($inventoryId) {
+        $sql = "SELECT avg FROM ratingstat WHERE inventoryId = :inventoryId";
+        $stmt = self::$conn->prepare($sql);
+        $stmt->bindParam(':inventoryId', $inventoryId);
+        $stmt->execute();
+        if ($stmt->rowCount() != 0) {
+            $row = $stmt->fetch();
+            return $row['avg'];
+        }
+        return 5;
     }
 
 
