@@ -21,8 +21,13 @@ $categoryImg = Category::getCategoryDefaultImg($productCategory);
 $productRating = $product->getRating();
 $reviews = $product->getReviews();
 $ratingDetails = $product->getRatingDetails();
-print_r($ratingDetails);
 $numOfReviews = count($reviews);
+
+$buyerId = null;
+
+if (isset($_SESSION['id'])) {
+	$buyerId = $_SESSION['id'];
+}
 
 function renderStars($rating) {
 	for ($i = 0; $i < floor($rating); $i++) {
@@ -355,20 +360,26 @@ function renderStars($rating) {
 								<!-- Review Form -->
 								<div class="col-md-3">
 									<div id="review-form">
-										<form class="review-form">
-											<textarea class="input" placeholder="Your Review"></textarea>
-											<div class="input-rating">
-												<span>Your Rating: </span>
-												<div class="stars">
-													<input id="star5" class="review-stars" name="rating" value="5" type="radio"><label for="star5"></label>
-													<input id="star4" class="review-stars" name="rating" value="4" type="radio"><label for="star4"></label>
-													<input id="star3" class="review-stars" name="rating" value="3" type="radio"><label for="star3"></label>
-													<input id="star2" class="review-stars" name="rating" value="2" type="radio"><label for="star2"></label>
-													<input id="star1" class="review-stars" name="rating" value="1" type="radio"><label for="star1"></label>
+										<?php
+										if (Order::checkStatus($buyerId, $productId)) {
+											echo '
+											<form class="review-form">
+												<textarea class="input" placeholder="Your Review"></textarea>
+												<div class="input-rating">
+													<span>Your Rating: </span>
+													<div class="stars">
+														<input id="star5" class="review-stars" name="rating" value="5" type="radio"><label for="star5"></label>
+														<input id="star4" class="review-stars" name="rating" value="4" type="radio"><label for="star4"></label>
+														<input id="star3" class="review-stars" name="rating" value="3" type="radio"><label for="star3"></label>
+														<input id="star2" class="review-stars" name="rating" value="2" type="radio"><label for="star2"></label>
+														<input id="star1" class="review-stars" name="rating" value="1" type="radio"><label for="star1"></label>
+													</div>
 												</div>
-											</div>
-											<button class="primary-btn" type="button" onclick="sendReview()">Submit</button>
-										</form>
+												<button class="primary-btn" type="button" onclick="sendReview()">Submit</button>
+											</form>
+											';
+										}
+										?>
 									</div>
 								</div>
 								<!-- /Review Form -->
