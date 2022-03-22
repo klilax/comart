@@ -1,6 +1,6 @@
 <?php
 //require_once('../../class/Inventory.php');
-require_once ('../../class/Order.php');
+require_once('../../class/Order.php');
 session_start();
 
 $productId = $_GET['inventoryId'];
@@ -20,15 +20,16 @@ $productImg = $product->getImgName();
 $categoryImg = Category::getCategoryDefaultImg($productCategory);
 $productRating = $product->getRating();
 $reviews = $product->getReviews();
-// print_r($reviews);
+$ratingDetails = $product->getRatingDetails();
+print_r($ratingDetails);
 $numOfReviews = count($reviews);
 
 function renderStars($rating) {
 	for ($i = 0; $i < floor($rating); $i++) {
-		echo '<i class="fa fa-star" style="margin: 0.1rem"></i>';
+		echo '<i class="fa fa-star" style="margin: 0.2rem"></i>';
 	}
 	for ($i = 0; $i < 5 - $rating; $i++) {
-		echo '<i class="fa fa-star-o" style="margin: 0.1rem"></i>';
+		echo '<i class="fa fa-star-o" style="margin: 0.2rem"></i>';
 	}
 }
 
@@ -241,80 +242,69 @@ function renderStars($rating) {
 								<div class="col-md-3">
 									<div id="rating">
 										<div class="rating-avg">
-											<span>4.5</span>
+											<span><?php echo floor($ratingDetails['avg']) ?></span>
 											<div class="rating-stars">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
+												<?php
+												renderStars(floor($ratingDetails['avg']));
+												?>
 											</div>
 										</div>
 										<ul class="rating">
 											<li>
 												<div class="rating-stars">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
+													<?php
+													renderStars(5);
+													?>
 												</div>
 												<div class="rating-progress">
-													<div style="width: 80%;"></div>
+													<div style="width: <?php echo $ratingDetails['5Star'] / $ratingDetails['total'] * 100; ?>%;"></div>
 												</div>
-												<span class="sum">3</span>
+												<span class="sum"><?php echo $ratingDetails['5Star']; ?></span>
 											</li>
 											<li>
 												<div class="rating-stars">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
+													<?php
+													renderStars(4);
+													?>
 												</div>
 												<div class="rating-progress">
-													<div style="width: 60%;"></div>
+													<div style="width: <?php echo $ratingDetails['4Star'] / $ratingDetails['total'] * 100; ?>%;"></div>
 												</div>
-												<span class="sum">2</span>
+												<span class="sum"><?php echo $ratingDetails['4Star']; ?></span>
 											</li>
 											<li>
 												<div class="rating-stars">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
+													<?php
+													renderStars(3);
+													?>
 												</div>
 												<div class="rating-progress">
-													<div></div>
+													<div style="width: <?php echo $ratingDetails['3Star'] / $ratingDetails['total'] * 100; ?>%;"></div>
 												</div>
-												<span class="sum">0</span>
+												<span class="sum"><?php echo $ratingDetails['3Star']; ?></span>
 											</li>
 											<li>
 												<div class="rating-stars">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
+													<?php
+													renderStars(2);
+													?>
 												</div>
 												<div class="rating-progress">
-													<div></div>
+													<div style="width: <?php echo $ratingDetails['2Star'] / $ratingDetails['total'] * 100; ?>%;"></div>
 												</div>
-												<span class="sum">0</span>
+												<span class="sum"><?php echo $ratingDetails['2Star']; ?></span>
 											</li>
 											<li>
 												<div class="rating-stars">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
+													<?php
+													renderStars(1);
+													?>
 												</div>
 												<div class="rating-progress">
-													<div></div>
+													<div style="width: <?php echo $ratingDetails['1Star'] / $ratingDetails['total'] * 100; ?>%;"></div>
+
 												</div>
-												<span class="sum">0</span>
+												<span class="sum"><?php echo $ratingDetails['1Star']; ?></span>
 											</li>
 										</ul>
 									</div>
