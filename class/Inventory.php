@@ -350,7 +350,7 @@ class Inventory {
             $row = $stmt->fetch();
             return $row['avg'];
         }
-        return 5;
+        return 0;
     }
 
 
